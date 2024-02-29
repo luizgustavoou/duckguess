@@ -1,8 +1,8 @@
-# Duckchat
+# Duckguess
 <!-- license --> 
 
 ## :memo:  Sobre o projeto
-A aplicação consiste em um jogo denonimado "jogo das três pistas", conhecido pelo apresentador de televisão Silvio Santos.
+A aplicação consiste em um jogo denonimado "Jogo das Três Pistas", conhecido pelo apresentador de televisão Silvio Santos.
 
 ## Layout web
 
