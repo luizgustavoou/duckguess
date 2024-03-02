@@ -14,5 +14,6 @@ import { GuessService } from './services/guess.service';
       useClass: GuessServiceImpl,
     },
   ],
+  exports: [GuessService],
 })
 export class GuessModule {}

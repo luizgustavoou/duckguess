@@ -35,7 +35,7 @@ export class GuessServiceImpl implements GuessService {
     const guess = await this.guessRepository.findOneBy({ id });
 
     if (!guess) {
-      throw new NotFoundException('Adivinhação não encontrado.');
+      throw new NotFoundException('Adivinhação não encontrada.');
     }
 
     await this.guessRepository.merge(guess, updateGuessDto);
