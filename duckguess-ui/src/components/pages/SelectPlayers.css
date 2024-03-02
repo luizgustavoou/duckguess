@@ -1,0 +1,5 @@
+.div {
+    flex-direction: column;
+    align-items: center;
+    color: var(--primary-color);
+}
