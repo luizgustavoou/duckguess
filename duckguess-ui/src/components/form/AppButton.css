@@ -1,7 +1,7 @@
 .button {
   background-color: var(--button-color);
-  height: 3rem;
-  width: 8rem;
+  height: 3.5rem;
+  width: 10rem;
   font-size: 0.9rem;
   font-weight: normal;
   color: white;
