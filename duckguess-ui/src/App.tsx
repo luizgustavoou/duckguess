@@ -5,15 +5,16 @@ import logo from "./assets/duck-sing-removebg-preview.png";
 export default function App() {
   return (
     <div className="container">
-      <div className="header">
-        <h1>
-          <span>Duck</span>
-          Guess
-        </h1>
-      </div>
+      <div className="header"></div>
 
       <div className="main">
-        <img alt="PatoMarketero" src={logo} />
+        <div className="image-reference">
+          <img alt="PatoMarketero" src={logo} />
+          <p>
+            <span>Duck</span>
+            Guess
+          </p>
+        </div>
       </div>
 
       <div className="footer">
