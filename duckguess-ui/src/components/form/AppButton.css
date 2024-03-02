@@ -2,7 +2,7 @@
     padding: 3em;
 }
 .button {
-    background-color: var(--accent-color);
+    background-color: var(--button-color);
     height: 3em;
     width: 8em;
     font-size: 0.9em;

@@ -1,13 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Micro+5&display=swap');
+
+
 :root {
   --primary-color: #dde;
-  --second-color: #7A89C2;
+  --second-color: #2A3972;
   --accent-color: #D30C7B;
-  --accent-color-hover: #B5005D;
+  --button-color: #3A4982;
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* font-family: "Micro 5", sans-serif; */
+  font-family: "Source Code Pro", monospace;
 }
 .page {
   background-color: var(--primary-color);
