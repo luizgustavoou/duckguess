@@ -20,7 +20,11 @@ export class GuessServiceImpl implements GuessService {
   }
 
   async findAll() {
-    const guesses = await this.guessRepository.find();
+    const guesses = await this.guessRepository.find({
+      relations: {
+        hints: true,
+      },
+    });
 
     return guesses;
   }
@@ -42,7 +46,7 @@ export class GuessServiceImpl implements GuessService {
 
     const guessUpdated = await this.guessRepository.save(guess);
 
-    return guess;
+    return guessUpdated;
   }
 
   async remove(id: string) {

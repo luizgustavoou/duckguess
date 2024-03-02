@@ -22,7 +22,7 @@ export class ClueServiceImpl implements ClueService {
       throw new NotFoundException('Adivinhação não encontrada.');
     }
 
-    const clue = await this.clueRepository.save({ hint });
+    const clue = await this.clueRepository.save({ hint, guess });
 
     return clue;
   }
@@ -50,7 +50,7 @@ export class ClueServiceImpl implements ClueService {
 
     const clueUpdated = await this.clueRepository.save(clue);
 
-    return clue;
+    return clueUpdated;
   }
 
   async remove(id: string) {
