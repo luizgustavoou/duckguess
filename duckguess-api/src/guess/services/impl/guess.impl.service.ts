@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGuessDto } from '../../dto/create-guess.dto';
 import { UpdateGuessDto } from '../../dto/update-guess.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,23 +12,40 @@ export class GuessServiceImpl implements GuessService {
     @InjectRepository(Guess) private guessRepository: Repository<Guess>,
   ) {}
 
-  create(createGuessDto: CreateGuessDto) {
-    return 'This action adds a new guess';
+  async create(createGuessDto: CreateGuessDto) {
+    const { answer } = createGuessDto;
+    const guess = await this.guessRepository.save({ answer });
+
+    return guess;
   }
 
-  findAll() {
-    return `This action returns all guess`;
+  async findAll() {
+    const guesses = await this.guessRepository.find();
+
+    return guesses;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} guess`;
+  async findOne(id: string) {
+    const guesses = await this.guessRepository.findOneBy({ id });
+
+    return guesses;
   }
 
-  update(id: string, updateGuessDto: UpdateGuessDto) {
-    return `This action updates a #${id} guess`;
+  async update(id: string, updateGuessDto: UpdateGuessDto) {
+    const guess = await this.guessRepository.findOneBy({ id });
+
+    if (!guess) {
+      throw new NotFoundException('Adivinhação não encontrado.');
+    }
+
+    await this.guessRepository.merge(guess, updateGuessDto);
+
+    const guessUpdated = await this.guessRepository.save(guess);
+
+    return guess;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} guess`;
+  async remove(id: string) {
+    await this.guessRepository.delete({ id });
   }
 }

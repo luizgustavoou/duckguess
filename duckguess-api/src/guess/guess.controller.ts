@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
@@ -26,17 +27,20 @@ export class GuessController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.guessService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGuessDto: UpdateGuessDto) {
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateGuessDto: UpdateGuessDto,
+  ) {
     return this.guessService.update(id, updateGuessDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.guessService.remove(id);
   }
 }
