@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Micro+5&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Micro+5&display=swap");
 
 :root {
   --primary-color: #dde;
-  --second-color: #2A3972;
-  --accent-color: #D30C7B;
-  --button-color: #3A4982;
+  --secondary-color: #2a3972;
+  --accent-color: #d30c7b;
+  --button-color: #3a4982;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -15,14 +15,17 @@
   /* font-family: "Micro 5", sans-serif; */
   font-family: "Source Code Pro", monospace;
 }
-.page {
+
+.container {
   background-color: var(--primary-color);
   height: 100vh;
 }
+
 .second {
-  background-color: var(--second-color);
+  background-color: var(--secondary-color);
   padding: 2px;
 }
+
 .section {
   height: 33%;
   display: flex;

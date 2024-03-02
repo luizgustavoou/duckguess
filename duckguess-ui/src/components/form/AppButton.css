@@ -1,16 +1,21 @@
 .div {
-    padding: 3em;
+  padding: 3rem;
 }
+
 .button {
-    background-color: var(--button-color);
-    height: 3em;
-    width: 8em;
-    font-size: 0.9em;
-    color: white;
-    border: 1px dotted;
-    border-radius: 12px;
-    opacity: 0.8;
+  background-color: var(--button-color);
+  height: 3rem;
+  width: 8rem;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  opacity: 0.8;
+  cursor: pointer;
 }
+
 .button:hover {
-    opacity: 1;
+  opacity: 1;
+  font-weight: bold;
 }
