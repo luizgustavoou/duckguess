@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GuessModule } from './guess/guess.module';
+import { ClueModule } from './clue/clue.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { GuessModule } from './guess/guess.module';
       autoLoadEntities: true,
     }),
     GuessModule,
+    ClueModule,
   ],
   controllers: [AppController],
   providers: [AppService],

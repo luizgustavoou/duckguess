@@ -1,21 +1,20 @@
-import { Clue } from 'src/clue/entities/clue.entity';
+import { Guess } from 'src/guess/entities/guess.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  Hint,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Guess {
+export class Clue {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  answer: string;
+  hint: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -23,6 +22,6 @@ export class Guess {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Clue, (clue) => clue.guess)
-  hints: Hint[];
+  @ManyToOne(() => Guess, (guess) => guess.hints)
+  guess: Guess;
 }
