@@ -1,20 +1,21 @@
-import { CreateClueDto } from 'src/clue/dto/create-clue.dto';
-import { UpdateClueDto } from 'src/clue/dto/update-clue.dto';
-import { ClueService } from '../clue.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Clue } from 'src/clue/entities/clue.entity';
 import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { GuessService } from 'src/guess/services/guess.service';
+import { HintService } from '../hint.service';
+import { CreateHintDto } from 'src/hint/dto/create-hint.dto';
+import { Hint } from 'src/hint/entities/hint.entity';
+import { UpdateHintDto } from 'src/hint/dto/update-hint.dto';
 
-export class ClueServiceImpl implements ClueService {
+
+export class HintServiceImpl implements HintService {
   constructor(
-    @InjectRepository(Clue) private clueRepository: Repository<Clue>,
+    @InjectRepository(Hint) private clueRepository: Repository<Hint>,
     private readonly guessService: GuessService,
   ) {}
 
-  async create(createClueDto: CreateClueDto) {
-    const { hint, guessId } = createClueDto;
+  async create(createHintDto: CreateHintDto) {
+    const { text, guessId } = createHintDto;
 
     const guess = await this.guessService.findOne(guessId);
 
@@ -22,7 +23,7 @@ export class ClueServiceImpl implements ClueService {
       throw new NotFoundException('Adivinhação não encontrada.');
     }
 
-    const clue = await this.clueRepository.save({ hint, guess });
+    const clue = await this.clueRepository.save({ text, guess });
 
     return clue;
   }
@@ -39,14 +40,14 @@ export class ClueServiceImpl implements ClueService {
     return cluees;
   }
 
-  async update(id: string, updateClueDto: UpdateClueDto) {
+  async update(id: string, updateHintDto: UpdateHintDto) {
     const clue = await this.clueRepository.findOneBy({ id });
 
     if (!clue) {
       throw new NotFoundException('Adivinhação não encontrado.');
     }
 
-    await this.clueRepository.merge(clue, updateClueDto);
+    await this.clueRepository.merge(clue, updateHintDto);
 
     const clueUpdated = await this.clueRepository.save(clue);
 

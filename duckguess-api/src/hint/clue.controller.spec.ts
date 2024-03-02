@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ClueController } from './clue.controller';
+import { ClueController } from './hint.controller';
 import { ClueService } from './clue.service';
 
 describe('ClueController', () => {

@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GuessModule } from './guess/guess.module';
-import { ClueModule } from './clue/clue.module';
+import { HintModule } from './hint/hint.module';
 
 @Module({
   imports: [
@@ -14,12 +14,11 @@ import { ClueModule } from './clue/clue.module';
       username: 'root',
       password: 'banco123',
       database: 'db-duckguess',
-      entities: [__dirname + '/**/*.entity{.js,.ts}'],
       synchronize: true,
       autoLoadEntities: true,
     }),
     GuessModule,
-    ClueModule,
+    HintModule,
   ],
   controllers: [AppController],
   providers: [AppService],

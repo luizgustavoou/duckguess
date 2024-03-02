@@ -9,12 +9,12 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Clue {
+export class Hint {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  hint: string;
+  text: string;
 
   @CreateDateColumn()
   createdAt: Date;

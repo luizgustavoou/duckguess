@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsUUID } from 'class-validator';
 
-export class CreateClueDto {
+export class CreateHintDto {
   @IsNotEmpty()
-  hint: string;
+  text: string;
 
   @IsUUID()
   guessId: string;

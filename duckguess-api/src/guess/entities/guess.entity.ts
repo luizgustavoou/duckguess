@@ -1,9 +1,8 @@
-import { Clue } from 'src/clue/entities/clue.entity';
+import { Hint } from 'src/hint/entities/hint.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  Hint,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -23,6 +22,6 @@ export class Guess {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Clue, (clue) => clue.guess)
+  @OneToMany(() => Hint, (hint) => hint.guess)
   hints: Hint[];
 }
