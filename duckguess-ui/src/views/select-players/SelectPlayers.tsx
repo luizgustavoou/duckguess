@@ -2,14 +2,14 @@
 
 import "./SelectPlayers.css";
 
-import AppButton from "./form/AppButton";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AppInput } from "./form/AppInput";
+import { AppInput } from "../../components/form/AppInput";
 import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAppNavigate } from "../hooks/useAppNavigate";
-import { RoutesPath } from "../utils/routes-path";
-import Game from "../views/game/Game";
+import { useAppNavigate } from "../../hooks/useAppNavigate";
+import { RoutesPath } from "../../utils/routes-path";
+import Game from "../game/Game";
+import AppButton from "../../components/form/AppButton";
 
 interface IFormInput {
   playerOne: string;

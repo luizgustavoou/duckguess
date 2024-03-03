@@ -1,6 +1,6 @@
 import "./App.css";
 import { LayoutMain } from "./components/LayoutMain";
-import SelectPlayers from "./components/SelectPlayers";
+import SelectPlayers from "./views/select-players/SelectPlayers";
 import {
   Navigate,
   Route,
