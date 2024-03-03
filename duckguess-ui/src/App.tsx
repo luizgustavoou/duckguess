@@ -5,5 +5,5 @@ import Home from "./views/home/Home";
 import SelectPlayers from "./components/SelectPlayers";
 
 export default function App() {
-  return <LayoutMain header={<></>} main={<SelectPlayers />} footer={<></>} />;
+  return <LayoutMain header={<></>} main={<Home />} footer={<></>} />;
 }
