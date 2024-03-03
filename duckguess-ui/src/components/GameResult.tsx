@@ -1,4 +1,4 @@
-import "./GameResult.css.css";
+import "./GameResult.css";
 
 function GameResult() {
   return (
