@@ -31,18 +31,19 @@ const initialState: GameState = {
 };
 
 export const startGame = createAsyncThunk<
-  IGuess[],
-  void,
+  { guesses: IGuess[]; namePlayerOne: string; namePlayerTwo: string },
+  { namePlayerOne: string; namePlayerTwo: string },
   {
     dispatch: AppDispatch;
     state: RootState;
     rejectValue: string;
   }
->("game/start", async (_, thunkAPI) => {
+>("game/start", async (data, thunkAPI) => {
   try {
+    const { namePlayerOne, namePlayerTwo } = data;
     const res = await guessService.getRandomGameGuess();
 
-    return res;
+    return { guesses: res, namePlayerOne, namePlayerTwo };
   } catch (error: any) {
     console.log({ error });
     let errorMessage = "Ocorreu algum erro. Por favor, tente mais tarde.";
@@ -72,7 +73,9 @@ export const gameSlice = createSlice({
       })
       .addCase(startGame.fulfilled, (state, action) => {
         state.status = "success";
-        state.guesses = action.payload;
+        state.guesses = action.payload.guesses;
+        state.playerOne.name = action.payload.namePlayerOne;
+        state.playerTwo.name = action.payload.namePlayerTwo;
       })
       .addCase(startGame.rejected, (state, action) => {
         state.status = "error";

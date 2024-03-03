@@ -44,13 +44,19 @@ export default function SelectPlayers() {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    await dispatch(startGame());
-    dispatch(
-      setPlayers({
+    await dispatch(
+      startGame({
         namePlayerOne: data.playerOne,
         namePlayerTwo: data.playerTwo,
       })
     );
+
+    // dispatch(
+    //   setPlayers({
+    //     namePlayerOne: data.playerOne,
+    //     namePlayerTwo: data.playerTwo,
+    //   })
+    // );
 
     // navigate(RoutesPath.GAME_CHOOSE);
   };
