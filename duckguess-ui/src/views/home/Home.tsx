@@ -1,6 +1,6 @@
 import "./Home.css";
 import logo from "../../assets/duck-sing-removebg-preview.png";
-import AppButton from "../form/AppButton";
+import AppButton from "../../components/form/AppButton";
 
 export default function Home() {
   return (

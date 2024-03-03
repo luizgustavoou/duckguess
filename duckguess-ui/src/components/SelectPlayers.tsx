@@ -1,7 +1,7 @@
 import "./SelectPlayers.css";
 
-import AppInput from "../form/AppInput";
-import AppButton from "../form/AppButton";
+import AppInput from "./form/AppInput";
+import AppButton from "./form/AppButton";
 
 export default function SelectPlayers() {
   return (
