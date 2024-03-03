@@ -11,7 +11,7 @@ import { RoutesPath } from "../../utils/routes-path";
 import Game from "../game/Game";
 import AppButton from "../../components/form/AppButton";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { selectGame, setPlayers, startGame } from "../../slices/game-slice";
+import { resetGame, selectGame, startGame } from "../../slices/game-slice";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
 interface IFormInput {
@@ -50,13 +50,6 @@ export default function SelectPlayers() {
         namePlayerTwo: data.playerTwo,
       })
     );
-
-    // dispatch(
-    //   setPlayers({
-    //     namePlayerOne: data.playerOne,
-    //     namePlayerTwo: data.playerTwo,
-    //   })
-    // );
 
     // navigate(RoutesPath.GAME_CHOOSE);
   };

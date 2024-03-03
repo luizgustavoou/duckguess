@@ -58,12 +58,12 @@ export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setPlayers: (
-      state,
-      action: PayloadAction<{ namePlayerOne: string; namePlayerTwo: string }>
-    ) => {
-      state.playerOne.name = action.payload.namePlayerOne;
-      state.playerTwo.name = action.payload.namePlayerTwo;
+    resetGame: (state) => {
+      state.guesses = [];
+      state.playerOne = { name: "", score: 0 };
+      state.playerTwo = { name: "", score: 0 };
+      state.status = "idle";
+      state.message = null;
     },
   },
   extraReducers: (builder) => {
@@ -84,7 +84,7 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setPlayers } = gameSlice.actions;
+export const { resetGame } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.gameReducer;
 
