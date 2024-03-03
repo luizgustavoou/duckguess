@@ -16,14 +16,3 @@
   /* font-family: "Micro 5", sans-serif; */
   font-family: "Source Code Pro", monospace;
 }
-
-p {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #ffff00;
-  letter-spacing: 5px;
-  position: absolute;
-  top: 20%;
-  left: 14%;
-  transform: rotate(-25deg);
-}

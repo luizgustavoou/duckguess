@@ -14,6 +14,7 @@ interface GameState {
   playerOne: Player;
   playerTwo: Player;
   guesses: IGuess[];
+  guess: IGuess | null;
 }
 
 const initialState: GameState = {
@@ -28,6 +29,7 @@ const initialState: GameState = {
     score: 0,
   },
   guesses: [],
+  guess: null,
 };
 
 export const startGame = createAsyncThunk<
@@ -65,6 +67,9 @@ export const gameSlice = createSlice({
       state.status = "idle";
       state.message = null;
     },
+    selectGuess: (state, action: PayloadAction<IGuess>) => {
+      //Continuar aqui
+    }
   },
   extraReducers: (builder) => {
     builder

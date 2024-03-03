@@ -33,8 +33,6 @@ export default function SelectPlayers() {
     useAppSelector(selectGame);
   const dispatch = useAppDispatch();
 
-  console.log({ status, message, guesses, playerOne, playerTwo });
-
   const {
     register,
     handleSubmit,
@@ -51,7 +49,7 @@ export default function SelectPlayers() {
       })
     );
 
-    // navigate(RoutesPath.GAME_CHOOSE);
+    navigate(RoutesPath.GAME_CHOOSE);
   };
 
   return (
