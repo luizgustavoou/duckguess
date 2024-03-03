@@ -10,8 +10,8 @@ export default function Home() {
         <img alt="PatoMarketero" src={logo} />
       </div>
       <div className="actions">
-        <AppButton content="Jogar" />
-        <AppButton content="Regras" />
+        <AppButton content="Jogar" type="button" />
+        <AppButton content="Regras" type="button" />
       </div>
     </div>
   );
