@@ -1,5 +1,5 @@
 import { IGuessResponse } from "./models/IGuessResponse";
 
-export interface GuessApi {
+export interface IGuessApi {
   getRandomGameGuess(): Promise<IGuessResponse[]>;
 }
