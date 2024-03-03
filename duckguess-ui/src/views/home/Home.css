@@ -7,10 +7,6 @@
   gap: 1.5rem;
 }
 
-.home > h1 {
-  color: #000;
-}
-
 .actions {
   display: flex;
   flex-direction: column;
