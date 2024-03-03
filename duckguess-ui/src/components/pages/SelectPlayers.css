@@ -1,0 +1,13 @@
+.select-player {
+  width: 100%;
+  min-height: 600px;
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+
+  background-color: var(--secondary-color);
+  color: #000;
+}
