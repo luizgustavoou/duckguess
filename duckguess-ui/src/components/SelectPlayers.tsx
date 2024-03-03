@@ -7,6 +7,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AppInput } from "./form/AppInput";
 import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAppNavigate } from "../hooks/useAppNavigate";
+import { RoutesPath } from "../utils/routes-path";
 
 interface IFormInput {
   playerOne: string;
@@ -21,6 +23,8 @@ const selectPlayerFormSchema: ZodType<IFormInput> = z.object({
 type SelectPlayerFormSchema = z.infer<typeof selectPlayerFormSchema>;
 
 export default function SelectPlayers() {
+  const navigate = useAppNavigate();
+
   const {
     register,
     handleSubmit,
@@ -29,7 +33,11 @@ export default function SelectPlayers() {
     resolver: zodResolver(selectPlayerFormSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log(data);
+
+    navigate(RoutesPath.GAME_CHOOSE);
+  };
 
   return (
     <div className="select-player">

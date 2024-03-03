@@ -5,20 +5,21 @@ import { useNavigate } from "react-router-dom";
 import { RoutesPath } from "../../utils/routes-path";
 
 import { MouseEvent } from "react";
+import { useAppNavigate } from "../../hooks/useAppNavigate";
 
 export default function Home() {
-  const naviate = useNavigate();
+  const navigate = useAppNavigate();
 
   const handlePlayClick = (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
-    naviate(RoutesPath.SELECT_PLAYERS);
+    navigate(RoutesPath.SELECT_PLAYERS);
   };
 
   const handleRulesClick = (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
-    naviate(RoutesPath.RULES);
+    navigate(RoutesPath.RULES);
   };
 
   return (

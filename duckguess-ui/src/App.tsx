@@ -10,6 +10,7 @@ import {
 import Home from "./views/home/Home";
 import { RoutesPath } from "./utils/routes-path";
 import Rules from "./views/rules/Rules";
+import GameChoose from "./views/game-choose/GameChoose";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
               element={<SelectPlayers />}
             />
             <Route path={RoutesPath.RULES} element={<Rules />} />
+            <Route path={RoutesPath.GAME_CHOOSE} element={<GameChoose />} />
             <Route
               path={RoutesPath.WILDCARD}
               element={<Navigate to={RoutesPath.HOME} />}
