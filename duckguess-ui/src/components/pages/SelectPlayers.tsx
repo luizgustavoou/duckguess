@@ -3,7 +3,7 @@ import AppButton from "../form/AppButton"
 
 export default function SelectPlayers () {
     return(
-        <div className="main div">
+        <div className="main">
             <h1>Quem vai jogar?</h1>
             <AppInput type="text" text="Player 01" id="player01" />
             <AppInput type="text" text="Player 02" id="player02" />

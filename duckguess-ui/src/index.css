@@ -16,24 +16,6 @@
   font-family: "Source Code Pro", monospace;
 }
 
-.container {
-  background-color: var(--primary-color);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-}
-
-.main {
-  background-color: var(--secondary-color);
-  padding: 0.7em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
 p {
   font-size: 1.3rem;
   font-weight: bold;
@@ -43,14 +25,4 @@ p {
   top: 20%;
   left: 14%;
   transform: rotate(-25deg);
-}
-
-.image-reference {
-  position: relative;
-}
-
-.footer {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 }
