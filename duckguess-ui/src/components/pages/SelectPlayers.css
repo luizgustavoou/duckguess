@@ -3,11 +3,20 @@
   min-height: 600px;
   padding: 3em;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 2em;
 
   background-color: var(--secondary-color);
   color: #000;
+}
+
+.select-player > form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.select-player > form > button {
+  margin: auto;
 }

@@ -3,9 +3,10 @@
 
 :root {
   --primary-color: #2a3972;
-  --secondary-color: #eaeaea;
+  --secondary-color: #f5f3f5;
   --accent-color: #d30c7b;
   --button-color: #3a4982;
+  --input-color: #eaeaea;
 }
 
 * {
