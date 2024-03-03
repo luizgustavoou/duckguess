@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Home from "./views/home/Home";
 import { RoutesPath } from "./utils/routes-path";
+import Rules from "./views/rules/Rules";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
               path={RoutesPath.SELECT_PLAYERS}
               element={<SelectPlayers />}
             />
+            <Route path={RoutesPath.RULES} element={<Rules />} />
             <Route
               path={RoutesPath.WILDCARD}
               element={<Navigate to={RoutesPath.HOME} />}
