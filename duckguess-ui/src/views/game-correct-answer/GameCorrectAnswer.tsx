@@ -1,4 +1,4 @@
-import "./GameCorrctAnswer.css";
+import "./GameCorrectAnswer.css";
 
 function GameCorrectAnswer() {
   return (

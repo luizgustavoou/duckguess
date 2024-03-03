@@ -9,7 +9,7 @@ import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppNavigate } from "../hooks/useAppNavigate";
 import { RoutesPath } from "../utils/routes-path";
-import Game from "./Game";
+import Game from "../views/game/Game";
 
 interface IFormInput {
   playerOne: string;

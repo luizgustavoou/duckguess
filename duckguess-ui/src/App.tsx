@@ -11,9 +11,9 @@ import Home from "./views/home/Home";
 import { RoutesPath } from "./utils/routes-path";
 import Rules from "./views/rules/Rules";
 import GameChoose from "./views/game-choose/GameChoose";
-import GameCore from "./components/GameCore";
-import GameCorrectAnswer from "./components/GameCorrctAnswer";
-import GameResult from "./components/GameResult";
+import GameCore from "./views/game-core/GameCore";
+import GameCorrectAnswer from "./views/game-correct-answer/GameCorrectAnswer";
+import GameResult from "./views/game-result/GameResult";
 
 export default function App() {
   return (
