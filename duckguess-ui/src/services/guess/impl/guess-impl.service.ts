@@ -6,6 +6,12 @@ export class GuessServiceImpl implements IGuessService {
   constructor(private readonly guessRepository: IGuessRepository) {}
 
   async getRandomGameGuess(): Promise<IGuess[]> {
-    throw new Error("erro krai");
+    try {
+      const res = await this.guessRepository.getRandomGameGuess();
+
+      return res;
+    } catch (error) {
+      throw error;
+    }
   }
 }
