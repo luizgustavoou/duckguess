@@ -10,6 +10,9 @@ import { useAppNavigate } from "../../hooks/useAppNavigate";
 import { RoutesPath } from "../../utils/routes-path";
 import Game from "../game/Game";
 import AppButton from "../../components/form/AppButton";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { selectGame, setPlayers, startGame } from "../../slices/game-slice";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 interface IFormInput {
   playerOne: string;
@@ -26,6 +29,12 @@ type SelectPlayerFormSchema = z.infer<typeof selectPlayerFormSchema>;
 export default function SelectPlayers() {
   const navigate = useAppNavigate();
 
+  const { status, message, guesses, playerOne, playerTwo } =
+    useAppSelector(selectGame);
+  const dispatch = useAppDispatch();
+
+  console.log({ status, message, guesses, playerOne, playerTwo });
+
   const {
     register,
     handleSubmit,
@@ -34,10 +43,16 @@ export default function SelectPlayers() {
     resolver: zodResolver(selectPlayerFormSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    await dispatch(startGame());
+    dispatch(
+      setPlayers({
+        namePlayerOne: data.playerOne,
+        namePlayerTwo: data.playerTwo,
+      })
+    );
 
-    navigate(RoutesPath.GAME_CHOOSE);
+    // navigate(RoutesPath.GAME_CHOOSE);
   };
 
   return (

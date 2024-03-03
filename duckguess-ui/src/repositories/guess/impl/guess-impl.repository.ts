@@ -1,9 +1,9 @@
+import { IGuessApi } from "../../../apis/guess/guess-api";
 import { IGuess } from "../../../entities/IGuess";
 import { IGuessRepository } from "../guess.repository";
-import { GuessApi } from "../../../apis/guess/guess-api";
 
 export class GuessRepositoryImpl implements IGuessRepository {
-  constructor(private readonly guessApi: GuessApi) {}
+  constructor(private readonly guessApi: IGuessApi) {}
 
   async getRandomGameGuess(): Promise<IGuess[]> {
     const res = await this.guessApi.getRandomGameGuess();
