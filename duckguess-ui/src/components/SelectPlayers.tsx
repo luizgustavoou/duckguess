@@ -9,6 +9,7 @@ import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppNavigate } from "../hooks/useAppNavigate";
 import { RoutesPath } from "../utils/routes-path";
+import Game from "./Game";
 
 interface IFormInput {
   playerOne: string;
@@ -40,7 +41,7 @@ export default function SelectPlayers() {
   };
 
   return (
-    <div className="select-player">
+    <Game>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Quem vai jogar?</h1>
         <AppInput
@@ -56,6 +57,6 @@ export default function SelectPlayers() {
         />
         <AppButton content="Próximo" type="submit" />
       </form>
-    </div>
+    </Game>
   );
 }
