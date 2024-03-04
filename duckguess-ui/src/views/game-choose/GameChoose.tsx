@@ -1,15 +1,27 @@
 import { ImEnvelop } from "react-icons/im";
 import Card from "../../components/Card";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { selectGame } from "../../slices/game-slice";
+import { selectGame, selectGuess } from "../../slices/game-slice";
 import Game from "../game/Game";
 import "./GameChoose.css";
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { IGuess } from "../../entities/IGuess";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { RoutesPath } from "../../utils/routes-path";
 
 function GameChoose() {
   const { guesses } = useAppSelector(selectGame);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   console.log(guesses);
+
+  const handleClick = (guess: IGuess) => {
+    dispatch(selectGuess(guess));
+    navigate(RoutesPath.GAME_CORE);
+  };
+
   return (
     <Game>
       <>
@@ -17,9 +29,7 @@ function GameChoose() {
           {guesses &&
             guesses.map((guess) => (
               <li className="element">
-                <Link to={""}>
-                  <Card guess={guess} />
-                </Link>
+                <Card guess={guess} handleClick={handleClick} />
               </li>
             ))}
         </ul>

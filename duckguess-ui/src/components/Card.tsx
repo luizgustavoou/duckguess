@@ -5,12 +5,13 @@ import { IGuess } from "../entities/IGuess";
 
 interface CardProps {
   guess: IGuess;
+  handleClick: (guess: IGuess) => void;
 }
-export default function Card({ guess }: CardProps) {
-  console.log(guess);
+
+export default function Card({ guess, handleClick }: CardProps) {
   return (
     <>
-      <ImEnvelop size={40} />
+      <ImEnvelop size={40} onClick={(e) => handleClick(guess)} />
     </>
   );
 }
