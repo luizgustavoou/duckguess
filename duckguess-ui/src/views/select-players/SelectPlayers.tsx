@@ -61,7 +61,7 @@ export default function SelectPlayers() {
           placeholder="Player 01"
           {...register("playerOne")}
         />
-
+  
         <AppInput
           type="text"
           placeholder="Player 02"

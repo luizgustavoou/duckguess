@@ -68,8 +68,8 @@ export const gameSlice = createSlice({
       state.message = null;
     },
     selectGuess: (state, action: PayloadAction<IGuess>) => {
-      //Continuar aqui
-    }
+      state.guess = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

@@ -1,14 +1,16 @@
+import "./Card.css";
+
 import { ImEnvelop } from "react-icons/im";
 import { IGuess } from "../entities/IGuess";
 
 interface CardProps {
-    guess: IGuess;
+  guess: IGuess;
 }
-export default function Card ({guess}: CardProps) {
-    console.log(guess);
-    return(
-        <>
-            <ImEnvelop width="" />
-        </>
-    )
+export default function Card({ guess }: CardProps) {
+  console.log(guess);
+  return (
+    <>
+      <ImEnvelop size={40} />
+    </>
+  );
 }
