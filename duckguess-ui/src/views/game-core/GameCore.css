@@ -1,0 +1,9 @@
+.player {
+    padding: 5em;
+    list-style-type: none;
+    text-align: center;
+}
+.link:hover {
+    color: var(--accent-color);
+    cursor: pointer;
+}
