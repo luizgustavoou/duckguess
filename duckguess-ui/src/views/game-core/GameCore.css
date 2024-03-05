@@ -1,7 +1,28 @@
 .game-core {
   width: 100%;
   height: 100%;
+  padding: 1.5em;
 }
 
 .game-core .game-core-actions {
+}
+
+.game-core .info {
+  display: flex;
+  align-items: center;
+  gap: 3em;
+  font-weight: bold;
+}
+
+.game-core .info .players {
+  margin: auto;
+  display: flex;
+  text-align: center;
+  gap: 4em;
+}
+
+.game-core .info .players .player {
+}
+
+.game-core .info .players .actions {
 }

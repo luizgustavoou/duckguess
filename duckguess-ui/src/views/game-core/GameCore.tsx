@@ -11,18 +11,21 @@ export default function GameCore() {
   return (
     <Game>
       <div className="game-core">
-        <div className="player">
-          <p>{playerOne.name}</p>
-          <p>{playerOne.score}</p>
-        </div>
+        <div className="info">
+          <div className="players">
+            <div className="player">
+              <p>{playerOne.name}</p>
+              <p>{playerOne.score}</p>
+            </div>
+            <div className="player">
+              <p>{playerTwo.name}</p>
+              <p>{playerTwo.score}</p>
+            </div>
+          </div>
 
-        <div className="player">
-          <p>{playerTwo.name}</p>
-          <p>{playerTwo.score}</p>
-        </div>
-
-        <div className="actions">
-          <SlActionRedo /> Pular a vez
+          <div className="actions">
+            <SlActionRedo /> Pular a vez
+          </div>
         </div>
       </div>
     </Game>
