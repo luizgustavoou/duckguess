@@ -2,17 +2,13 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IGuess } from "../entities/IGuess";
 import { AppDispatch, RootState } from "../store";
 import { guessService } from "../services";
-
-interface Player {
-  name: string;
-  score: number;
-}
+import { IPlayer } from "../entities/IPlayer";
 
 interface GameState {
   status: "idle" | "success" | "loading" | "error";
   message: string | null;
-  playerOne: Player;
-  playerTwo: Player;
+  playerOne: IPlayer;
+  playerTwo: IPlayer;
   guesses: IGuess[];
   guess: IGuess | null;
 }
