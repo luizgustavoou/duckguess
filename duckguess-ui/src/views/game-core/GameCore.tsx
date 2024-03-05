@@ -10,17 +10,21 @@ export default function GameCore() {
   console.log(guess);
   return (
     <Game>
-      <>
-        <p className="player">
-          <li>{playerOne.name}</li>
-          <li>{playerOne.score}</li>
-        </p>
-        <p className="player">
-          <li>{playerTwo.name}</li>
-          <li>{playerTwo.score}</li>
-        </p>
-        <p className="link"><SlActionRedo /> Pular a vez</p>
-      </>
+      <div className="game-core">
+        <div className="player">
+          <p>{playerOne.name}</p>
+          <p>{playerOne.score}</p>
+        </div>
+
+        <div className="player">
+          <p>{playerTwo.name}</p>
+          <p>{playerTwo.score}</p>
+        </div>
+
+        <div className="actions">
+          <SlActionRedo /> Pular a vez
+        </div>
+      </div>
     </Game>
   );
 }

@@ -1,4 +1,3 @@
-import { ImEnvelop } from "react-icons/im";
 import Card from "../../components/Card";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { selectGame, selectGuess } from "../../slices/game-slice";
@@ -24,16 +23,16 @@ function GameChoose() {
 
   return (
     <Game>
-      <>
+      <div className="game-choose">
         <ul className="list">
           {guesses &&
             guesses.map((guess) => (
-              <li className="element">
+              <li className="guess" key={guess.id}>
                 <Card guess={guess} handleClick={handleClick} />
               </li>
             ))}
         </ul>
-      </>
+      </div>
     </Game>
   );
 }

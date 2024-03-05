@@ -1,13 +1,13 @@
-.list {
-    display: grid;
-    list-style: none;
-    grid-template-columns: auto auto auto auto;
-    grid-template-rows: 100px 100px;
+.game-choose {
 }
-.element {
-    padding: 1em;
+
+.game-choose .list {
+  display: grid;
+  list-style: none;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: 200px 200px;
 }
-.element:hover {
-    color: red;
-    cursor: pointer;
+
+.game-choose .guess {
+  padding: 1em;
 }

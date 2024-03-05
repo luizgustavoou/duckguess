@@ -1,0 +1,9 @@
+.item {
+  font-size: 40px;
+  transition: 0.6s all;
+  cursor: pointer;
+}
+
+.item:hover {
+  color: var(--accent-color);
+}
