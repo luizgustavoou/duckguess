@@ -1,8 +1,9 @@
+import "./GameChoose.css";
+
 import Card from "../../components/Card";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { selectGame, selectGuess } from "../../slices/game-slice";
 import Game from "../game/Game";
-import "./GameChoose.css";
 
 import { useNavigate } from "react-router-dom";
 import { IGuess } from "../../entities/IGuess";
