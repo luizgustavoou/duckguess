@@ -1,7 +1,6 @@
 .hint {
   position: relative;
   height: 50px;
-  background-color: red;
   white-space: nowrap;
 }
 
@@ -21,6 +20,7 @@
 }
 
 .hint .content {
+  background-color: #b0b0b0;
   padding: 0 1.5em;
   border-radius: 20px;
   border: 3px solid;
