@@ -5,7 +5,7 @@ import { guessService } from "../services";
 import { IPlayer } from "../entities/IPlayer";
 
 interface GameState {
-  status: "idle" | "success" | "loading" | "error";
+  status: "idle" | "loading" | "playing" | "ended" | "error";
   message: string | null;
   playerOne: IPlayer;
   playerTwo: IPlayer;
@@ -73,7 +73,7 @@ export const gameSlice = createSlice({
         state.status = "loading";
       })
       .addCase(startGame.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "playing";
         state.guesses = action.payload.guesses;
         state.playerOne.name = action.payload.namePlayerOne;
         state.playerTwo.name = action.payload.namePlayerTwo;

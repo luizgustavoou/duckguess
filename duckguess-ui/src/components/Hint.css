@@ -1,29 +1,29 @@
 .hint {
-    display: flex;
-    height: 3em;
-    position: relative;
+  display: flex;
+  height: 3em;
+  position: relative;
 }
 
 .hint .circle {
-    background-color: var(--primary-color);
-    width: 4em;
-    height: 4em;
-    color: var(--secondary-color);
-    border-radius: 15em;
-    position: absolute;
-    z-index: 1;
-    left: -40px;
-    top: -7px;
-    display: flex;
-    align-items:center;
-    justify-content: center;
+  background-color: var(--primary-color);
+  width: 4em;
+  height: 4em;
+  color: var(--secondary-color);
+  border-radius: 15em;
+  position: absolute;
+  z-index: 1;
+  left: -40px;
+  top: -7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hint .body {
-    background-color: #B0B0B0;
-    padding: 0 1.5em;
-    border-style: solid;
-    border-radius: 1em;
-    border-width: 0.19em;
-    text-align: center;
+  background-color: #b0b0b0;
+  padding: 0 1.5em;
+  border-style: solid;
+  border-radius: 1em;
+  border-width: 0.19em;
+  text-align: center;
 }

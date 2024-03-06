@@ -30,25 +30,20 @@ export default function GameCore() {
             <SlActionRedo /> Pular a vez
           </div>
         </div>
-        
+
         <div className="body">
-          {guess?.hints && guess.hints.map(hint => (
-            <>
-              <Hint hint={hint} numberPoints={10} />
-            </>
-          ))}
+          {guess?.hints &&
+            guess.hints.map((hint) => (
+              <>
+                <Hint hint={hint} numberPoints={10} />
+              </>
+            ))}
         </div>
-        
+
         <div className="answer">
           <h1>Agora é a vez de </h1>
-          <AppInput 
-            type="text"
-            placeholder="Digite a resposta"
-          />
-          <AppButton
-            content={"Enviar"} 
-            type={"button"}
-          />
+          <AppInput type="text" placeholder="Digite a resposta" />
+          <AppButton content={"Enviar"} type={"button"} />
         </div>
       </div>
     </Game>

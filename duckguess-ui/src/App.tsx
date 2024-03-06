@@ -14,8 +14,12 @@ import GameChoose from "./views/game-choose/GameChoose";
 import GameCore from "./views/game-core/GameCore";
 import GameCorrectAnswer from "./views/game-correct-answer/GameCorrectAnswer";
 import GameResult from "./views/game-result/GameResult";
+import { useAppSelector } from "./hooks/useAppSelector";
+import { selectGame } from "./slices/game-slice";
 
 export default function App() {
+  const { status } = useAppSelector(selectGame);
+
   return (
     <Router>
       <LayoutMain
@@ -32,13 +36,46 @@ export default function App() {
               element={<SelectPlayers />}
             />
             <Route path={RoutesPath.RULES} element={<Rules />} />
-            <Route path={RoutesPath.GAME_CHOOSE} element={<GameChoose />} />
-            <Route path={RoutesPath.GAME_CORE} element={<GameCore />} />
+            <Route
+              path={RoutesPath.GAME_CHOOSE}
+              element={
+                status === "playing" ? (
+                  <GameChoose />
+                ) : (
+                  <Navigate to={RoutesPath.HOME} />
+                )
+              }
+            />
+            <Route
+              path={RoutesPath.GAME_CORE}
+              element={
+                status === "playing" ? (
+                  <GameCore />
+                ) : (
+                  <Navigate to={RoutesPath.HOME} />
+                )
+              }
+            />
             <Route
               path={RoutesPath.GAME_CORRECT_ANSWER}
-              element={<GameCorrectAnswer />}
+              element={
+                status === "playing" ? (
+                  <GameCorrectAnswer />
+                ) : (
+                  <Navigate to={RoutesPath.HOME} />
+                )
+              }
             />
-            <Route path={RoutesPath.GAME_RESULT} element={<GameResult />} />
+            <Route
+              path={RoutesPath.GAME_RESULT}
+              element={
+                status === "playing" ? (
+                  <GameResult />
+                ) : (
+                  <Navigate to={RoutesPath.HOME} />
+                )
+              }
+            />
             <Route
               path={RoutesPath.WILDCARD}
               element={<Navigate to={RoutesPath.HOME} />}
