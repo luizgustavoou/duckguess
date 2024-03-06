@@ -1,9 +1,9 @@
-form {
+.select-players form {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-form > button {
+.select-players form > button {
   margin: auto;
 }

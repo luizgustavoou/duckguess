@@ -137,15 +137,17 @@ export default function GameCore() {
             )}
         </div>
 
-        <form className="answer" onSubmit={handleSubmit(onSubmit)}>
+        <div className="answer">
           <h1>Agora é a vez de {player.name}</h1>
-          <AppInput
-            type="text"
-            placeholder="Digite a resposta"
-            {...register("answer")}
-          />
-          <AppButton content={"Enviar"} type={"submit"} />
-        </form>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <AppInput
+              type="text"
+              placeholder="Digite a resposta"
+              {...register("answer")}
+            />
+            <AppButton content={"Enviar"} type={"submit"} />
+          </form>
+        </div>
       </div>
     </Game>
   );

@@ -38,7 +38,22 @@
 
 .game-core .answer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 1em;
   padding: 2em;
+}
+
+.game-core .answer form {
+  gap: 0.3em;
+  width: 100%;
+  display: flex;
+}
+
+.game-core input {
+  width: 100%;
+}
+
+.game-core button {
+  height: 40px;
 }

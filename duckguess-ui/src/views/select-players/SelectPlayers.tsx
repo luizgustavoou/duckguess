@@ -52,21 +52,23 @@ export default function SelectPlayers() {
 
   return (
     <Game>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Quem vai jogar?</h1>
-        <AppInput
-          type="text"
-          placeholder="Player 01"
-          {...register("playerOne")}
-        />
+      <div className="select-players">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Quem vai jogar?</h1>
+          <AppInput
+            type="text"
+            placeholder="Player 01"
+            {...register("playerOne")}
+          />
 
-        <AppInput
-          type="text"
-          placeholder="Player 02"
-          {...register("playerTwo")}
-        />
-        <AppButton content="Próximo" type="submit" />
-      </form>
+          <AppInput
+            type="text"
+            placeholder="Player 02"
+            {...register("playerTwo")}
+          />
+          <AppButton content="Próximo" type="submit" />
+        </form>
+      </div>
     </Game>
   );
 }
