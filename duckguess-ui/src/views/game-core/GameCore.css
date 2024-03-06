@@ -29,6 +29,8 @@
 .game-core .hints {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   flex-grow: 1;
   gap: 3em;

@@ -1,31 +1,33 @@
 .hint {
   position: relative;
   height: 50px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 
 .hint .circle {
   background-color: var(--primary-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 4em;
   height: 4em;
   color: var(--secondary-color);
-  border-radius: 50%;
+  border-radius: 15em;
   position: absolute;
   z-index: 1;
   left: -40px;
   top: -7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hint .content {
-  float: left;
-  clear: left;
+  /* float: left;
+  clear: left; */
   background-color: #b0b0b0;
   padding: 0 1.5em;
+  height: 100%;
   border-radius: 20px;
   border: 3px solid;
+  text-align: center;
 }
 
 .hint .content p {
