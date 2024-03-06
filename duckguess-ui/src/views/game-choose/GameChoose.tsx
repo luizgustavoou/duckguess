@@ -25,6 +25,7 @@ function GameChoose() {
   return (
     <Game>
       <div className="game-choose">
+        <p>... ESCOLHE UM ENVELOPE</p>
         <ul className="list">
           {guesses &&
             guesses.map((guess) => (

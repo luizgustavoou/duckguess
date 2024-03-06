@@ -1,4 +1,11 @@
 .game-choose {
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5em;
 }
 
 .game-choose .list {
@@ -12,4 +19,8 @@
 .game-choose .guess {
   width: 4em;
   height: 4em;
+}
+
+.game-choose p {
+  font-size: 2em;
 }
