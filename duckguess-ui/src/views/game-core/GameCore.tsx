@@ -31,7 +31,7 @@ export default function GameCore() {
           </div>
         </div>
 
-        <div className="body">
+        <div className="hints">
           {guess?.hints &&
             guess.hints.map((hint) => (
               <>
