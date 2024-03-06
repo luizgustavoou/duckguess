@@ -1,7 +1,9 @@
 .hint {
   display: flex;
-  height: 3em;
   position: relative;
+  height: 50px;
+  max-width: 70%;
+  white-space: nowrap;
 }
 
 .hint .circle {
@@ -26,4 +28,8 @@
   border-radius: 1em;
   border-width: 0.19em;
   text-align: center;
+}
+
+.hint .content p {
+  font-size: 2em;
 }

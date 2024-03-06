@@ -4,30 +4,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.game-core .game-core-actions {
+  padding: 0 3em;
 }
 
 .game-core .info {
   display: flex;
   gap: 3em;
   font-weight: bold;
-  padding: 1em;
-}
-
-.game-core .hints {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 3em;
-}
-
-.game-core .answer {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  padding: 2em;
 }
 
 .game-core .info .players {
@@ -40,5 +23,22 @@
 .game-core .info .players .player {
 }
 
-.game-core .info .players .actions {
+.game-core .game-core-actions {
+}
+
+.game-core .hints {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex-grow: 1;
+  gap: 3em;
+  overflow: auto;
+  padding: 1em 3em;
+}
+
+.game-core .answer {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 2em;
 }

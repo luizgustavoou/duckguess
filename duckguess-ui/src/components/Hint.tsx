@@ -9,7 +9,7 @@ export default function Clue({ hint, numberPoints }: HintProps) {
     <div className="hint">
       <div className="circle">{numberPoints}</div>
       <div className="content">
-        <h2>{hint.text}</h2>
+        <p>{hint.text}</p>
       </div>
     </div>
   );

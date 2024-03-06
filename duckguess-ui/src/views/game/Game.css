@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   gap: 2em;
-
+  overflow: auto;
   background-color: var(--secondary-color);
   color: #000;
 
