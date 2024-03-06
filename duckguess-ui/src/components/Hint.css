@@ -20,6 +20,8 @@
 }
 
 .hint .content {
+  float: left;
+  clear: left;
   background-color: #b0b0b0;
   padding: 0 1.5em;
   border-radius: 20px;
