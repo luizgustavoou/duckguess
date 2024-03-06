@@ -15,6 +15,8 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { ZodType, z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAppNavigate } from "../../hooks/useAppNavigate";
+import { RoutesPath } from "../../utils/routes-path";
 
 interface IFormInput {
   answer: string;
@@ -27,6 +29,8 @@ const gameCoreFormSchema: ZodType<IFormInput> = z.object({
 type GameCoreFormSchema = z.infer<typeof gameCoreFormSchema>;
 
 export default function GameCore() {
+  const navigate = useAppNavigate();
+
   const {
     register,
     handleSubmit,
@@ -62,16 +66,27 @@ export default function GameCore() {
   };
 
   const checkAnswer = (answer: string, score: number) => {
-    console.log({ answer, score });
     if (!guess) return;
 
-    if (answer != guess.answer) return;
+    // TODO: Melhorar esse monte de if e else.
+    // TOOD: AO acabar as chances de resposta ou se alguem acertar, redirecionar para o componente GameCorrectAnswer
 
-    if (playerCore === "playerOne") {
-      dispatch(increaseScorePlayerOne(10));
+    if (answer == guess.answer) {
+      if (playerCore === "playerOne") {
+        dispatch(increaseScorePlayerOne(10));
+      } else {
+        dispatch(increaseScorePlayerTwo(10));
+      }
+
+      return navigate(RoutesPath.GAME_CHOOSE);
     } else {
-      dispatch(increaseScorePlayerTwo(10));
+      if (hintIndex + 1 === guess.hints.length) {
+        return navigate(RoutesPath.GAME_CHOOSE);
+      }
     }
+
+    nextPlayer();
+    nextHintIndex();
   };
 
   const player = useMemo(() => {
@@ -94,8 +109,6 @@ export default function GameCore() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const { answer } = data;
 
-    nextPlayer();
-    nextHintIndex();
     checkAnswer(data.answer, 10);
 
     resetField("answer");
@@ -123,13 +136,12 @@ export default function GameCore() {
 
         <div className="hints">
           {guess?.hints &&
-            guess.hints.map((hint, index) => (
-              <>
-                {index <= hintIndex && (
+            guess.hints.map(
+              (hint, index) =>
+                index <= hintIndex && (
                   <Hint hint={hint} numberPoints={10} key={hint.id} />
-                )}
-              </>
-            ))}
+                )
+            )}
         </div>
 
         <form className="answer" onSubmit={handleSubmit(onSubmit)}>
