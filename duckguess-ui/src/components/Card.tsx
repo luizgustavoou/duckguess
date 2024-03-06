@@ -11,7 +11,7 @@ interface CardProps {
 export default function Card({ guess, handleClick }: CardProps) {
   return (
     <>
-      <ImEnvelop className="item" onClick={(e) => handleClick(guess)} />
+      <ImEnvelop className="card item" onClick={(e) => handleClick(guess)} />
     </>
   );
 }

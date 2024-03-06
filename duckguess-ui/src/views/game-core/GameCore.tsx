@@ -98,19 +98,11 @@ export default function GameCore() {
     return playerTwo;
   }, [playerCore]);
 
-  // const handleSendAnswer = (
-  //   e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-  // ) => {
-  //   nextPlayer();
-  //   nextHintIndex();
-
-  //   checkAnswer(answer, 10);
-  // };
-
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const { answer } = data;
 
-    checkAnswer(data.answer, 10);
+    // TODO: Passar pontos de score dinamicamente
+    checkAnswer(answer, 10);
 
     resetField("answer");
   };

@@ -1,4 +1,4 @@
-.item {
+.card.item {
   width: 90%;
   height: 100%;
 
@@ -6,7 +6,7 @@
   cursor: pointer;
 }
 
-.item:hover {
+.card.item:hover {
   width: 100%;
   color: var(--accent-color);
 }

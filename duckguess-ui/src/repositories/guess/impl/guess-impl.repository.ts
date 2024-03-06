@@ -13,6 +13,7 @@ export class GuessRepositoryImpl implements IGuessRepository {
         id: guess.id,
         answer: guess.answer,
         hints: guess.hints,
+        opened: false,
       };
     });
 

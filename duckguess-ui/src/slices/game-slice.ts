@@ -78,6 +78,16 @@ export const gameSlice = createSlice({
     increaseScorePlayerTwo: (state, action: PayloadAction<number>) => {
       state.playerTwo.score += action.payload;
     },
+    setGuessOpened: (state, action: PayloadAction<string>) => {
+      state.guesses = state.guesses.map((guess) => {
+        if (guess.id !== action.payload) return guess;
+
+        return {
+          ...guess,
+          opened: true,
+        };
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -104,6 +114,7 @@ export const {
   setChoose,
   increaseScorePlayerOne,
   increaseScorePlayerTwo,
+  setGuessOpened,
 } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.gameReducer;
