@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppNavigate } from "../../hooks/useAppNavigate";
 import { RoutesPath } from "../../utils/routes-path";
+import { compareAnswer } from "../../utils/compare-answer";
 
 interface IFormInput {
   answer: string;
@@ -71,7 +72,7 @@ export default function GameCore() {
     // TODO: Melhorar esse monte de if e else.
     // TOOD: AO acabar as chances de resposta ou se alguem acertar, redirecionar para o componente GameCorrectAnswer
 
-    if (answer == guess.answer) {
+    if (compareAnswer(answer, guess.answer)) {
       if (playerCore === "playerOne") {
         dispatch(increaseScorePlayerOne(10));
       } else {
