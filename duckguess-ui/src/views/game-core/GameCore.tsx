@@ -24,7 +24,7 @@ interface IFormInput {
 }
 
 const gameCoreFormSchema: ZodType<IFormInput> = z.object({
-  answer: z.string(),
+  answer: z.string().min(1),
 });
 
 type GameCoreFormSchema = z.infer<typeof gameCoreFormSchema>;
