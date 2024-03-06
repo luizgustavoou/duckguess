@@ -11,6 +11,8 @@ interface GameState {
   playerTwo: IPlayer;
   guesses: IGuess[];
   guess: IGuess | null;
+
+  choose: "playerOne" | "playerTwo" | null;
 }
 
 const initialState: GameState = {
@@ -24,6 +26,7 @@ const initialState: GameState = {
     name: "",
     score: 0,
   },
+  choose: null,
   guesses: [],
   guess: null,
 };
@@ -66,6 +69,15 @@ export const gameSlice = createSlice({
     selectGuess: (state, action: PayloadAction<IGuess>) => {
       state.guess = action.payload;
     },
+    setChoose: (state, action: PayloadAction<"playerOne" | "playerTwo">) => {
+      state.choose = action.payload;
+    },
+    increaseScorePlayerOne: (state, action: PayloadAction<number>) => {
+      state.playerOne.score += action.payload;
+    },
+    increaseScorePlayerTwo: (state, action: PayloadAction<number>) => {
+      state.playerTwo.score += action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -77,6 +89,7 @@ export const gameSlice = createSlice({
         state.guesses = action.payload.guesses;
         state.playerOne.name = action.payload.namePlayerOne;
         state.playerTwo.name = action.payload.namePlayerTwo;
+        state.choose = "playerOne";
       })
       .addCase(startGame.rejected, (state, action) => {
         state.status = "error";
@@ -85,7 +98,13 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { resetGame, selectGuess } = gameSlice.actions;
+export const {
+  resetGame,
+  selectGuess,
+  setChoose,
+  increaseScorePlayerOne,
+  increaseScorePlayerTwo,
+} = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.gameReducer;
 

@@ -29,8 +29,6 @@ type SelectPlayerFormSchema = z.infer<typeof selectPlayerFormSchema>;
 export default function SelectPlayers() {
   const navigate = useAppNavigate();
 
-  const { status, message, guesses, playerOne, playerTwo } =
-    useAppSelector(selectGame);
   const dispatch = useAppDispatch();
 
   const {
@@ -61,7 +59,7 @@ export default function SelectPlayers() {
           placeholder="Player 01"
           {...register("playerOne")}
         />
-  
+
         <AppInput
           type="text"
           placeholder="Player 02"
