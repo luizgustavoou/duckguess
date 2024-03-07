@@ -1,7 +1,9 @@
 .hint {
   position: relative;
   height: 50px;
-  /* white-space: nowrap; */
+  white-space: nowrap;
+  width: 600px;
+  max-width: 100%;
 }
 
 .hint .circle {
@@ -12,7 +14,7 @@
   border-radius: 15em;
   position: absolute;
   z-index: 1;
-  left: -40px;
+  left: -39px;
   top: -7px;
   display: flex;
   align-items: center;
@@ -20,9 +22,10 @@
 }
 
 .hint .content {
-  /* float: left;
-  clear: left; */
+  float: left;
+  clear: left;
   background-color: #b0b0b0;
+
   padding: 0 1.5em;
   height: 100%;
   border-radius: 20px;
@@ -31,5 +34,5 @@
 }
 
 .hint .content p {
-  font-size: 2em;
+  font-size: 1.5em;
 }

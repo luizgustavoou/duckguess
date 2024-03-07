@@ -34,7 +34,6 @@
   width: 100%;
   flex-grow: 1;
   gap: 3em;
-  overflow: auto;
   padding: 1em 3em;
 }
 
