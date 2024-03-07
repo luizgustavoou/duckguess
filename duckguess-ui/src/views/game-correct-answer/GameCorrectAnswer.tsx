@@ -1,9 +1,11 @@
 import "./GameCorrectAnswer.css";
+import logo from "../../assets/pato-festero.png"
 
 function GameCorrectAnswer() {
   return (
     <>
-      <h1>GameCorrectAnswer page!</h1>
+      <h1>Resposta correta, parabéns!!!</h1>
+      <img alt="PatoFestero" src={logo} />
     </>
   );
 }
