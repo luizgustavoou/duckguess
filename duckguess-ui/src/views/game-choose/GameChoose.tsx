@@ -14,8 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { IGuess } from "../../entities/IGuess";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { RoutesPath } from "../../utils/routes-path";
-import { useMemo, useState } from "react";
-import { IPlayer } from "../../entities/IPlayer";
+import { useMemo } from "react";
 import CardOpened from "../../components/CardOpened";
 
 function GameChoose() {

@@ -1,4 +1,4 @@
-import { useMemo, useState, MouseEvent, useEffect } from "react";
+import { useMemo, useState } from "react";
 import Hint from "../../components/Hint";
 import AppButton from "../../components/form/AppButton";
 import { AppInput } from "../../components/form/AppInput";
@@ -132,7 +132,7 @@ export default function GameCore() {
             guess.hints.map(
               (hint, index) =>
                 index <= hintIndex && (
-                  <Hint hint={hint} numberPoints={10} key={hint.id} />
+                  <Hint hint={hint} numberPoints={10 - index} key={hint.id} />
                 )
             )}
         </div>
