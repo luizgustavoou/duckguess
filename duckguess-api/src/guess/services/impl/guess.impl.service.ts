@@ -12,14 +12,14 @@ export class GuessServiceImpl implements GuessService {
     @InjectRepository(Guess) private guessRepository: Repository<Guess>,
   ) {}
 
-  async create(createGuessDto: CreateGuessDto) {
+  async create(createGuessDto: CreateGuessDto): Promise<Guess> {
     const { answer } = createGuessDto;
     const guess = await this.guessRepository.save({ answer });
 
     return guess;
   }
 
-  async findAll() {
+  async findAll(): Promise<Guess[]> {
     const guesses = await this.guessRepository.find({
       relations: {
         hints: true,
@@ -29,13 +29,13 @@ export class GuessServiceImpl implements GuessService {
     return guesses;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Guess> {
     const guesses = await this.guessRepository.findOneBy({ id });
 
     return guesses;
   }
 
-  async update(id: string, updateGuessDto: UpdateGuessDto) {
+  async update(id: string, updateGuessDto: UpdateGuessDto): Promise<Guess> {
     const guess = await this.guessRepository.findOneBy({ id });
 
     if (!guess) {
@@ -49,7 +49,7 @@ export class GuessServiceImpl implements GuessService {
     return guessUpdated;
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<void> {
     await this.guessRepository.delete({ id });
   }
 }

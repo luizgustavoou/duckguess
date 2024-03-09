@@ -7,14 +7,13 @@ import { CreateHintDto } from 'src/hint/dto/create-hint.dto';
 import { Hint } from 'src/hint/entities/hint.entity';
 import { UpdateHintDto } from 'src/hint/dto/update-hint.dto';
 
-
 export class HintServiceImpl implements HintService {
   constructor(
     @InjectRepository(Hint) private clueRepository: Repository<Hint>,
     private readonly guessService: GuessService,
   ) {}
 
-  async create(createHintDto: CreateHintDto) {
+  async create(createHintDto: CreateHintDto): Promise<Hint> {
     const { text, guessId } = createHintDto;
 
     const guess = await this.guessService.findOne(guessId);
@@ -28,19 +27,19 @@ export class HintServiceImpl implements HintService {
     return clue;
   }
 
-  async findAll() {
+  async findAll(): Promise<Hint[]> {
     const cluees = await this.clueRepository.find();
 
     return cluees;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Hint> {
     const cluees = await this.clueRepository.findOneBy({ id });
 
     return cluees;
   }
 
-  async update(id: string, updateHintDto: UpdateHintDto) {
+  async update(id: string, updateHintDto: UpdateHintDto): Promise<Hint> {
     const clue = await this.clueRepository.findOneBy({ id });
 
     if (!clue) {
@@ -54,7 +53,7 @@ export class HintServiceImpl implements HintService {
     return clueUpdated;
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<void> {
     await this.clueRepository.delete({ id });
   }
 }
