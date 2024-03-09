@@ -1,5 +1,6 @@
 import "./GameWrongAnswer.css";
 import Game from "../game/Game";
+import { MouseEvent } from "react";
 import patoDecepcionado from "../../assets/duck-disappointed.png";
 import AppButton from "../../components/form/AppButton";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,13 @@ export default function GameWrongAnswer() {
   const navgate = useNavigate();
   const { guess } = useAppSelector(selectGame);
   const dispatch = useAppDispatch();
+
+  const handleClick = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    navgate(RoutesPath.GAME_CHOOSE);
+    dispatch(resetGuess());
+  };
 
   return (
     <>
@@ -26,10 +34,7 @@ export default function GameWrongAnswer() {
           <AppButton
             content={"Tela de perguntas"}
             type={"submit"}
-            onClick={(e) => {
-              navgate(RoutesPath.GAME_CHOOSE);
-              dispatch(resetGuess());
-            }}
+            onClick={handleClick}
           />
         </div>
       </Game>
