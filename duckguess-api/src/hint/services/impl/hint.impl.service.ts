@@ -1,6 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { GuessService } from 'src/guess/services/guess.service';
 import { HintService } from '../hint.service';
 import { CreateHintDto } from 'src/hint/dto/create-hint.dto';
@@ -20,6 +24,10 @@ export class HintServiceImpl implements HintService {
 
     if (!guess) {
       throw new NotFoundException('Adivinhação não encontrada.');
+    }
+
+    if (guess.hints.length >= 3) {
+      throw new ConflictException('Já existem 3 dicas para essa adivinhação.');
     }
 
     const clue = await this.clueRepository.save({ text, guess });

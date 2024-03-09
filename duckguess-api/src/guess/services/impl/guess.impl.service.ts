@@ -30,7 +30,10 @@ export class GuessServiceImpl implements GuessService {
   }
 
   async findOne(id: string): Promise<Guess> {
-    const guesses = await this.guessRepository.findOneBy({ id });
+    const guesses = await this.guessRepository.findOne({
+      where: { id },
+      relations: { hints: true },
+    });
 
     return guesses;
   }
