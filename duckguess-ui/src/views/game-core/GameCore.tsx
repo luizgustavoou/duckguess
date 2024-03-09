@@ -79,10 +79,10 @@ export default function GameCore() {
         dispatch(increaseScorePlayerTwo(10));
       }
 
-      return navigate(RoutesPath.GAME_CHOOSE);
+      return navigate(RoutesPath.GAME_CORRECT_ANSWER);
     } else {
       if (hintIndex + 1 === guess.hints.length) {
-        return navigate(RoutesPath.GAME_CHOOSE);
+        return navigate(RoutesPath.GAME_WRONG_ANSWER);
       }
     }
 

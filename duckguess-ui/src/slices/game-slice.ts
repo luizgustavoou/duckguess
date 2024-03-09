@@ -65,6 +65,10 @@ export const gameSlice = createSlice({
       state.playerTwo = { name: "", score: 0 };
       state.status = "idle";
       state.message = null;
+      state.guess = null;
+    },
+    resetGuess: (state) => {
+      state.guess = null;
     },
     selectGuess: (state, action: PayloadAction<IGuess>) => {
       state.guess = action.payload;
@@ -115,6 +119,7 @@ export const {
   increaseScorePlayerOne,
   increaseScorePlayerTwo,
   setGuessOpened,
+  resetGuess,
 } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.gameReducer;

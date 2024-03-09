@@ -16,6 +16,7 @@ import GameCorrectAnswer from "./views/game-correct-answer/GameCorrectAnswer";
 import GameResult from "./views/game-result/GameResult";
 import { useAppSelector } from "./hooks/useAppSelector";
 import { selectGame } from "./slices/game-slice";
+import GameWrongAnswer from "./views/game-wrong-answer/GameWrongAnswer";
 
 export default function App() {
   const { status } = useAppSelector(selectGame);
@@ -61,6 +62,16 @@ export default function App() {
               element={
                 status === "playing" ? (
                   <GameCorrectAnswer />
+                ) : (
+                  <Navigate to={RoutesPath.HOME} />
+                )
+              }
+            />
+            <Route
+              path={RoutesPath.GAME_WRONG_ANSWER}
+              element={
+                status === "playing" ? (
+                  <GameWrongAnswer />
                 ) : (
                   <Navigate to={RoutesPath.HOME} />
                 )
