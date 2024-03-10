@@ -13,6 +13,7 @@ interface GameState {
   guess: IGuess | null;
 
   choose: "playerOne" | "playerTwo" | null;
+  playerTurn: "playerOne" | "playerTwo" | null;
 }
 
 const initialState: GameState = {
@@ -27,6 +28,7 @@ const initialState: GameState = {
     score: 0,
   },
   choose: null,
+  playerTurn: null,
   guesses: [],
   guess: null,
 };
@@ -76,6 +78,9 @@ export const gameSlice = createSlice({
     setChoose: (state, action: PayloadAction<"playerOne" | "playerTwo">) => {
       state.choose = action.payload;
     },
+    setPlayerTurn: (state, action: PayloadAction<"playerOne" | "playerTwo">) => {
+      state.playerTurn = action.payload;
+    },
     increaseScorePlayerOne: (state, action: PayloadAction<number>) => {
       state.playerOne.score += action.payload;
     },
@@ -120,6 +125,7 @@ export const {
   increaseScorePlayerTwo,
   setGuessOpened,
   resetGuess,
+  setPlayerTurn,
 } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.gameReducer;

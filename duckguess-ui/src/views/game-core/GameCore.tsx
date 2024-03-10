@@ -32,6 +32,8 @@ type GameCoreFormSchema = z.infer<typeof gameCoreFormSchema>;
 export default function GameCore() {
   const navigate = useAppNavigate();
 
+  const [score, setScore] = useState(10);
+
   const {
     register,
     handleSubmit,
@@ -45,10 +47,10 @@ export default function GameCore() {
 
   const [hintIndex, setHintIndex] = useState<number>(0);
 
-  const { guess, playerOne, playerTwo } = useAppSelector(selectGame);
+  const { guess, playerOne, playerTwo, playerTurn } = useAppSelector(selectGame);
 
   const [playerCore, setPlayerCore] = useState<"playerOne" | "playerTwo">(
-    "playerOne"
+    playerTurn
   );
 
   const nextPlayer = () => {
@@ -66,17 +68,19 @@ export default function GameCore() {
     setHintIndex((value) => value + 1);
   };
 
-  const checkAnswer = (answer: string, score: number) => {
+  const nextScore = () => {
+    setScore((s) => s - 1);
+  };
+
+  const checkAnswer = (answer: string, scoreGuess: number) => {
     if (!guess) return;
 
     // TODO: Melhorar esse monte de if e else.
-    // TOOD: AO acabar as chances de resposta ou se alguem acertar, redirecionar para o componente GameCorrectAnswer
-
     if (compareAnswer(answer, guess.answer)) {
       if (playerCore === "playerOne") {
-        dispatch(increaseScorePlayerOne(10));
+        dispatch(increaseScorePlayerOne(scoreGuess));
       } else {
-        dispatch(increaseScorePlayerTwo(10));
+        dispatch(increaseScorePlayerTwo(scoreGuess));
       }
 
       return navigate(RoutesPath.GAME_CORRECT_ANSWER);
@@ -99,10 +103,10 @@ export default function GameCore() {
   }, [playerCore]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    nextScore();
     const { answer } = data;
 
-    // TODO: Passar pontos de score dinamicamente
-    checkAnswer(answer, 10);
+    checkAnswer(answer, score);
 
     resetField("answer");
   };

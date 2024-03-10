@@ -7,6 +7,7 @@ import {
   selectGuess,
   setChoose,
   setGuessOpened,
+  setPlayerTurn,
 } from "../../slices/game-slice";
 import Game from "../game/Game";
 
@@ -18,7 +19,7 @@ import { useMemo } from "react";
 import CardOpened from "../../components/CardOpened";
 
 function GameChoose() {
-  const { guesses, choose, playerOne, playerTwo } = useAppSelector(selectGame);
+  const { guesses, choose, playerOne, playerTwo, playerTurn } = useAppSelector(selectGame);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -33,10 +34,12 @@ function GameChoose() {
   const nextPlayer = () => {
     if (choose === "playerOne") {
       dispatch(setChoose("playerTwo"));
+      dispatch(setPlayerTurn("playerOne"));
       return;
     }
 
     dispatch(setChoose("playerOne"));
+    dispatch(setPlayerTurn("playerTwo"));
   };
 
   const player = useMemo(() => {
