@@ -10,7 +10,6 @@ import {
 } from "../../slices/game-slice";
 import Game from "../game/Game";
 import "./GameCore.css";
-import { SlActionRedo } from "react-icons/sl";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { ZodType, z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -131,10 +130,6 @@ export default function GameCore() {
               <p>{playerTwo.name}</p>
               <p>{playerTwo.score}</p>
             </div>
-          </div>
-
-          <div className="actions">
-            <SlActionRedo /> Pular a vez
           </div>
         </div>
 
