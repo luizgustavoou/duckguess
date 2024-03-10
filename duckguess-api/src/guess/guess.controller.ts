@@ -7,10 +7,14 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
 import { GuessService } from './services/guess.service';
+import { IPaginationDto } from './dto/IPaginationDto';
 
 @Controller('guess')
 export class GuessController {
@@ -22,7 +26,7 @@ export class GuessController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() paginationDto: IPaginationDto) {
     return this.guessService.findAll();
   }
 
