@@ -15,11 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { IGuess } from "../../entities/IGuess";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { RoutesPath } from "../../utils/routes-path";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import CardOpened from "../../components/CardOpened";
 
 function GameChoose() {
-  const { guesses, choose, playerOne, playerTwo, playerTurn } = useAppSelector(selectGame);
+  const { guesses, choose, playerOne, playerTwo } = useAppSelector(selectGame);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -49,6 +49,14 @@ function GameChoose() {
 
     return playerTwo;
   }, [choose]);
+
+  useEffect(() => {
+    const gameFinished = guesses.reduce((prev, curr) => {
+      return prev && curr.opened;
+    }, true);
+
+    gameFinished && navigate(RoutesPath.GAME_RESULT);
+  }, []);
 
   return (
     <Game>

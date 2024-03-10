@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Hint from "../../components/Hint";
 import AppButton from "../../components/form/AppButton";
 import { AppInput } from "../../components/form/AppInput";
@@ -47,11 +47,18 @@ export default function GameCore() {
 
   const [hintIndex, setHintIndex] = useState<number>(0);
 
-  const { guess, playerOne, playerTwo, playerTurn } = useAppSelector(selectGame);
+  const { guess, playerOne, playerTwo, playerTurn } =
+    useAppSelector(selectGame);
 
-  const [playerCore, setPlayerCore] = useState<"playerOne" | "playerTwo">(
-    playerTurn
-  );
+  const [playerCore, setPlayerCore] = useState<
+    "playerOne" | "playerTwo" | null
+  >(null);
+
+  useEffect(() => {
+    if (!playerTurn) return;
+
+    setPlayerCore(playerTurn);
+  }, [playerTurn]);
 
   const nextPlayer = () => {
     if (playerCore === "playerOne") {
