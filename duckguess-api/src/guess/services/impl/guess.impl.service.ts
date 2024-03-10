@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Guess } from 'src/guess/entities/guess.entity';
 import { Repository } from 'typeorm';
 import { GuessService } from '../guess.service';
+import { IPaginationDto } from 'src/guess/dto/IPaginationDto';
 
 @Injectable()
 export class GuessServiceImpl implements GuessService {
@@ -19,8 +20,12 @@ export class GuessServiceImpl implements GuessService {
     return guess;
   }
 
-  async findAll(): Promise<Guess[]> {
-    const guesses = await this.guessRepository.find({
+  async findAll(paginationDto: IPaginationDto): Promise<Guess[]> {
+    const { skip, take } = paginationDto;
+
+    const [guesses, count] = await this.guessRepository.findAndCount({
+      skip,
+      take,
       relations: {
         hints: true,
       },
