@@ -27,7 +27,7 @@ export class GuessController {
 
   @Get()
   findAll(@Query() paginationDto: IPaginationDto) {
-    return this.guessService.findAll();
+    return this.guessService.findAll(paginationDto);
   }
 
   @Get(':id')
