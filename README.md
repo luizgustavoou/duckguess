@@ -2,7 +2,7 @@
 <!-- license --> 
 
 ## :memo:  Sobre o projeto
-A aplicação consiste em uma cópia do jogo denonimado "Jogo das Três Pistas", conhecido pelo apresentador de televisão Silvio Santos.
+A aplicação consiste em uma cópia do jogo denominado "Jogo das Três Pistas", conhecido pelo apresentador de televisão Silvio Santos.
 
 ## Layout web
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/d5150d7d-c2d5-4cd2-b0d8-0f201016b7ed)
