@@ -6,6 +6,34 @@
   max-width: 100%;
 }
 
+.hint:nth-child(odd) {
+  animation: hint-odd 1s ease;
+}
+
+.hint:nth-child(even) {
+  animation: hint-even 1s ease;
+}
+
+@keyframes hint-odd {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes hint-even {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
 .hint .circle {
   background-color: var(--primary-color);
   width: 4em;
