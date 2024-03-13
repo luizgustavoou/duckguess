@@ -7,6 +7,11 @@ A aplicação consiste em uma cópia do jogo denominado "Jogo das Três Pistas",
 Projeto desenvolvido para entrega do projeto final na disciplina Desenvolvimento em Web 1, no IMD/UFRN.
 
 ## Layout web
+
+
+https://github.com/luizgustavoou/duckguess/assets/89609312/79b05340-df1e-4d71-a660-599ab7868a8d
+
+
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/d5150d7d-c2d5-4cd2-b0d8-0f201016b7ed)
 
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/b3ec44c2-77fd-41b6-9b05-9992157d87c0)
