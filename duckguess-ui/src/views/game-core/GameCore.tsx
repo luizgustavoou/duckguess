@@ -121,7 +121,7 @@ export default function GameCore() {
     <Game>
       <div className="game-core">
         <div className="info">
-          <div className="players">
+          <div className="score">
             <div className="player">
               <p>{playerOne.name}</p>
               <p>{playerOne.score}</p>
