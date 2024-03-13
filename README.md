@@ -25,7 +25,12 @@ Projeto desenvolvido para entrega do projeto final na disciplina Desenvolvimento
 * MySQL
   
 ## Front end
-* React
+* React;
+* Redux;
+* react-router-dom;
+* hookform/resolvers;
+* zod;
+* react-icons;
 
 ## Infraestrutura
 * Docker;
