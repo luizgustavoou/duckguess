@@ -12,7 +12,8 @@ Projeto desenvolvido para entrega do projeto final na disciplina Desenvolvimento
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/b3ec44c2-77fd-41b6-9b05-9992157d87c0)
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/17fb00d4-4ae8-45e9-9875-430ef2b4fa5f)
 
-![image](https://github.com/luizgustavoou/duckguess/assets/89609312/6951dd1e-335f-4d00-8700-c516222e18ae)
+![image](https://github.com/luizgustavoou/duckguess/assets/89609312/9274d83e-3527-4b47-93b5-7f2e67f2a4ac)
+
 
 <!-- ## Modelo conceitual -->
 ## :books: Funcionalidades
