@@ -4,6 +4,8 @@
 ## :memo:  Sobre o projeto
 A aplicação consiste em uma cópia do jogo denominado "Jogo das Três Pistas", conhecido pelo apresentador de televisão Silvio Santos.
 
+Projeto desenvolvido para entrega do projeto final na disciplina Desenvolvimento em Web 1, no IMD/UFRN.
+
 ## Layout web
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/d5150d7d-c2d5-4cd2-b0d8-0f201016b7ed)
 
@@ -56,14 +58,20 @@ docker compose up -d
 ```
 
 ## :soon: Implementação futura
-
+- Construir tela para o administrador para poder manter as adivinhações e dicas;
+- Permitir ao usuário escolher o tema do jogo. Exemplo de temas: Computação, conhecimento geral, histório, geografia, matemática, etc;
+- Mostrar lista de ranking dos usuários;
+- Mostrar histórico de partidas dos usuários;
 
 ## :dart: Status do projeto
-Em andamento.
+Finalizado
 
 # Autor
 
-Luiz Gustavo de Oliveira Umbelino
+<p>Luiz Gustavo de Oliveira Umbelino
 [https://www.linkedin.com/in/wmazoni](https://www.linkedin.com/in/luiz-oliveira-802294294/)https://www.linkedin.com/in/luiz-oliveira-802294294/
+</p>
+<p>
 Joab Urbano
+</p>
 
