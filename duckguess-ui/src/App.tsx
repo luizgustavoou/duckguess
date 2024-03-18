@@ -17,6 +17,7 @@ import GameResult from "./views/game-result/GameResult";
 import { useAppSelector } from "./hooks/useAppSelector";
 import { selectGame } from "./slices/game-slice";
 import GameWrongAnswer from "./views/game-wrong-answer/GameWrongAnswer";
+import GameTheme from "./views/game-theme/GameTheme";
 
 export default function App() {
   const { status } = useAppSelector(selectGame);
@@ -37,6 +38,7 @@ export default function App() {
               element={<SelectPlayers />}
             />
             <Route path={RoutesPath.RULES} element={<Rules />} />
+            <Route path={RoutesPath.GAME_THEME} element={<GameTheme />} />
             <Route
               path={RoutesPath.GAME_CHOOSE}
               element={
