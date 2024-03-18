@@ -1,8 +1,10 @@
 import { Hint } from 'src/hint/entities/hint.entity';
+import { Theme } from 'src/theme/entities/theme.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -24,4 +26,7 @@ export class Guess {
 
   @OneToMany(() => Hint, (hint) => hint.guess)
   hints: Hint[];
+
+  @ManyToOne(() => Theme, { nullable: false,  })
+  theme: Theme;
 }

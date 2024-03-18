@@ -6,16 +6,25 @@ import { Guess } from 'src/guess/entities/guess.entity';
 import { Repository } from 'typeorm';
 import { GuessService } from '../guess.service';
 import { IPaginationDto } from 'src/guess/dto/IPaginationDto';
+import { ThemeService } from 'src/theme/services/theme.service';
 
 @Injectable()
 export class GuessServiceImpl implements GuessService {
   constructor(
     @InjectRepository(Guess) private guessRepository: Repository<Guess>,
+    private themeService: ThemeService,
   ) {}
 
   async create(createGuessDto: CreateGuessDto): Promise<Guess> {
-    const { answer } = createGuessDto;
-    const guess = await this.guessRepository.save({ answer });
+    const { answer, themeId } = createGuessDto;
+
+    const theme = await this.themeService.findOne(themeId);
+
+    if (!theme) {
+      throw new NotFoundException('Tema não encontrado.');
+    }
+
+    const guess = await this.guessRepository.save({ answer, theme });
 
     return guess;
   }
@@ -28,6 +37,7 @@ export class GuessServiceImpl implements GuessService {
       take,
       relations: {
         hints: true,
+        theme: true,
       },
     });
 
