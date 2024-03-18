@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GuessModule } from './guess/guess.module';
 import { HintModule } from './hint/hint.module';
+import { ThemeModule } from './theme/theme.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { HintModule } from './hint/hint.module';
     }),
     GuessModule,
     HintModule,
+    ThemeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

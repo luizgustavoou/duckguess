@@ -17,7 +17,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppNavigate } from "../../hooks/useAppNavigate";
 import { RoutesPath } from "../../utils/routes-path";
 import { compareAnswer } from "../../utils/compare-answer";
-
 interface IFormInput {
   answer: string;
 }
