@@ -37,7 +37,6 @@ export class GuessServiceImpl implements GuessService {
       take,
       relations: {
         hints: true,
-        theme: true,
       },
     });
 
