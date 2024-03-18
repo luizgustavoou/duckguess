@@ -40,10 +40,12 @@ export default function SelectPlayers() {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    // TODO: Passar o ID do tema escolhido para a função startGame.
     await dispatch(
       startGame({
         namePlayerOne: data.playerOne,
         namePlayerTwo: data.playerTwo,
+        themeId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       })
     );
 

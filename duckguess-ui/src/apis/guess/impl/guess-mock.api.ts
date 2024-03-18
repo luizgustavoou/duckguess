@@ -3,7 +3,7 @@ import { IGuessApi } from "../guess-api";
 import { IGuessResponse } from "../models/IGuessResponse";
 
 export class GuessApiMock implements IGuessApi {
-  async getRandomGameGuess(): Promise<IGuessResponse[]> {
+  async getRandomGameGuess(themeId: string): Promise<IGuessResponse[]> {
     return guessMockResponse;
   }
 }

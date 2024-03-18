@@ -25,11 +25,15 @@ function GameTheme() {
         <p className="description">
           As adivinhações e dicas da partida baseará-se no tema escolhido.
         </p>
-        <ul className="themes">
+        <div className="themes">
           {themes?.map((theme) => (
-            <AppButton type="button" content={theme.value}></AppButton>
+            <AppButton
+              type="button"
+              content={theme.value}
+              key={theme.id}
+            ></AppButton>
           ))}
-        </ul>
+        </div>
       </div>
     </Game>
   );

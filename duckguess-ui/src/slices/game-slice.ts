@@ -35,7 +35,7 @@ const initialState: GameState = {
 
 export const startGame = createAsyncThunk<
   { guesses: IGuess[]; namePlayerOne: string; namePlayerTwo: string },
-  { namePlayerOne: string; namePlayerTwo: string },
+  { namePlayerOne: string; namePlayerTwo: string; themeId: string },
   {
     dispatch: AppDispatch;
     state: RootState;
@@ -43,8 +43,8 @@ export const startGame = createAsyncThunk<
   }
 >("game/start", async (data, thunkAPI) => {
   try {
-    const { namePlayerOne, namePlayerTwo } = data;
-    const res = await guessService.getRandomGameGuess();
+    const { namePlayerOne, namePlayerTwo, themeId } = data;
+    const res = await guessService.getRandomGameGuess(themeId);
 
     return { guesses: res, namePlayerOne, namePlayerTwo };
   } catch (error: any) {
@@ -78,7 +78,10 @@ export const gameSlice = createSlice({
     setChoose: (state, action: PayloadAction<"playerOne" | "playerTwo">) => {
       state.choose = action.payload;
     },
-    setPlayerTurn: (state, action: PayloadAction<"playerOne" | "playerTwo">) => {
+    setPlayerTurn: (
+      state,
+      action: PayloadAction<"playerOne" | "playerTwo">
+    ) => {
       state.playerTurn = action.payload;
     },
     increaseScorePlayerOne: (state, action: PayloadAction<number>) => {

@@ -5,9 +5,9 @@ import { IGuessService } from "../guess.service";
 export class GuessServiceImpl implements IGuessService {
   constructor(private readonly guessRepository: IGuessRepository) {}
 
-  async getRandomGameGuess(): Promise<IGuess[]> {
+  async getRandomGameGuess(themeId: string): Promise<IGuess[]> {
     try {
-      const res = await this.guessRepository.getRandomGameGuess();
+      const res = await this.guessRepository.getRandomGameGuess(themeId);
 
       return res;
     } catch (error) {
