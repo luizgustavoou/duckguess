@@ -9,7 +9,11 @@ Projeto desenvolvido para entrega do projeto final na disciplina Desenvolvimento
 ## Layout web
 
 
-https://github.com/luizgustavoou/duckguess/assets/89609312/79b05340-df1e-4d71-a660-599ab7868a8d
+
+
+https://github.com/luizgustavoou/duckguess/assets/89609312/27531141-340b-4abd-8bae-d23dad763112
+
+
 
 
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/d5150d7d-c2d5-4cd2-b0d8-0f201016b7ed)
