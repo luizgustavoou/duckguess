@@ -13,7 +13,7 @@ export default function Home() {
   const handlePlayClick = (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
-    navigate(RoutesPath.SELECT_PLAYERS);
+    navigate(RoutesPath.GAME_THEME);
   };
 
   const handleRulesClick = (

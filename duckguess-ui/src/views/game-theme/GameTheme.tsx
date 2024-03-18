@@ -4,8 +4,15 @@ import "./GameTheme.css";
 import { ITheme } from "../../entities/ITheme";
 import { themeService } from "../../services";
 import AppButton from "../../components/form/AppButton";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { getRandomGameGuess } from "../../slices/game-slice";
+import { useAppNavigate } from "../../hooks/useAppNavigate";
+import { RoutesPath } from "../../utils/routes-path";
 
 function GameTheme() {
+  const dispatch = useAppDispatch();
+  const navigate = useAppNavigate();
+
   const [themes, setThemes] = useState<ITheme[]>();
 
   useEffect(() => {
@@ -18,6 +25,12 @@ function GameTheme() {
     getAllThemes();
   }, []);
 
+  const loadGame = async (theme: ITheme) => {
+    await dispatch(getRandomGameGuess({ themeId: theme.id }));
+
+    navigate(RoutesPath.SELECT_PLAYERS);
+  };
+
   return (
     <Game>
       <div className="game-theme">
@@ -28,6 +41,7 @@ function GameTheme() {
         <div className="themes">
           {themes?.map((theme) => (
             <AppButton
+              onClick={(e) => loadGame(theme)}
               type="button"
               content={theme.value}
               key={theme.id}

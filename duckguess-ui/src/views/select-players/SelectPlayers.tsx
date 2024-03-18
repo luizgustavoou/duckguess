@@ -11,8 +11,7 @@ import { RoutesPath } from "../../utils/routes-path";
 import Game from "../game/Game";
 import AppButton from "../../components/form/AppButton";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { resetGame, selectGame, startGame } from "../../slices/game-slice";
-import { useAppSelector } from "../../hooks/useAppSelector";
+import { setPlayers } from "../../slices/game-slice";
 
 interface IFormInput {
   playerOne: string;
@@ -40,12 +39,11 @@ export default function SelectPlayers() {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    // TODO: Passar o ID do tema escolhido para a função startGame.
+    // TODO: Passar o ID do tema escolhido para a função getRandomGameGuess.
     await dispatch(
-      startGame({
+      setPlayers({
         namePlayerOne: data.playerOne,
         namePlayerTwo: data.playerTwo,
-        themeId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       })
     );
 

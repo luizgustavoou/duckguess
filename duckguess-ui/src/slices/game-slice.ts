@@ -33,20 +33,20 @@ const initialState: GameState = {
   guess: null,
 };
 
-export const startGame = createAsyncThunk<
-  { guesses: IGuess[]; namePlayerOne: string; namePlayerTwo: string },
-  { namePlayerOne: string; namePlayerTwo: string; themeId: string },
+export const getRandomGameGuess = createAsyncThunk<
+  { guesses: IGuess[] },
+  { themeId: string },
   {
     dispatch: AppDispatch;
     state: RootState;
     rejectValue: string;
   }
->("game/start", async (data, thunkAPI) => {
+>("game/guesses", async (data, thunkAPI) => {
   try {
-    const { namePlayerOne, namePlayerTwo, themeId } = data;
+    const { themeId } = data;
     const res = await guessService.getRandomGameGuess(themeId);
 
-    return { guesses: res, namePlayerOne, namePlayerTwo };
+    return { guesses: res };
   } catch (error: any) {
     console.log({ error });
     let errorMessage = "Ocorreu algum erro. Por favor, tente mais tarde.";
@@ -68,6 +68,15 @@ export const gameSlice = createSlice({
       state.status = "idle";
       state.message = null;
       state.guess = null;
+    },
+    setPlayers: (
+      state,
+      action: PayloadAction<{ namePlayerOne: string; namePlayerTwo: string }>
+    ) => {
+      const { namePlayerOne, namePlayerTwo } = action.payload;
+
+      state.playerOne.name = namePlayerOne;
+      state.playerTwo.name = namePlayerTwo;
     },
     resetGuess: (state) => {
       state.guess = null;
@@ -103,17 +112,16 @@ export const gameSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(startGame.pending, (state, _) => {
+      .addCase(getRandomGameGuess.pending, (state, _) => {
         state.status = "loading";
       })
-      .addCase(startGame.fulfilled, (state, action) => {
+      .addCase(getRandomGameGuess.fulfilled, (state, action) => {
         state.status = "playing";
         state.guesses = action.payload.guesses;
-        state.playerOne.name = action.payload.namePlayerOne;
-        state.playerTwo.name = action.payload.namePlayerTwo;
+
         state.choose = "playerOne";
       })
-      .addCase(startGame.rejected, (state, action) => {
+      .addCase(getRandomGameGuess.rejected, (state, action) => {
         state.status = "error";
         state.message = action.payload as string;
       });
@@ -129,6 +137,7 @@ export const {
   setGuessOpened,
   resetGuess,
   setPlayerTurn,
+  setPlayers,
 } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.gameReducer;
