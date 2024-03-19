@@ -1,0 +1,13 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.login img {
+    width: 21em;
+    background-color: var(--button-color);
+    border-radius: 3rem;
+}

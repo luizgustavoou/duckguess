@@ -21,6 +21,12 @@ export default function Home() {
     navigate(RoutesPath.RULES);
   };
 
+  const handleLoginClick = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    navigate(RoutesPath.LOGIN);
+  };
+
   return (
     <div className="home">
       <h1>Jogo das três pistas</h1>
@@ -30,6 +36,7 @@ export default function Home() {
       <div className="actions">
         <AppButton content="Jogar" type="button" onClick={handlePlayClick} />
         <AppButton content="Regras" type="button" onClick={handleRulesClick} />
+        <AppButton content="Login" type="button" onClick={handleLoginClick} />
       </div>
     </div>
   );
