@@ -9,7 +9,7 @@ import { getRandomGameGuess } from "../../slices/game-slice";
 import { useAppNavigate } from "../../hooks/useAppNavigate";
 import { RoutesPath } from "../../utils/routes-path";
 
-function GameTheme() {
+export default function GameTheme() {
   const dispatch = useAppDispatch();
   const navigate = useAppNavigate();
 
@@ -52,5 +52,3 @@ function GameTheme() {
     </Game>
   );
 }
-
-export default GameTheme;

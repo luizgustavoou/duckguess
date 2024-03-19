@@ -6,7 +6,7 @@ import "./Rules.css";
 import { MouseEvent } from "react";
 import DuckRuler from "../../assets/duck-ruler.webp"
 
-function Rules() {
+export default function Rules() {
   const navigate = useAppNavigate();
 
   const handleClick = (
@@ -30,5 +30,3 @@ function Rules() {
     </Game>
   );
 }
-
-export default Rules;

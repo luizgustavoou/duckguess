@@ -5,8 +5,6 @@ interface GameProps {
   children: ReactElement;
 }
 
-function Game({ children }: GameProps) {
+export default function Game({ children }: GameProps) {
   return <div className="game">{children}</div>;
 }
-
-export default Game;

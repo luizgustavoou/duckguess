@@ -18,7 +18,7 @@ import { RoutesPath } from "../../utils/routes-path";
 import { useEffect, useMemo } from "react";
 import CardOpened from "../../components/CardOpened";
 
-function GameChoose() {
+export default function GameChoose() {
   const { guesses, choose, playerOne, playerTwo } = useAppSelector(selectGame);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -77,5 +77,3 @@ function GameChoose() {
     </Game>
   );
 }
-
-export default GameChoose;

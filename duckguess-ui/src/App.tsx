@@ -18,6 +18,8 @@ import { useAppSelector } from "./hooks/useAppSelector";
 import { selectGame } from "./slices/game-slice";
 import GameWrongAnswer from "./views/game-wrong-answer/GameWrongAnswer";
 import GameTheme from "./views/game-theme/GameTheme";
+import Login from "./views/login/Login";
+import RegisterGuess from "./views/register-guess/RegisterGuess";
 
 export default function App() {
   const { status } = useAppSelector(selectGame);
@@ -33,6 +35,14 @@ export default function App() {
               element={<Navigate to={RoutesPath.HOME} />}
             />
             <Route path={RoutesPath.HOME} element={<Home />} />
+            <Route 
+              path={RoutesPath.LOGIN}
+              element={<Login />}
+            />
+            <Route 
+              path={RoutesPath.REGISTER_GUESS}
+              element={<RegisterGuess />}
+            />
             <Route
               path={RoutesPath.SELECT_PLAYERS}
               element={<SelectPlayers />}

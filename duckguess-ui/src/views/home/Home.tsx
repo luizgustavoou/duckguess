@@ -1,7 +1,6 @@
 import "./Home.css";
 import logo from "../../assets/duck-sing-removebg-preview.png";
 import AppButton from "../../components/form/AppButton";
-import { useNavigate } from "react-router-dom";
 import { RoutesPath } from "../../utils/routes-path";
 
 import { MouseEvent } from "react";

@@ -8,7 +8,7 @@ import { useAppNavigate } from "../../hooks/useAppNavigate";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { resetGuess } from "../../slices/game-slice";
 
-function GameCorrectAnswer() {
+export default function GameCorrectAnswer() {
   const navigate = useAppNavigate();
   const dispatch = useAppDispatch();
 
@@ -36,5 +36,3 @@ function GameCorrectAnswer() {
     </>
   );
 }
-
-export default GameCorrectAnswer;

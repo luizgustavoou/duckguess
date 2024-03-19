@@ -10,7 +10,7 @@ import { RoutesPath } from "../../utils/routes-path";
 import { useAppNavigate } from "../../hooks/useAppNavigate";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 
-function GameResult() {
+export default function GameResult() {
 
   const { playerOne, playerTwo } = useAppSelector(selectGame);
 
@@ -67,5 +67,3 @@ function GameResult() {
     </>
   );
 }
-
-export default GameResult;
