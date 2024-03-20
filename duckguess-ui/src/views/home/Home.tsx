@@ -36,7 +36,7 @@ export default function Home() {
       <div className="actions">
         <AppButton content="Jogar" type="button" onClick={handlePlayClick} />
         <AppButton content="Regras" type="button" onClick={handleRulesClick} />
-        <AppButton content="Login" type="button" onClick={handleLoginClick} />
+        <AppButton content="Admin" type="button" onClick={handleLoginClick} />
       </div>
     </div>
   );

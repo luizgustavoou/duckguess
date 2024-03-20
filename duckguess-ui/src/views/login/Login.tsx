@@ -10,10 +10,16 @@ export default function Login() {
 
     const navigate = useAppNavigate();
 
-    const handleSubmit = (
+    const handleLoginClick = (
         e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
     ) => {
         navigate(RoutesPath.REGISTER_GUESS);
+    }
+
+    const handleBackClick = (
+        e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    ) => {
+        navigate(RoutesPath.HOME);
     }
 
     return(
@@ -32,7 +38,12 @@ export default function Login() {
                 <AppButton
                     content={"Login"}
                     type={"button"}
-                    onClick={handleSubmit}
+                    onClick={handleLoginClick}
+                />
+                <AppButton
+                    content={"Voltar"}
+                    type={"button"}
+                    onClick={handleBackClick}
                 />
             </div>
         </Game>
