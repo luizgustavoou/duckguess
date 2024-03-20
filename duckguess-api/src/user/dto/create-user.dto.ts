@@ -1,4 +1,5 @@
 import {
+  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -10,6 +11,7 @@ import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
   @IsNotEmpty()
+  @IsEmail()
   email: string;
 
   @MinLength(5)
