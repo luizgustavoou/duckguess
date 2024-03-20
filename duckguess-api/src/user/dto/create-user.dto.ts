@@ -19,7 +19,7 @@ export class CreateUserDto {
   password: string;
 
   @IsOptional()
-  // @Transform(({ value }) => ('' + value).toLowerCase())
+  @Transform(({ value }) => ('' + value).toLowerCase())
   @IsEnum(UserRole)
   roleUser: UserRole;
 }
