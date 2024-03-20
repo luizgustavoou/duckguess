@@ -9,7 +9,9 @@ export abstract class UserService {
 
   abstract findAll(): Promise<User[]>;
 
-  abstract findOne(id: string): Promise<User>;
+  abstract findOneById(id: string): Promise<User>;
+
+  abstract findOneByEmail(email: string): Promise<User>;
 
   abstract update(id: string, updateHintDto: UpdateUserDto): Promise<User>;
 

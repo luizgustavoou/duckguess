@@ -41,8 +41,14 @@ export class UserServiceImpl implements UserService {
     return users;
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOneById(id: string): Promise<User> {
     const user = await this.userRepository.findOneBy({ id });
+
+    return user;
+  }
+
+  async findOneByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOneBy({ email });
 
     return user;
   }

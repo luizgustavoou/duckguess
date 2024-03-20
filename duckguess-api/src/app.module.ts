@@ -6,6 +6,7 @@ import { GuessModule } from './guess/guess.module';
 import { HintModule } from './hint/hint.module';
 import { ThemeModule } from './theme/theme.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,13 +24,11 @@ import { UserModule } from './user/user.module';
     HintModule,
     ThemeModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements OnModuleInit{
-  async onModuleInit() {
-    
-    
-  }
+export class AppModule implements OnModuleInit {
+  async onModuleInit() {}
 }
