@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GuessModule } from './guess/guess.module';
 import { HintModule } from './hint/hint.module';
 import { ThemeModule } from './theme/theme.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -21,12 +22,14 @@ import { ThemeModule } from './theme/theme.module';
     GuessModule,
     HintModule,
     ThemeModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements OnModuleInit{
   async onModuleInit() {
+    
     
   }
 }
