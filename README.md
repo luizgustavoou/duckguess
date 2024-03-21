@@ -28,7 +28,11 @@ https://github.com/luizgustavoou/duckguess/assets/89609312/27531141-340b-4abd-8b
 
 <!-- ## Modelo conceitual -->
 ## :books: Funcionalidades
-* Game;
+* Autenticação;
+* Escolher tema da partida;
+* Escolher dois jogadores para se enfretarem;
+* Adivinhar respostas e receber dicas;
+* Pontuação inversamente proporcional à quantidade de dicas recebidas;
 
 # :wrench: Tecnologias utilizadas
 ## Back end
@@ -75,8 +79,6 @@ docker compose up -d
 ```
 
 ## :soon: Implementação futura
-- Construir tela para o administrador para poder manter as adivinhações e dicas;
-- Permitir ao usuário escolher o tema do jogo. Exemplo de temas: Computação, conhecimento geral, histório, geografia, matemática, etc;
 - Mostrar lista de ranking dos usuários;
 - Mostrar histórico de partidas dos usuários;
 
