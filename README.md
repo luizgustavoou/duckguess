@@ -29,8 +29,8 @@ https://github.com/luizgustavoou/duckguess/assets/89609312/27531141-340b-4abd-8b
 <!-- ## Modelo conceitual -->
 ## :books: Funcionalidades
 * Autenticação;
-* Escolher tema da partida;
-* Escolher dois jogadores para se enfretarem;
+* Escolher tema das adivinhações da partida;
+* Escolher dois jogadores para se enfrentarem na partida;
 * Adivinhar respostas e receber dicas;
 * Pontuação inversamente proporcional à quantidade de dicas recebidas;
 
