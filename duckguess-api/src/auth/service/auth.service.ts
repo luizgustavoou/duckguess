@@ -1,4 +1,5 @@
 import { User } from 'src/user/entities/user.entity';
+import { SignupDto } from '../dtos/signup.dto';
 
 export abstract class AuthService {
   abstract validateUser(
@@ -6,7 +7,9 @@ export abstract class AuthService {
     pass: string,
   ): Promise<Omit<User, 'password'>>;
 
-  abstract login(
+  abstract signin(
     user: Omit<User, 'password'>,
   ): Promise<{ access_token: string }>;
+
+  abstract signup(signupDto: SignupDto): Promise<User>;
 }
