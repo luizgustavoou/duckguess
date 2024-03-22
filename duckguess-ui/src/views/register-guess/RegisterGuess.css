@@ -1,18 +1,6 @@
-.register-guess-body {
-    width: 40rem;
-    height: 34rem;
-    background-color: var(--primary-color);
-    padding-top: 2rem;
-    border-radius: 4rem;
-}
-
 .register-guess {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.register-guess img {
-    width: 12rem;
+    min-width: 30rem;
+    padding: 2rem;
+    background: var(--primary-color);
+    border-radius: 2rem;
 }

@@ -1,0 +1,56 @@
+.card-guess-registered {
+}
+
+.card-guess-registered:hover
+    input[type="checkbox"]:not(:checked)
+    + .header
+    > i{
+        animation: move-arrow 0.6s ease infinite;
+    }
+
+.card-guess-registered .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 40px;
+    padding: 0.6rem;
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.card-guess-registered input{
+    display: none;
+}
+
+.card-guess-registered .content{
+    overflow: hidden;
+    height: 0px;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    background-color: rgb(137, 137, 230);
+    transition: all 0.6s ease;
+}
+
+.card-guess-registered .content .hint{
+    padding: 1rem;
+    width: auto; 
+}
+
+.card-guess-registered input[type="checkbox"]:checked ~ .content {
+    height: auto;
+}
+
+.card-guess-registered input[type="checkbox"]:checked + .header > i {
+    transform: rotate(180deg);
+}
+
+@keyframes move-arrow {
+    25% {
+      transform: translateY(5px);
+    }
+  
+    75% {
+      transform: translateY(0);
+    }
+  }
