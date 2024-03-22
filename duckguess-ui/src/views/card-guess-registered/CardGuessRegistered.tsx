@@ -1,6 +1,6 @@
 import { IGuess } from "../../entities/IGuess"
 import "./CardGuessRegistered.css"
-import { AiOutlineArrowDown } from "react-icons/ai";
+import { HiOutlineChevronDown } from "react-icons/hi";
 
 interface CardGuessRegisteredProps {
     guess: IGuess;
@@ -12,7 +12,7 @@ export default function CardGuessRegistered({ guess }: CardGuessRegisteredProps)
             <input type="checkbox" id={guess.id} />
             <label className="header" htmlFor={guess.id} >
                 <span>{guess.answer}</span>
-                <i><AiOutlineArrowDown /></i>
+                <i><HiOutlineChevronDown /></i>
             </label>
             <div className="content">
                 {guess.hints && (guess.hints.map((hint) => {

@@ -1,6 +1,10 @@
 import Game from "../game/Game";
 import "./RegisterGuess.css"
 import CardGuessRegistered from "../card-guess-registered/CardGuessRegistered";
+import { useState } from "react";
+import FormRegisterGuess from "../form-register-guess/FormRegisterGuess";
+import { HiOutlineX } from "react-icons/hi";
+import { HiPlus } from "react-icons/hi";
 
 export default function RegisterGuess() {
     const guessMoc = [
@@ -62,16 +66,36 @@ export default function RegisterGuess() {
             opened: true,
           }
     ]
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const controlModal = () => {
+        setModalOpen(!modalOpen);
+    }
+
     return(
         <Game>
             <div className="register-guess">
-                {guessMoc && (guessMoc.map((guess) => {
-                    return(
-                        <>
-                            <CardGuessRegistered guess={guess} />
-                        </>
-                    )
-                }))}
+              <button onClick={controlModal}><HiPlus />Adicionar Guess</button>
+              <div className="register-guess-body">
+                  {guessMoc && (guessMoc.map((guess) => {
+                      return(
+                          <>
+                              <CardGuessRegistered guess={guess} />
+                          </>
+                      )
+                  }))}
+              </div>
+              {modalOpen && (
+                <div className="register-guess-modal-overlay">
+                  <div className="exit">
+                    <button onClick={controlModal}>
+                      <HiOutlineX size={30} />
+                    </button>
+                  </div>
+                  <FormRegisterGuess />
+                </div>
+              )}
             </div>
         </Game>
     )

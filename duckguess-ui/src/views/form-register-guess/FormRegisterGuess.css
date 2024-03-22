@@ -1,0 +1,15 @@
+.form-register-guess {
+    width: 40rem;
+    height: 34rem;
+    background-color: var(--primary-color);
+    padding-top: 2rem;
+    border-radius: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-register-guess img {
+    width: 12rem;
+}
