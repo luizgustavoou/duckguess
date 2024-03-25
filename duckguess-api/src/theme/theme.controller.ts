@@ -11,6 +11,7 @@ import {
 import { CreateThemeDto } from './dto/create-theme.dto';
 import { UpdateThemeDto } from './dto/update-theme.dto';
 import { ThemeService } from './services/theme.service';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('theme')
 export class ThemeController {
@@ -21,6 +22,7 @@ export class ThemeController {
     return this.themeService.create(createThemeDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.themeService.findAll();
@@ -31,6 +33,7 @@ export class ThemeController {
     return this.themeService.findOne(id);
   }
 
+  @Public()
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -39,6 +42,7 @@ export class ThemeController {
     return this.themeService.update(id, updateThemeDto);
   }
 
+  @Public()
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.themeService.remove(id);

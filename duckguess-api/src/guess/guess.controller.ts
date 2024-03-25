@@ -8,13 +8,12 @@ import {
   Delete,
   ParseUUIDPipe,
   Query,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
 import { GuessService } from './services/guess.service';
 import { IPaginationDto } from './dto/IPaginationDto';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('guess')
 export class GuessController {
@@ -25,6 +24,7 @@ export class GuessController {
     return this.guessService.create(createGuessDto);
   }
 
+  @Public()
   @Get()
   findAll(@Query() paginationDto: IPaginationDto) {
     return this.guessService.findAll(paginationDto);
@@ -35,6 +35,7 @@ export class GuessController {
     return this.guessService.findOne(id);
   }
 
+  @Public()
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -43,6 +44,7 @@ export class GuessController {
     return this.guessService.update(id, updateGuessDto);
   }
 
+  @Public()
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.guessService.remove(id);

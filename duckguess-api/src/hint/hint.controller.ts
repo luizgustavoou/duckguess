@@ -12,6 +12,7 @@ import {
 import { CreateHintDto } from './dto/create-hint.dto';
 import { UpdateHintDto } from './dto/update-hint.dto';
 import { HintService } from './services/hint.service';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('hint')
 export class HintController {
@@ -22,11 +23,13 @@ export class HintController {
     return this.hintService.create(createGuessDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.hintService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.hintService.findOne(id);
