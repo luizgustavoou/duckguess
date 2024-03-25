@@ -21,5 +21,5 @@ export class CreateUserDto {
   @IsOptional()
   @Transform(({ value }) => ('' + value).toLowerCase())
   @IsEnum(UserRole)
-  roleUser: UserRole;
+  role: UserRole;
 }

@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { ThemeController } from './theme.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Theme } from './entities/theme.entity';
-import { ThemeService } from './services/theme.service';
-import { ThemeServiceImpl } from './services/impl/theme.impl.service';
+import { ThemeService, ThemeServiceImpl } from './theme.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Theme])],

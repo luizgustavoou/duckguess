@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { CreateThemeDto } from './dto/create-theme.dto';
 import { UpdateThemeDto } from './dto/update-theme.dto';
-import { ThemeService } from './services/theme.service';
 import { Public } from 'src/decorators/public.decorator';
 import { UserRole } from 'src/user/enums/user-role';
 import { Roles } from 'src/decorators/roles.decorator';
+import { ThemeService } from './theme.service';
 
 @Controller('theme')
 export class ThemeController {

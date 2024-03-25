@@ -3,8 +3,19 @@ import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { Theme } from 'src/theme/entities/theme.entity';
 import { CreateThemeDto } from 'src/theme/dto/create-theme.dto';
-import { ThemeService } from '../theme.service';
 import { UpdateThemeDto } from 'src/theme/dto/update-theme.dto';
+
+export abstract class ThemeService {
+  abstract create(createThemeDto: CreateThemeDto): Promise<Theme>;
+
+  abstract findAll(): Promise<Theme[]>;
+
+  abstract findOne(id: string): Promise<Theme>;
+
+  abstract update(id: string, updateThemeDto: UpdateThemeDto): Promise<Theme>;
+
+  abstract remove(id: string): Promise<void>;
+}
 
 export class ThemeServiceImpl implements ThemeService {
   constructor(

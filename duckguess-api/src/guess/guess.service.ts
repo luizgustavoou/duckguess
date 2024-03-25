@@ -1,13 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateGuessDto } from '../../dto/create-guess.dto';
-import { UpdateGuessDto } from '../../dto/update-guess.dto';
+import { CreateGuessDto } from './dto/create-guess.dto';
+import { UpdateGuessDto } from './dto/update-guess.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Guess } from 'src/guess/entities/guess.entity';
 import { Repository } from 'typeorm';
-import { GuessService } from '../guess.service';
 import { IPaginationDto } from 'src/guess/dto/IPaginationDto';
-import { ThemeService } from 'src/theme/services/theme.service';
+import { ThemeService } from 'src/theme/theme.service';
 
+export abstract class GuessService {
+  abstract create(createGuessDto: CreateGuessDto): Promise<Guess>;
+
+  abstract findAll(paginationDto: IPaginationDto): Promise<Guess[]>;
+
+  abstract findOne(id: string): Promise<Guess>;
+
+  abstract update(id: string, updateGuessDto: UpdateGuessDto): Promise<Guess>;
+
+  abstract remove(id: string): Promise<void>;
+}
 @Injectable()
 export class GuessServiceImpl implements GuessService {
   constructor(

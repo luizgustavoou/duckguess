@@ -3,8 +3,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { GuessModule } from 'src/guess/guess.module';
-import { HintService } from './services/hint.service';
-import { HintServiceImpl } from './services/impl/hint.impl.service';
+import { HintService, HintServiceImpl } from './hint.service';
 import { Hint } from './entities/hint.entity';
 import { HintController } from './hint.controller';
 

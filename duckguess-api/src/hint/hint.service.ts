@@ -5,11 +5,22 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { GuessService } from 'src/guess/services/guess.service';
-import { HintService } from '../hint.service';
 import { CreateHintDto } from 'src/hint/dto/create-hint.dto';
 import { Hint } from 'src/hint/entities/hint.entity';
 import { UpdateHintDto } from 'src/hint/dto/update-hint.dto';
+import { GuessService } from 'src/guess/guess.service';
+
+export abstract class HintService {
+  abstract create(createHintDto: CreateHintDto): Promise<Hint>;
+
+  abstract findAll(): Promise<Hint[]>;
+
+  abstract findOne(id: string): Promise<Hint>;
+
+  abstract update(id: string, updateHintDto: UpdateHintDto): Promise<Hint>;
+
+  abstract remove(id: string): Promise<void>;
+}
 
 export class HintServiceImpl implements HintService {
   constructor(

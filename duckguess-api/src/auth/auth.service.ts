@@ -1,9 +1,21 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { AuthService } from '../auth.service';
-import { UserService } from 'src/user/services/user.service';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entities/user.entity';
 import { SignupDto } from 'src/auth/dtos/signup.dto';
+import { UserService } from 'src/user/user.service';
+
+export abstract class AuthService {
+  abstract validateUser(
+    email: string,
+    pass: string,
+  ): Promise<Omit<User, 'password'>>;
+
+  abstract signin(
+    user: Omit<User, 'password'>,
+  ): Promise<{ access_token: string }>;
+
+  abstract signup(signupDto: SignupDto): Promise<User>;
+}
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {

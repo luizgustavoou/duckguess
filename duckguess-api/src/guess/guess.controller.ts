@@ -11,11 +11,11 @@ import {
 } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
-import { GuessService } from './services/guess.service';
 import { IPaginationDto } from './dto/IPaginationDto';
 import { Public } from 'src/decorators/public.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'src/user/enums/user-role';
+import { GuessService } from './guess.service';
 
 @Controller('guess')
 export class GuessController {

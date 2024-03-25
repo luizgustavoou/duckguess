@@ -11,10 +11,10 @@ import {
 
 import { CreateHintDto } from './dto/create-hint.dto';
 import { UpdateHintDto } from './dto/update-hint.dto';
-import { HintService } from './services/hint.service';
 import { Public } from 'src/decorators/public.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'src/user/enums/user-role';
+import { HintService } from './hint.service';
 
 @Controller('hint')
 export class HintController {

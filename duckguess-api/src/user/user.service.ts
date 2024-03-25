@@ -1,22 +1,30 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  BadRequestException,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { User } from 'src/user/entities/user.entity';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
-import { UserService } from '../user.service';
 
+export abstract class UserService {
+  abstract create(createHintDto: CreateUserDto): Promise<User>;
+
+  abstract findAll(): Promise<User[]>;
+
+  abstract findOneById(id: string): Promise<User>;
+
+  abstract findOneByEmail(email: string): Promise<User>;
+
+  abstract update(id: string, updateHintDto: UpdateUserDto): Promise<User>;
+
+  abstract remove(id: string): Promise<void>;
+}
 export class UserServiceImpl implements UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { email, password, roleUser } = createUserDto;
+    const { email, password, role } = createUserDto;
 
     const user = await this.userRepository.findOneBy({ email });
 
@@ -29,7 +37,7 @@ export class UserServiceImpl implements UserService {
     const newUser = await this.userRepository.save({
       email,
       password,
-      roleUser,
+      role,
     });
 
     return newUser;
