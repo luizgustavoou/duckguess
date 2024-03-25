@@ -24,7 +24,7 @@ export class HintRepositoryImpl implements HintRepository {
   async create(createHintDto: CreateHintDto): Promise<Hint> {
     const { text, guessId } = createHintDto;
 
-    const hint = await this.repository.save({ text, guessId });
+    const hint = await this.repository.save({ text, guess: { id: guessId } });
 
     return hint;
   }

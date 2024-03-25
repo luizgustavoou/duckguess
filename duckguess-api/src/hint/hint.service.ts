@@ -27,11 +27,8 @@ export abstract class HintService {
 export class HintServiceImpl implements HintService {
   constructor(
     private readonly repository: HintRepository,
-    // @InjectRepository(Hint) private repository: Repository<Hint>,
     private readonly guessService: GuessService,
-  ) {
-    console.log({ repository });
-  }
+  ) {}
 
   async create(createHintDto: CreateHintDto): Promise<Hint> {
     const { text, guessId } = createHintDto;

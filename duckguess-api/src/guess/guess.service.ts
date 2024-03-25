@@ -34,7 +34,7 @@ export class GuessServiceImpl implements GuessService {
       throw new NotFoundException('Tema não encontrado.');
     }
 
-    const guess = await this.guessRepository.save({ answer, theme });
+    const guess = await this.guessRepository.save({ answer, themeId });
 
     return guess;
   }
