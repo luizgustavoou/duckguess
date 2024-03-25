@@ -14,11 +14,14 @@ import { UpdateGuessDto } from './dto/update-guess.dto';
 import { GuessService } from './services/guess.service';
 import { IPaginationDto } from './dto/IPaginationDto';
 import { Public } from 'src/decorators/public.decorator';
+import { Roles } from 'src/decorators/roles.decorator';
+import { UserRole } from 'src/user/enums/user-role';
 
 @Controller('guess')
 export class GuessController {
   constructor(private readonly guessService: GuessService) {}
 
+  @Roles([UserRole.ADMIN])
   @Post()
   create(@Body() createGuessDto: CreateGuessDto) {
     return this.guessService.create(createGuessDto);
@@ -30,12 +33,13 @@ export class GuessController {
     return this.guessService.findAll(paginationDto);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.guessService.findOne(id);
   }
 
-  @Public()
+  @Roles([UserRole.ADMIN])
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -44,7 +48,7 @@ export class GuessController {
     return this.guessService.update(id, updateGuessDto);
   }
 
-  @Public()
+  @Roles([UserRole.ADMIN])
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.guessService.remove(id);
