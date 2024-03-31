@@ -1,15 +1,27 @@
+.form-register-guess header {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.form-register-guess header button {
+  cursor: pointer;
+}
+
 .form-register-guess {
-    width: 40rem;
-    height: 34rem;
-    background-color: var(--primary-color);
-    padding-top: 2rem;
-    border-radius: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  width: 600px;
+  max-width: 70%;
+
+  background-color: var(--primary-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 4rem;
 }
 
 .form-register-guess img {
-    width: 12rem;
+  max-width: 100%;
+  width: 200px;
 }

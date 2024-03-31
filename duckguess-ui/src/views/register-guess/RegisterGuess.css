@@ -1,9 +1,10 @@
 .register-guess {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .register-guess-body {
-  min-width: 30rem;
-  padding: 2rem;
   background: var(--primary-color);
   border-radius: 2rem;
 }
@@ -20,10 +21,4 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.exit {
-  display: flex;
-  justify-content: flex-end;
-  width: 75%;
 }
