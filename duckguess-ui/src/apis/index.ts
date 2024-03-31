@@ -1,3 +1,4 @@
+import { AuthApiImpl, IAuthApi } from "./auth/auth.api";
 import { IGuessApi } from "./guess/guess-api";
 import { GuessApiImpl } from "./guess/impl/guess-impl.api";
 import { GuessApiMock } from "./guess/impl/guess-mock.api";
@@ -13,4 +14,6 @@ const themeApiMock: IThemeApi = new ThemeApiMock();
 
 const themeApi: IThemeApi = new ThemeApiImpl();
 
-export { guessApi, guessApiMock, themeApi, themeApiMock };
+const authApi: IAuthApi = new AuthApiImpl();
+
+export { guessApi, guessApiMock, themeApi, themeApiMock, authApi };

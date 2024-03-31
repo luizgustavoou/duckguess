@@ -1,4 +1,5 @@
-import { guessApiMock, themeApiMock } from "../apis";
+import { authApi, guessApiMock, themeApiMock } from "../apis";
+import { AuthRepositoryImpl, IAuthRepository } from "./auth/auth.repository";
 import { IGuessRepository } from "./guess/guess.repository";
 import { GuessRepositoryImpl } from "./guess/impl/guess-impl.repository";
 import { IThemeRepository } from "./theme/impl/theme-repository";
@@ -8,4 +9,6 @@ const guessRepository: IGuessRepository = new GuessRepositoryImpl(guessApiMock);
 
 const themeRepository: IThemeRepository = new ThemeRepositoryImpl(themeApiMock);
 
-export { guessRepository, themeRepository };
+const authRepository: IAuthRepository = new AuthRepositoryImpl(authApi);
+
+export { guessRepository, themeRepository, authRepository };
