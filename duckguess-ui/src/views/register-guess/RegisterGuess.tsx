@@ -3,7 +3,7 @@ import "./RegisterGuess.css";
 import CardGuessRegistered from "../card-guess-registered/CardGuessRegistered";
 import { useState } from "react";
 import FormRegisterGuess from "../form-register-guess/FormRegisterGuess";
-import { HiOutlineX } from "react-icons/hi";
+import { HiOutlineChevronDown } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi";
 import AppButton from "../../components/form/AppButton";
 
@@ -83,15 +83,25 @@ export default function RegisterGuess() {
           onClick={controlModal}
         ></AppButton>
 
-        <div className="register-guess-body">
-          {guessMoc &&
-            guessMoc.map((guess) => {
-              return (
-                <>
-                  <CardGuessRegistered guess={guess} />
-                </>
-              );
-            })}
+        <div className="accordions-list">
+          <div className="accordion">
+            {guessMoc.map((guess) => (
+              <div className="accordion-item">
+                <input type="checkbox" id={guess.id} />
+
+                <label className="header" htmlFor={guess.id}>
+                  <span>{guess.answer}</span>
+                  <HiOutlineChevronDown></HiOutlineChevronDown>
+                </label>
+
+                <div className="accordion-content">
+                  {guess.hints.map((hint) => (
+                    <div className="hint">{hint.text}</div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         {modalOpen && (
           <div className="register-guess-modal-overlay">

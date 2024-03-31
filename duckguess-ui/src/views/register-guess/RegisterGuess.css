@@ -1,12 +1,11 @@
 .register-guess {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
-}
-
-.register-guess-body {
-  background: var(--primary-color);
-  border-radius: 2rem;
+  padding: 2rem;
 }
 
 .register-guess-modal-overlay {
@@ -21,4 +20,76 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.accordions-list {
+  width: 100%;
+}
+
+.accordion {
+  background-color: rgb(104, 104, 231);
+  border-radius: 10px;
+}
+
+.accordion .accordion-item {
+}
+
+.accordion .accordion-item .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.6rem;
+}
+
+.accordion .accordion-item input {
+  display: none;
+}
+
+.accordion .accordion-item .header {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.accordion .accordion-item .header {
+  cursor: pointer;
+}
+
+.accordion
+  .accordion-item:hover
+  input[type="checkbox"]:not(:checked)
+  + .header
+  > i {
+  animation: move-arrow 0.6s ease infinite;
+}
+
+.accordion .accordion-item .accordion-content {
+  overflow: hidden;
+  height: 0px;
+  color: #fff;
+  font-size: 1.2rem;
+  background-color: rgb(137, 137, 230);
+  transition: all 0.6s ease;
+}
+
+.accordion .accordion-item input[type="checkbox"]:checked ~ .accordion-content {
+  height: 100px;
+}
+
+.accordion .accordion-item input[type="checkbox"]:checked + .header > i {
+  transform: rotate(180deg);
+}
+
+.accordion .accordion-item .accordion-content .hint {
+  padding: 1rem;
+}
+
+@keyframes move-arrow {
+  25% {
+    transform: translateY(5px);
+  }
+
+  75% {
+    transform: translateY(0);
+  }
 }
