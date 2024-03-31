@@ -28,7 +28,7 @@ function parseJwtToUser(decoded: IJwtDecoded) {
 
 interface IUserState {
   status: "idle" | "loading" | "success" | "error";
-  user: IUserAuth| null;
+  user: IUserAuth | null;
 }
 
 const accessToken = storageService.getItem("accessToken");
@@ -95,6 +95,6 @@ export const authSlice = createSlice({
 
 export const {} = authSlice.actions;
 
-export const selectAuth = (state: RootState) => state.gameReducer;
+export const selectAuth = (state: RootState) => state.authReducer;
 
 export default authSlice.reducer;

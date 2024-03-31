@@ -1,6 +1,6 @@
-import axios from "axios";
 import { ISigninParams } from "../../types/ISigninParams";
 import { IAuthResponse } from "./models/IAuthResponse";
+import { api } from "../../network/api";
 
 export interface IAuthApi {
   signin(params: ISigninParams): Promise<IAuthResponse>;
@@ -8,7 +8,7 @@ export interface IAuthApi {
 
 export class AuthApiImpl implements IAuthApi {
   async signin(params: ISigninParams): Promise<IAuthResponse> {
-    const res = await axios.post("/auth/signin", params);
+    const res = await api.post("/auth/signin", params);
 
     const data = res.data;
 
