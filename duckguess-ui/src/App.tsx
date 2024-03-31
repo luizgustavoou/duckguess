@@ -20,9 +20,12 @@ import GameWrongAnswer from "./views/game-wrong-answer/GameWrongAnswer";
 import GameTheme from "./views/game-theme/GameTheme";
 import Login from "./views/login/Login";
 import RegisterGuess from "./views/register-guess/RegisterGuess";
+import { useAuth } from "./hooks/useAuth";
 
 export default function App() {
   const { status } = useAppSelector(selectGame);
+
+  const { auth } = useAuth();
 
   return (
     <Router>
@@ -35,13 +38,17 @@ export default function App() {
               element={<Navigate to={RoutesPath.HOME} />}
             />
             <Route path={RoutesPath.HOME} element={<Home />} />
-            <Route 
+            <Route
               path={RoutesPath.LOGIN}
-              element={<Login />}
+              element={
+                !auth ? <Login /> : <Navigate to={RoutesPath.REGISTER_GUESS} />
+              }
             />
-            <Route 
+            <Route
               path={RoutesPath.REGISTER_GUESS}
-              element={<RegisterGuess />}
+              element={
+                auth ? <RegisterGuess /> : <Navigate to={RoutesPath.LOGIN} />
+              }
             />
             <Route
               path={RoutesPath.SELECT_PLAYERS}

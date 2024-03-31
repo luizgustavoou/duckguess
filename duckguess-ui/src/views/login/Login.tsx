@@ -33,6 +33,8 @@ export default function Login() {
     const { email, password } = data;
 
     await dispatch(signin({ email, password }));
+
+    navigate(RoutesPath.REGISTER_GUESS);
   };
 
   const {
