@@ -2,7 +2,7 @@
 <!-- license --> 
 
 ## :memo:  Sobre o projeto
-A aplicação consiste em uma cópia do jogo denominado "Jogo das Três Pistas", conhecido pelo apresentador de televisão Silvio Santos.
+Duckguess foi inspirado no clássico "Jogo das Três Pistas", popularizado pelo apresentador de televisão Silvio Santos. Esta aplicação oferece uma experiência digital do jogo, permitindo aos usuários escolherem entre uma variedade de temas e desafiarem seus amigos
 
 Projeto desenvolvido para entrega do projeto final na disciplina Desenvolvimento em Web 1, no IMD/UFRN.
 
