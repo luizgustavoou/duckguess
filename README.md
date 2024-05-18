@@ -1,96 +1,79 @@
 # Duckguess
-<!-- license --> 
 
-## :memo:  Sobre o projeto
-Duckguess foi inspirado no clássico "Jogo das Três Pistas", popularizado pelo apresentador de televisão Silvio Santos. Esta aplicação oferece uma experiência digital do jogo, permitindo aos usuários escolherem entre uma variedade de temas e desafiarem seus amigos
+## :memo: About the Project
+Duckguess is inspired by the classic game "Jogo das Três Pistas," popularized by TV host Silvio Santos. This application provides a digital experience of the game, allowing users to choose from a variety of themes and challenge their friends.
 
-Projeto desenvolvido para entrega do projeto final na disciplina Desenvolvimento em Web 1, no IMD/UFRN.
+This project was developed as the final submission for the Web Development 1 course at IMD/UFRN.
 
-## Layout web
-
-
-
-
+## Web Layout
 https://github.com/luizgustavoou/duckguess/assets/89609312/27531141-340b-4abd-8bae-d23dad763112
-
-
-
 
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/d5150d7d-c2d5-4cd2-b0d8-0f201016b7ed)
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/4faa1971-b8d4-41f7-b074-9bd9fd535477)
-
-
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/b3ec44c2-77fd-41b6-9b05-9992157d87c0)
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/17fb00d4-4ae8-45e9-9875-430ef2b4fa5f)
-
 ![image](https://github.com/luizgustavoou/duckguess/assets/89609312/9274d83e-3527-4b47-93b5-7f2e67f2a4ac)
 
+## :books: Features
+* Authentication
+* Choose the theme for the game's riddles
+* Select two players to compete in a match
+* Guess answers and receive hints
+* Scoring inversely proportional to the number of hints received
 
-<!-- ## Modelo conceitual -->
-## :books: Funcionalidades
-* Autenticação;
-* Escolher tema das adivinhações da partida;
-* Escolher dois jogadores para se enfrentarem na partida;
-* Adivinhar respostas e receber dicas;
-* Pontuação inversamente proporcional à quantidade de dicas recebidas;
-
-# :wrench: Tecnologias utilizadas
-## Back end
-* NestJS;
-* Typeorm;
+# :wrench: Technologies Used
+## Backend
+* NestJS
+* TypeORM
 * MySQL
-  
-## Front end
-* React;
-* Redux;
-* react-router-dom;
-* hookform/resolvers;
-* zod;
-* react-icons;
 
-## Infraestrutura
-* Docker;
+## Frontend
+* React
+* Redux
+* react-router-dom
+* hookform/resolvers
+* zod
+* react-icons
 
-## :rocket: Rodando o projeto
-Pré-requisitos: npm / yarn e Docker instalado
+## Infrastructure
+* Docker
+
+## :rocket: Running the Project
+Prerequisites: npm / yarn and Docker installed
 
 ```bash
-# clonar repositório
+# clone the repository
 git clone https://github.com/luizgustavoou/duckguess.git
 
-# entrar na pasta do projeto front end web
+# navigate to the project directory
 cd duckguess
 
+# install backend dependencies
 cd duckguess-api/
 
-# instalar depedências do backend
 npm i
 
+# install frontend dependencies
 cd ../
 
 cd duckguess-front/
 
-# instalar depedências do frontend
 npm i
+
+
+# run the application
 cd ../
 
-# rodar aplicação
 docker compose up -d
 ```
 
-## :soon: Implementação futura
-- Mostrar lista de ranking dos usuários;
-- Mostrar histórico de partidas dos usuários;
+## :soon: Future Implementations
+* Display a user ranking list
+* Show users' match history
 
-## :dart: Status do projeto
-Finalizado
+## :dart: Project Status
+Completed
 
-# Autor
-
-<p>Luiz Gustavo de Oliveira Umbelino
-[https://www.linkedin.com/in/wmazoni](https://www.linkedin.com/in/luiz-oliveira-802294294/)https://www.linkedin.com/in/luiz-oliveira-802294294/
-</p>
-<p>
-Joab Urbano
-</p>
-
+# Author
+<a href="https://github.com/luizgustavoou">Luiz Gustavo de Oliveira Umbelino</a><br>
+<a href="https://github.com/JoabUrbano">Joab Urbano</a><br>
