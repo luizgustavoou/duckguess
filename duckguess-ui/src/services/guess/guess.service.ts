@@ -57,8 +57,8 @@ export class GuessServiceApi {
     return data.map((item: any) => ({ ...item, opened: true }));
   }
 
-  async create(answer: string, themeId: string): Promise<IGuess> {
-    const { data } = await api.post<IGuess>("/guess", { answer, themeId });
+  async create(answer: string, themeId: string, hints: {text: string}[]): Promise<IGuess> {
+    const { data } = await api.post<IGuess>("/guess", { answer, themeId, hints });
     return data;
   }
 

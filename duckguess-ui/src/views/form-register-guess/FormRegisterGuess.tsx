@@ -63,10 +63,8 @@ export default function FormRegisterGuess({ handleClose, onSuccess, initialTheme
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
-      const newGuess = await guessService.create(data.answer, data.themeId);
+      const newGuess = await guessService.create(data.answer, data.themeId, data.hints);
 
-      // Create hints sequentially to ensure they are linked to the new guess
-      await Promise.all(data.hints.map(hint => hintService.create(hint.text, newGuess.id)));
 
       onSuccess?.();
       handleClose();

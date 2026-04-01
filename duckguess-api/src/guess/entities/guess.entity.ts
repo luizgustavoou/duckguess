@@ -24,7 +24,7 @@ export class Guess {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Hint, (hint) => hint.guess)
+  @OneToMany(() => Hint, (hint) => hint.guess, { cascade: true })
   hints: Hint[];
 
   @ManyToOne(() => Theme, { nullable: false,  })

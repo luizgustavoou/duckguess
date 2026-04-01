@@ -1,4 +1,19 @@
-import { IsNotEmpty, IsString, IsUUID, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class GuessHintDto {
+  @IsNotEmpty()
+  @MaxLength(45)
+  text: string;
+}
 
 export class CreateGuessDto {
   @IsNotEmpty()
@@ -7,4 +22,10 @@ export class CreateGuessDto {
 
   @IsUUID()
   themeId: string;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => GuessHintDto)
+  hints?: GuessHintDto[];
 }

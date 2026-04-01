@@ -26,7 +26,7 @@ export class GuessServiceImpl implements GuessService {
   ) {}
 
   async create(createGuessDto: CreateGuessDto): Promise<Guess> {
-    const { answer, themeId } = createGuessDto;
+    const { answer, themeId, hints } = createGuessDto;
 
     const theme = await this.themeService.findOne(themeId);
 
@@ -34,9 +34,10 @@ export class GuessServiceImpl implements GuessService {
       throw new NotFoundException('Tema não encontrado.');
     }
 
-    const guess = await this.guessRepository.save({ 
-      answer, 
-      theme 
+    const guess = await this.guessRepository.save({
+      answer,
+      theme,
+      hints: hints || [],
     });
 
     return guess;
