@@ -28,7 +28,7 @@ export class HintServiceImpl implements HintService {
   constructor(
     private readonly repository: HintRepository,
     private readonly guessService: GuessService,
-  ) {}
+  ) { }
 
   async create(createHintDto: CreateHintDto): Promise<Hint> {
     const { text, guessId } = createHintDto;
@@ -39,8 +39,8 @@ export class HintServiceImpl implements HintService {
       throw new NotFoundException('Adivinhação não encontrada.');
     }
 
-    if (guess.hints.length >= 3) {
-      throw new ConflictException('Já existem 3 dicas para essa adivinhação.');
+    if (guess.hints.length >= 10) {
+      throw new ConflictException('Já existem 10 dicas para essa adivinhação.');
     }
 
     const hint = await this.repository.create({ text, guessId });

@@ -22,6 +22,28 @@ export class GuessServiceMock {
       }, 500);
     });
   }
+
+  async create(answer: string, _themeId: string): Promise<IGuess> {
+    return {
+      id: Math.random().toString(36).substr(2, 9),
+      answer,
+      hints: [],
+      opened: true,
+    };
+  }
+
+  async update(id: string, answer: string): Promise<IGuess> {
+    const existing = guessMockResponse.find(g => g.id === id);
+    return {
+      ...existing!,
+      answer,
+      opened: true,
+    };
+  }
+
+  async delete(_id: string): Promise<void> {
+    return;
+  }
 }
 
 export class GuessServiceApi {
@@ -33,5 +55,19 @@ export class GuessServiceApi {
   async getAll(): Promise<IGuess[]> {
     const { data } = await api.get<IGuess[]>("/guess");
     return data.map((item: any) => ({ ...item, opened: true }));
+  }
+
+  async create(answer: string, themeId: string): Promise<IGuess> {
+    const { data } = await api.post<IGuess>("/guess", { answer, themeId });
+    return data;
+  }
+
+  async update(id: string, answer: string): Promise<IGuess> {
+    const { data } = await api.patch<IGuess>(`/guess/${id}`, { answer });
+    return data;
+  }
+
+  async delete(id: string): Promise<void> {
+    await api.delete(`/guess/${id}`);
   }
 }

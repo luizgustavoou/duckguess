@@ -22,6 +22,6 @@ export class Hint {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Guess, (guess) => guess.hints)
+  @ManyToOne(() => Guess, (guess) => guess.hints, { onDelete: 'CASCADE' })
   guess: Guess;
 }
