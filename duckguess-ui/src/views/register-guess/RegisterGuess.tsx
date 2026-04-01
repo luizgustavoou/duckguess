@@ -1,56 +1,46 @@
 import Game from "../game/Game";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FormRegisterGuess from "../form-register-guess/FormRegisterGuess";
 import { HiPlus, HiSearch } from "react-icons/hi";
+import { guessService } from "../../services";
+import { IGuess } from "../../entities/IGuess";
 
 export default function RegisterGuess() {
-  const guessMoc = [
-    {
-      id: "ac632dd8-a53d-4cd1-b58c-b032dc7aa097",
-      answer: "JavaScript",
-      hints: [
-        { id: "1102f96a-332c-4156-ab3d-13cc497d16f8", text: "Utiliza o prototype" },
-        { id: "7097349a-6920-4c8d-8ff0-16ba418b9a62", text: "Não é tipada" },
-        { id: "d01b8088-c1e1-4027-9762-12c4bc59120e", text: "Uma das linguagens mais famosas" },
-      ],
-      opened: true,
-    },
-    {
-      id: "c3fc8df0-8fbf-43ad-87b2-b638d1482b55",
-      answer: "Python",
-      hints: [
-        { id: "4cf0cb85-0f38-4ab6-a400-9a040731d2e8", text: "Linguagem de programação de alto nível" },
-        { id: "e8e9b2b6-c4a1-4811-8fa0-48d4b239bb61", text: "Amplamente utilizada em desenvolvimento web e científico" },
-        { id: "839c7fc1-09ef-4d92-bf4c-914cc5d0fd33", text: "Conhecida por sua simplicidade e legibilidade" },
-      ],
-      opened: true,
-    },
-    {
-      id: "b4054e37-4980-4d8b-8177-4bbf3fa89c02",
-      answer: "Java",
-      hints: [
-        { id: "2f0465c4-c3d4-46d6-bef0-1b45a03fbd61", text: "Linguagem orientada a objetos" },
-        { id: "0c3055c9-26b1-4a33-a2e1-1950d5d91625", text: "Amplamente utilizada no desenvolvimento de aplicativos móveis e empresariais" },
-        { id: "1a514e57-832b-42f1-99d7-38d3835f49c2", text: "Possui uma máquina virtual que permite a portabilidade do código" },
-      ],
-      opened: true,
-    },
-  ];
-
+  const [guesses, setGuesses] = useState<IGuess[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGuessId, setSelectedGuessId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchGuesses = async () => {
+      try {
+        setLoading(true);
+        const data = await guessService.getAll();
+        setGuesses(data);
+        if (data.length > 0) {
+          setSelectedGuessId(data[0].id);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar adivinhações:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGuesses();
+  }, []);
+
   const handleAddNew = () => {
     setSelectedGuessId(null);
     setIsCreating(true);
   };
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGuessId, setSelectedGuessId] = useState<string | null>(guessMoc[0]?.id || null);
-
   const filteredGuesses = searchTerm
-    ? guessMoc.filter(g => g.answer.toLowerCase().includes(searchTerm.toLowerCase()))
-    : guessMoc;
+    ? guesses.filter(g => g.answer.toLowerCase().includes(searchTerm.toLowerCase()))
+    : guesses;
 
-  const selectedGuess = guessMoc.find(g => g.id === selectedGuessId);
+  const selectedGuess = guesses.find(g => g.id === selectedGuessId);
 
   return (
     <Game>
@@ -85,7 +75,11 @@ export default function RegisterGuess() {
               </div>
             </div>
             <div className="flex-1 overflow-y-auto custom-scrollbar p-3 flex flex-col gap-1">
-              {filteredGuesses.length > 0 ? (
+              {loading ? (
+                <div className="flex-1 flex items-center justify-center text-white/40 text-sm p-4 text-center">
+                  Carregando...
+                </div>
+              ) : filteredGuesses.length > 0 ? (
                 filteredGuesses.map((guess) => (
                   <button
                     key={guess.id}
@@ -150,7 +144,7 @@ export default function RegisterGuess() {
                   ))}
                 </div>
               </>
-            ) : (
+            ) : loading ? null : (
               <div className="flex-1 flex flex-col items-center justify-center text-white/30">
                 <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4">
                   <HiSearch size={28} className="opacity-50" />

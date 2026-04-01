@@ -1,5 +1,6 @@
 import { IGuess } from "../../entities/IGuess";
 import { guessMockResponse } from "../../utils/guess-mock";
+import { api } from "../../network/api";
 
 export class GuessServiceMock {
   async getRandomGameGuess(_themeId: string): Promise<IGuess[]> {
@@ -13,13 +14,24 @@ export class GuessServiceMock {
       }, 1000);
     });
   }
+
+  async getAll(): Promise<IGuess[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(guessMockResponse.map((item) => ({ ...item, opened: true })));
+      }, 500);
+    });
+  }
 }
 
 export class GuessServiceApi {
   async getRandomGameGuess(themeId: string): Promise<IGuess[]> {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/guess?themeId=${themeId}`);
-    if (!response.ok) throw new Error("Falha ao buscar as adivinhações do tema.");
-    const data = await response.json();
+    const { data } = await api.get<IGuess[]>(`/guess?themeId=${themeId}`);
     return data.map((item: any) => ({ ...item, opened: false }));
+  }
+
+  async getAll(): Promise<IGuess[]> {
+    const { data } = await api.get<IGuess[]>("/guess");
+    return data.map((item: any) => ({ ...item, opened: true }));
   }
 }
