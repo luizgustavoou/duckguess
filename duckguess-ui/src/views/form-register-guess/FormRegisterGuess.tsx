@@ -23,9 +23,10 @@ type FormData = z.infer<typeof schema>;
 export interface IFormRegisterGuess {
   handleClose: () => void;
   onSuccess?: () => void;
+  initialThemeId?: string;
 }
 
-export default function FormRegisterGuess({ handleClose, onSuccess }: IFormRegisterGuess) {
+export default function FormRegisterGuess({ handleClose, onSuccess, initialThemeId }: IFormRegisterGuess) {
   const [themes, setThemes] = useState<ITheme[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,11 +34,12 @@ export default function FormRegisterGuess({ handleClose, onSuccess }: IFormRegis
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      themeId: "",
+      themeId: initialThemeId || "",
       answer: "",
       hints: [{ text: "" }, { text: "" }, { text: "" }]
     }
@@ -51,6 +53,12 @@ export default function FormRegisterGuess({ handleClose, onSuccess }: IFormRegis
   useEffect(() => {
     themeService.getAllThemes().then(setThemes).catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (initialThemeId) {
+      setValue("themeId", initialThemeId);
+    }
+  }, [initialThemeId, setValue]);
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -89,14 +97,16 @@ export default function FormRegisterGuess({ handleClose, onSuccess }: IFormRegis
       <img alt="duck-writer" src={DuckWriter} className="w-24 drop-shadow-lg mb-2" />
 
       <div className="w-full flex flex-col gap-4 overflow-y-auto max-h-[50vh] pr-2 custom-scrollbar">
-        <div className="flex flex-col gap-1">
-          <label className="text-xs font-semibold text-white/50 ml-1">TEMA</label>
-          <AppSelect
-            options={themes}
-            {...register("themeId")}
-          />
-          {errors.themeId && <span className="text-red-400 text-xs mt-1 ml-1">{errors.themeId.message}</span>}
-        </div>
+        {!initialThemeId && (
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-white/50 ml-1">TEMA</label>
+            <AppSelect
+              options={themes}
+              {...register("themeId")}
+            />
+            {errors.themeId && <span className="text-red-400 text-xs mt-1 ml-1">{errors.themeId.message}</span>}
+          </div>
+        )}
 
         <div className="flex flex-col gap-1">
           <label className="text-xs font-semibold text-white/50 ml-1">RESPOSTA</label>

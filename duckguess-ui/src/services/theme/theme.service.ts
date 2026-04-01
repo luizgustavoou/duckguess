@@ -1,4 +1,5 @@
 import { ITheme } from "../../entities/ITheme";
+import { api } from "../../network/api";
 
 const themeMockResponde: ITheme[] = [
   { id: "1", value: "Tecnologia" },
@@ -18,8 +19,12 @@ export class ThemeServiceMock {
 }
 export class ThemeServiceApi {
   async getAllThemes(): Promise<ITheme[]> {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/theme`);
-    if (!response.ok) throw new Error("Falha ao buscar os temas.");
-    return await response.json();
+    const { data } = await api.get<ITheme[]>("/theme");
+    return data;
+  }
+
+  async createTheme(value: string): Promise<ITheme> {
+    const { data } = await api.post<ITheme>("/theme", { value });
+    return data;
   }
 }

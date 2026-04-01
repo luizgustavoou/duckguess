@@ -34,7 +34,10 @@ export class GuessServiceImpl implements GuessService {
       throw new NotFoundException('Tema não encontrado.');
     }
 
-    const guess = await this.guessRepository.save({ answer, themeId });
+    const guess = await this.guessRepository.save({ 
+      answer, 
+      theme 
+    });
 
     return guess;
   }
@@ -47,6 +50,7 @@ export class GuessServiceImpl implements GuessService {
       take,
       relations: {
         hints: true,
+        theme: true,
       },
     });
 
@@ -56,7 +60,10 @@ export class GuessServiceImpl implements GuessService {
   async findOne(id: string): Promise<Guess> {
     const guesses = await this.guessRepository.findOne({
       where: { id },
-      relations: { hints: true },
+      relations: { 
+        hints: true, 
+        theme: true 
+      },
     });
 
     return guesses;
@@ -69,7 +76,17 @@ export class GuessServiceImpl implements GuessService {
       throw new NotFoundException('Adivinhação não encontrada.');
     }
 
-    await this.guessRepository.merge(guess, updateGuessDto);
+    const { themeId, ...updateData } = updateGuessDto;
+
+    if (themeId) {
+      const theme = await this.themeService.findOne(themeId);
+      if (!theme) {
+        throw new NotFoundException('Tema não encontrado.');
+      }
+      guess.theme = theme;
+    }
+
+    await this.guessRepository.merge(guess, updateData);
 
     const guessUpdated = await this.guessRepository.save(guess);
 
