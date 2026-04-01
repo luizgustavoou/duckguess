@@ -31,6 +31,7 @@ services:
       - CLIENT_ORIGIN=$CLIENT_ORIGIN
     volumes:
       - ./duckguess-api:/usr/app
+      - /usr/app/node_modules
     depends_on:
       - mysql
     networks:
@@ -47,6 +48,7 @@ services:
       - $UI_LOCAL_PORT:$UI_DOCKER_PORT
     volumes:
       - ./duckguess-ui:/usr/app
+      - /usr/app/node_modules
     depends_on:
       - backend
     networks:
