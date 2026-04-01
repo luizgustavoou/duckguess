@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "../store";
 import { authService, jwtService, storageService } from "../services";
-import { IAuthResponse } from "../apis/auth/models/IAuthResponse";
+import { IAuth } from "../types/auth.types";
 import { ISigninParams } from "../types/ISigninParams";
 
 export interface IUserAuth {
@@ -45,7 +45,7 @@ const initialState: IUserState = {
 };
 
 export const signin = createAsyncThunk<
-  IAuthResponse,
+  IAuth,
   ISigninParams,
   {
     dispatch: AppDispatch;

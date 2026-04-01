@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import "./AppInput.css";
 
 interface AppInputProps {
   type: string;
@@ -13,6 +12,7 @@ export const AppInput = forwardRef<HTMLInputElement, AppInputProps>(
   ({ type, placeholder, value, handleOnChange, ...props }, ref) => {
     return (
       <input
+        className="input-field"
         type={type}
         placeholder={placeholder}
         ref={ref}

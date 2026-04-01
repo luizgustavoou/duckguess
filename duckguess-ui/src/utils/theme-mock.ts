@@ -1,6 +1,6 @@
-import { IThemeResponse } from "../apis/theme/models/IThemeResponse";
+import { ITheme } from "../entities/ITheme";
 
-export const themeMockResponse: IThemeResponse[] = [
+export const themeMockResponse: ITheme[] = [
   {
     id: "4bd00bc6-4c44-4d8d-824f-6024398d8514",
     value: "Programação",

@@ -1,6 +1,4 @@
-import "./GameWrongAnswer.css";
 import Game from "../game/Game";
-import { MouseEvent } from "react";
 import patoDecepcionado from "../../assets/duck-disappointed.png";
 import AppButton from "../../components/form/AppButton";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +12,7 @@ export default function GameWrongAnswer() {
   const { guess } = useAppSelector(selectGame);
   const dispatch = useAppDispatch();
 
-  const handleClick = (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-  ) => {
+  const handleClick = () => {
     navgate(RoutesPath.GAME_CHOOSE);
     dispatch(resetGuess());
   };
@@ -24,18 +20,23 @@ export default function GameWrongAnswer() {
   return (
     <>
       <Game>
-        <div className="game-wrong-answer">
-          <h1>Que pena, ninguém acertou!</h1>
-          <h2>
-            A resposta correta era{" "}
-            <span className="answer">{guess?.answer}</span>
-          </h2>
-          <img className="img" alt="PatoDecepcionado" src={patoDecepcionado} />
-          <AppButton
-            content={"Tela de perguntas"}
-            type={"submit"}
-            onClick={handleClick}
+        <div className="flex flex-col items-center gap-6 w-full px-8 py-10">
+          <div className="text-center space-y-2">
+            <div className="text-5xl">😔</div>
+            <h1 className="text-3xl font-bold text-rose-400">Que pena, ninguém acertou!</h1>
+            <h2 className="text-white/70 text-lg">
+              A resposta era:{" "}
+              <span className="text-amber-400 font-bold underline uppercase tracking-wide">
+                {guess?.answer}
+              </span>
+            </h2>
+          </div>
+          <img
+            className="w-44 drop-shadow-xl animate-float"
+            alt="PatoDecepcionado"
+            src={patoDecepcionado}
           />
+          <AppButton content="Próxima Pergunta →" type="submit" onClick={handleClick} variant="danger" />
         </div>
       </Game>
     </>

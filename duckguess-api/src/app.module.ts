@@ -7,7 +7,7 @@ import { HintModule } from './hint/hint.module';
 import { ThemeModule } from './theme/theme.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-
+import { SeedModule } from './seed/seed.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -25,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     ThemeModule,
     UserModule,
     AuthModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

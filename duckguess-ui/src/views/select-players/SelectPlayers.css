@@ -1,9 +1,0 @@
-.select-players form {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.select-players form > button {
-  margin: auto;
-}

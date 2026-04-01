@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE: $MYSQL_DATABASE
     volumes:
-      - ./data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
       - duckguess-network
 
@@ -57,3 +57,6 @@ services:
 networks:
   duckguess-network:
     driver: bridge
+
+volumes:
+  mysql-data:

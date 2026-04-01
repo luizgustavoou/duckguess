@@ -1,21 +1,33 @@
-import { ISigninParams } from "../../types/ISigninParams";
-import { IAuthResponse } from "../../apis/auth/models/IAuthResponse";
-import { IAuthApi } from "../../apis/auth/auth.api";
+import { IAuth, ISignin } from "../../types/auth.types";
 
-export interface IAuthService {
-  signin(params: ISigninParams): Promise<IAuthResponse>;
+export class AuthServiceMock {
+  async signin({ email, password }: ISignin): Promise<IAuth> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email === "admin@admin.com" && password === "admin") {
+          resolve({
+            access_token: "mocked-jwt",
+            user: { id: "1", name: "Admin", email: "admin@admin.com" },
+          });
+        } else {
+          reject(new Error("E-mail ou senha incorretos"));
+        }
+      }, 500);
+    });
+  }
 }
 
-export class AuthServiceImpl implements IAuthService {
-  constructor(private authApi: IAuthApi) {}
+export class AuthServiceApi {
+  async signin({ email, password }: ISignin): Promise<IAuth> {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/auth/signin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-  async signin(params: ISigninParams): Promise<IAuthResponse> {
-    try {
-      const res = await this.authApi.signin(params);
-
-      return res;
-    } catch (error) {
-      throw error;
+    if (!response.ok) {
+      throw new Error("Falha ao realizar login.");
     }
+    return await response.json();
   }
 }

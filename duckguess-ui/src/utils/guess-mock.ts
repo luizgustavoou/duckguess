@@ -1,6 +1,6 @@
-import { IGuessResponse } from "../apis/guess/models/IGuessResponse";
+import { IGuess } from "../entities/IGuess";
 
-export const guessMockResponse: IGuessResponse[] = [
+export const guessMockResponse: Omit<IGuess, "opened">[] = [
   {
     id: "ac632dd8-a53d-4cd1-b58c-b032dc7aa097",
     answer: "JavaScript",

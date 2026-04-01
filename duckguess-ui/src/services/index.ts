@@ -1,27 +1,16 @@
-import {
-  authRepository,
-  guessRepository,
-  themeRepository,
-} from "../repositories";
-import { AuthServiceImpl, IAuthService } from "./auth/auth.service";
-import { IGuessService } from "./guess/guess.service";
-import { GuessServiceImpl } from "./guess/impl/guess-impl.service";
-import { JWTService, JWTServiceImpl } from "./jwt/jwt.service";
-import {
-  IStorageService,
-  LocalStorageService,
-} from "./storage/storage.service";
-import { ThemeServiceImpl } from "./theme/impl/theme-service-impl";
-import { IThemeService } from "./theme/theme-service";
+import { GuessServiceApi } from "./guess/guess.service";
+import { ThemeServiceApi } from "./theme/theme.service";
+import { AuthServiceApi } from "./auth/auth.service";
+import { JWTServiceImpl } from "./jwt/jwt.service";
+import { LocalStorageService } from "./storage/storage.service";
 
-const guessService: IGuessService = new GuessServiceImpl(guessRepository);
+const guessService = new GuessServiceApi();
+// To use mock instead: import { GuessServiceMock } from "./guess/guess.service"; const guessService = new GuessServiceMock();
 
-const themeService: IThemeService = new ThemeServiceImpl(themeRepository);
+const themeService = new ThemeServiceApi();
+const authService = new AuthServiceApi();
 
-const authService: IAuthService = new AuthServiceImpl(authRepository);
-
-const storageService: IStorageService = new LocalStorageService();
-
-const jwtService: JWTService = new JWTServiceImpl();
+const storageService = new LocalStorageService();
+const jwtService = new JWTServiceImpl();
 
 export { guessService, themeService, authService, storageService, jwtService };
