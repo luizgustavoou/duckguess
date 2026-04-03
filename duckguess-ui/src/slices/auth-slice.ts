@@ -69,10 +69,38 @@ export const signin = createAsyncThunk<
   }
 });
 
+export const validateAuth = createAsyncThunk<
+  any,
+  void,
+  {
+    dispatch: AppDispatch;
+    state: RootState;
+    rejectValue: string;
+  }
+>("auth/validateAuth", async (_, thunkAPI) => {
+  try {
+    const accessToken = storageService.getItem("accessToken");
+    if (!accessToken) {
+      return thunkAPI.rejectWithValue("No access token.");
+    }
+    const res = await authService.me();
+    return res;
+  } catch (error: any) {
+    storageService.removeItem("accessToken");
+    return thunkAPI.rejectWithValue("O token expirou ou é inválido.");
+  }
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+        storageService.removeItem("accessToken");
+        state.user = null;
+        state.status = "idle";
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signin.pending, (state, _) => {
@@ -89,11 +117,15 @@ export const authSlice = createSlice({
       })
       .addCase(signin.rejected, (state, _) => {
         state.status = "error";
+      })
+      .addCase(validateAuth.rejected, (state, _) => {
+        state.user = null;
+        state.status = "error";
       });
   },
 });
 
-export const {} = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.authReducer;
 

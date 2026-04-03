@@ -1,4 +1,5 @@
 import { IAuth, ISignin } from "../../types/auth.types";
+import { api } from "../../network/api";
 
 export class AuthServiceMock {
   async signin({ email, password }: ISignin): Promise<IAuth> {
@@ -19,15 +20,12 @@ export class AuthServiceMock {
 
 export class AuthServiceApi {
   async signin({ email, password }: ISignin): Promise<IAuth> {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/auth/signin`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Falha ao realizar login.");
-    }
-    return await response.json();
+    const { data } = await api.post<IAuth>("/auth/signin", { email, password });
+    return data;
+  }
+  
+  async me(): Promise<any> {
+    const { data } = await api.get("/auth/me");
+    return data;
   }
 }

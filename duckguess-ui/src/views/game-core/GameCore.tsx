@@ -39,7 +39,7 @@ export default function GameCore() {
 
   const dispatch = useAppDispatch();
   const [hintIndex, setHintIndex] = useState<number>(0);
-  const { guess, playerOne, playerTwo, playerTurn } = useAppSelector(selectGame);
+  const { guess, playerOne, playerTwo, playerTurn, } = useAppSelector(selectGame);
 
   const [playerCore, setPlayerCore] = useState<"playerOne" | "playerTwo" | null>(null);
 

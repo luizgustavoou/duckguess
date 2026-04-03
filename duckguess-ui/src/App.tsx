@@ -21,11 +21,19 @@ import GameTheme from "./views/game-theme/GameTheme";
 import Login from "./views/login/Login";
 import RegisterGuess from "./views/register-guess/RegisterGuess";
 import { useAuth } from "./hooks/useAuth";
+import { useAppDispatch } from "./hooks/useAppDispatch";
+import { validateAuth } from "./slices/auth-slice";
+import { useEffect } from "react";
 
 export default function App() {
   const { status } = useAppSelector(selectGame);
+  const dispatch = useAppDispatch();
 
   const { auth } = useAuth();
+
+  useEffect(() => {
+    dispatch(validateAuth());
+  }, [dispatch]);
 
   return (
     <Router>

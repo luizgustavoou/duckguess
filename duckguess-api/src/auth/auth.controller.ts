@@ -28,8 +28,8 @@ export class AuthController {
     return await this.authService.signup(signupDto);
   }
 
-  @Get('profile')
-  getProfile(@Request() req) {
+  @Get('me')
+  me(@Request() req) {
     return req.user;
   }
 }

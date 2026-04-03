@@ -11,7 +11,7 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = storageService.getItem("accessToken");
-
+    console.log('Token: ', token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
