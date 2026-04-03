@@ -4,13 +4,13 @@ import { UpdateGuessDto } from './dto/update-guess.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Guess } from 'src/guess/entities/guess.entity';
 import { Repository } from 'typeorm';
-import { IPaginationDto } from 'src/guess/dto/IPaginationDto';
+import { QueryGuessDto } from 'src/guess/dto/query-guess.dto';
 import { ThemeService } from 'src/theme/theme.service';
 
 export abstract class GuessService {
   abstract create(createGuessDto: CreateGuessDto): Promise<Guess>;
 
-  abstract findAll(paginationDto: IPaginationDto): Promise<Guess[]>;
+  abstract findAll(queryGuessDto: QueryGuessDto): Promise<Guess[]>;
 
   abstract findOne(id: string): Promise<Guess>;
 
@@ -43,10 +43,17 @@ export class GuessServiceImpl implements GuessService {
     return guess;
   }
 
-  async findAll(paginationDto: IPaginationDto): Promise<Guess[]> {
-    const { skip, take } = paginationDto;
+  async findAll(queryGuessDto: QueryGuessDto): Promise<Guess[]> {
+    const { skip, take, themeId } = queryGuessDto;
+
+    const where: any = {};
+
+    if (themeId) {
+      where.theme = { id: themeId };
+    }
 
     const [guesses, count] = await this.guessRepository.findAndCount({
+      where,
       skip,
       take,
       relations: {
@@ -57,6 +64,7 @@ export class GuessServiceImpl implements GuessService {
 
     return guesses;
   }
+
 
   async findOne(id: string): Promise<Guess> {
     const guesses = await this.guessRepository.findOne({

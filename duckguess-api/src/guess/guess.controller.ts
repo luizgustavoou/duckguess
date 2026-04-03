@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
-import { IPaginationDto } from './dto/IPaginationDto';
+import { QueryGuessDto } from './dto/query-guess.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'src/user/enums/user-role';
@@ -29,8 +29,8 @@ export class GuessController {
 
   @Public()
   @Get()
-  findAll(@Query() paginationDto: IPaginationDto) {
-    return this.guessService.findAll(paginationDto);
+  findAll(@Query() queryGuessDto: QueryGuessDto) {
+    return this.guessService.findAll(queryGuessDto);
   }
 
   @Public()
