@@ -1,4 +1,4 @@
-import Game from "../game/Game";
+
 import { useState, useEffect, useCallback, useMemo } from "react";
 import FormRegisterGuess from "../form-register-guess/FormRegisterGuess";
 import FormRegisterTheme from "../form-register-theme/FormRegisterTheme";
@@ -175,25 +175,25 @@ export default function RegisterGuess() {
   const selectedGuess = guesses.find(g => g.id === selectedGuessId);
 
   return (
-    <Game>
-      <div className="flex flex-col items-start gap-6 w-full px-8 py-10 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-game-gradient px-6 md:px-12 lg:px-16 py-10">
+      <div className="flex flex-col items-start gap-8 w-full max-w-[1400px] mx-auto">
         
         {/* Header */}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full pb-6 border-b border-white/5">
           <div className="flex items-center gap-4">
             {activeView === 'guesses' && (
               <button 
                 onClick={handleGoBack}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all"
+                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all border border-white/5 hover:border-white/10"
               >
                 <HiChevronLeft size={24} />
               </button>
             )}
             <div>
-              <h1 className="text-3xl font-bold text-white tracking-tight">
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                 {activeView === 'categories' ? 'Adivinhações' : selectedTheme?.value}
               </h1>
-              <p className="text-white/40 text-sm">
+              <p className="text-white/40 text-sm mt-1">
                 {activeView === 'categories' 
                   ? 'Escolha um tema para gerenciar os itens' 
                   : `Gerencie as adivinhações do tema ${selectedTheme?.value}`
@@ -218,7 +218,7 @@ export default function RegisterGuess() {
             Carregando sua coleção...
           </div>
         ) : activeView === 'categories' ? (
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {themesWithStats.map(theme => (
               <CategoryCard
                 key={theme.id}
@@ -242,7 +242,7 @@ export default function RegisterGuess() {
             </button>
           </div>
         ) : (
-          <div className="w-full flex flex-col lg:flex-row gap-8 mt-4 h-[68vh] min-h-[550px] animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="w-full flex flex-col lg:flex-row gap-6 flex-1 min-h-[600px] max-h-[calc(100vh-180px)] animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Split List View */}
             <div className="w-full lg:w-1/3 flex flex-col bg-navy-900/40 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
               <div className="p-5 border-b border-white/5 bg-white/5">
@@ -461,6 +461,6 @@ export default function RegisterGuess() {
           </div>
         )}
       </div>
-    </Game>
+    </div>
   );
 }
