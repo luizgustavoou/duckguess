@@ -8,6 +8,8 @@ import { ThemeModule } from './theme/theme.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { SeedModule } from './seed/seed.module';
+import { ChallengeModule } from './challenge/challenge.module';
+import { MatchModule } from './match/match.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -26,10 +28,12 @@ import { SeedModule } from './seed/seed.module';
     UserModule,
     AuthModule,
     SeedModule,
+    ChallengeModule,
+    MatchModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements OnModuleInit {
-  async onModuleInit() {}
+  async onModuleInit() { }
 }

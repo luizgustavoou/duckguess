@@ -21,7 +21,7 @@ export abstract class UserService {
 export class UserServiceImpl implements UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, role } = createUserDto;
