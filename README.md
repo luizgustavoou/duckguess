@@ -68,8 +68,30 @@ docker compose up -d
 ```
 
 ## :soon: Future Implementations
-* Display a user ranking list
-* Show users' match history
+* 🧠 Smart answer engine (fuzzy matching, synonyms, typo tolerance)
+* 🎮 Difficulty system (easy, medium, hard)
+* ⏱️ Timed round mode
+* 🧩 Question database with tags (theme, difficulty, popularity)
+* 🏆 Player ranking (global and per theme)
+* 📜 Match history (results, players, date)
+* 🔁 Match replay
+* 👥 Friends system
+* 🔗 Result sharing
+* 🗂️ Theme-based navigation (categories before questions)
+* ✨ Visual feedback on correct answers (animations)
+* 📊 Player dashboard (personal stats)
+* 🔔 Notifications (invites, results)
+* 🌙 Dark/light mode
+* 📱 Improved responsiveness (mobile-first)
+* ⚡ Performance improvements (lazy loading, caching)
+* 🔐 Refresh token / better session persistence
+* 🧪 Automated tests (unit and e2e)
+* 📈 Achievement system
+* 🎯 Daily/weekly missions
+* 🤖 AI-based question suggestions
+* 🛠️ Admin panel for managing questions
+* 🌍 Internationalization (multi-language)
+* 🎧 Sound effects and game audio
 
 ## :dart: Project Status
 Completed
