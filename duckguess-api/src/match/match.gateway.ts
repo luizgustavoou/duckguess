@@ -32,7 +32,7 @@ export class MatchGateway
   private redis: Redis;
 
   afterInit(server: Server) {
-    console.log('[afterInit] WebSocket server initialized');
+    this.logger.log('[afterInit] WebSocket server initialized');
 
     server.use((socket: Socket, next) => {
       try {
@@ -45,9 +45,9 @@ export class MatchGateway
 
         (socket as any).user = payload;
 
-        console.log(
-          `[WS AUTH] User authenticated: ${(payload as IPayloadToken).sub}`,
-        );
+        // console.log(
+        //   `[WS AUTH] User authenticated: ${(payload as IPayloadToken).sub}`,
+        // );
 
         next();
       } catch (error) {
@@ -55,40 +55,45 @@ export class MatchGateway
         next(new Error('Unauthorized'));
       }
     });
+
+    setInterval(() => {
+      this.broadcastOnlineUsers();
+    }, 1000);
   }
 
   async handleConnection(client: Socket) {
     const user = (client as any).user as IPayloadToken;
-    console.log(`[handleConnection] user: ${JSON.stringify(user)}`);
+    // console.log(`[handleConnection] user: ${JSON.stringify(user)}`);
     const userId = user?.sub;
 
-    console.log(`[handleConnection] socket id: ${client.id}`);
-    console.log(`[handleConnection] User connected: ${userId}`);
+    // console.log(`[handleConnection] socket id: ${client.id}`);
+    // console.log(`[handleConnection] User connected: ${userId}`);
 
     if (!userId) return
 
     await this.matchService.addOnlineUser(userId, client.id);
 
-    console.log(
-      `[handleConnection] online users: `,
-      await this.matchService.getOnlineUsers(),
-    );
+    // console.log(
+    //   `[handleConnection] online users: `,
+    //   await this.matchService.getOnlineUsers(),
+    // );
   }
 
   async handleDisconnect(client: Socket) {
     const user = (client as any).user as IPayloadToken;
     const userId = user?.sub;
 
-    console.log(`[handleDisconnect] socket id: ${client.id}`);
-    console.log(`[handleDisconnect] User disconnected: ${userId}`);
+    // console.log(`[handleDisconnect] socket id: ${client.id}`);
+    // console.log(`[handleDisconnect] User disconnected: ${userId}`);
 
     if (!userId) return;
 
     await this.matchService.removeOnlineUser(userId);
-    console.log(
-      `[handleDisconnect] online users: `,
-      await this.matchService.getOnlineUsers(),
-    );
+    // console.log(
+    //   `[handleDisconnect] online users: `,
+    //   await this.matchService.getOnlineUsers(),
+    // );
+
   }
 
   @SubscribeMessage('message')
@@ -115,14 +120,14 @@ export class MatchGateway
       // notify challenge to the toUserId
       const toUserId = payload.toUserId;
 
-      const toUserSocketId = await this.matchService.getOnlineUser(toUserId);
+      const onlineUser = await this.matchService.getOnlineUser(toUserId);
 
-      if (!toUserSocketId) {
+      if (!onlineUser.socketId) {
         console.log(`[sendChallenge] User not found: ${toUserId}`);
         throw new Error('User not found');
       }
 
-      this.server.to(toUserSocketId).emit('challenge', challenge.toJson());
+      this.notifyUser(onlineUser.socketId, 'challenge', challenge.toJson());
 
       console.log(`[sendChallenge] challenge id: ${challenge.getId()}`);
 
@@ -134,6 +139,41 @@ export class MatchGateway
     } catch (error) {
       throw new WsException(error.message)
     }
+  }
 
+  @SubscribeMessage('respond_challenge')
+  async respondChallenge(client: Socket, payload: { challengeId: string, accepted: boolean }) {
+    try {
+      const user = (client as any).user as IPayloadToken;
+      const userId = user?.sub;
+
+      console.log(`[respondChallenge] user: ${userId} payload: ${JSON.stringify(payload)}`);
+
+      const challenge = await this.matchService.respondChallenge(payload.challengeId, userId, payload.accepted);
+
+      const fromUserId = challenge.fromUserId;
+
+      const onlineUser = await this.matchService.getOnlineUser(fromUserId);
+
+      if (!onlineUser.socketId) {
+        console.log(`[respondChallenge] User not found: ${fromUserId}`);
+        throw new Error('User not found');
+      }
+
+      this.notifyUser(onlineUser.socketId, 'challenge_responded', challenge.toJson());
+
+      return challenge.toJson();
+    } catch (error) {
+      throw new WsException(error.message)
+    }
+  }
+
+  notifyUser(socketId: string, event: string, payload: any) {
+    this.server.to(socketId).emit(event, payload);
+  }
+
+  async broadcastOnlineUsers() {
+    const onlineUsers = await this.matchService.getOnlineUsers();
+    this.server.emit('online_users', onlineUsers);
   }
 }

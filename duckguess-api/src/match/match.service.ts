@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
-import { IOnlineUsers } from 'src/types/online-users';
+// import { IOnlineUsers } from 'src/types/online-users';
 
 
 export interface IChallengeProps {
@@ -8,15 +8,33 @@ export interface IChallengeProps {
     toUserId: string;
 }
 
+export class OnlineUser {
+    public userId: string;
+    public socketId: string;
+
+    constructor({ userId, socketId }: { userId: string, socketId: string }) {
+        this.userId = userId;
+        this.socketId = socketId;
+    }
+    toJson() {
+        return {
+            userId: this.userId,
+            socketId: this.socketId,
+        }
+    }
+}
+
 export class Challenge {
     public fromUserId: string;
     public toUserId: string;
+    public accepted: boolean;
 
     constructor({ fromUserId, toUserId }: IChallengeProps) {
         this.validate(fromUserId, toUserId);
 
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
+        this.accepted = false;
     }
 
     private validate(fromUserId: string, toUserId: string) {
@@ -29,6 +47,14 @@ export class Challenge {
         }
     }
 
+    respond(userId: string, accept: boolean) {
+        if (userId !== this.toUserId) {
+            throw new Error('Invalid challenge');
+        }
+
+        this.accepted = accept;
+    }
+
     getId() {
         return `${this.fromUserId}-${this.toUserId}`;
     }
@@ -38,6 +64,7 @@ export class Challenge {
             id: this.getId(),
             fromUserId: this.fromUserId,
             toUserId: this.toUserId,
+            accepted: this.accepted,
         }
     }
 
@@ -50,18 +77,24 @@ export class Challenge {
 export class MatchService {
     private readonly redisClient = new Redis({ host: process.env.REDIS_HOST, port: Number(process.env.REDIS_PORT) });
 
-    async getOnlineUser(userId: string): Promise<string> {
-        const onlineUser = await this.redisClient.hget('online_users', userId);
+    async getOnlineUser(userId: string): Promise<OnlineUser> {
+        const onlineUserHash = await this.redisClient.hget('online_users', userId);
 
-        if (!onlineUser) {
+        if (!onlineUserHash) {
             throw new Error('User not found');
         }
+
+        const onlineUser = new OnlineUser({ userId, socketId: onlineUserHash });
 
         return onlineUser;
     }
 
-    async getOnlineUsers(): Promise<IOnlineUsers> {
-        const onlineUsers: IOnlineUsers = await this.redisClient.hgetall('online_users');
+    async getOnlineUsers(): Promise<OnlineUser[]> {
+        const onlineUsersHash = await this.redisClient.hgetall('online_users');
+
+        const onlineUsers = Object.entries(onlineUsersHash).map(([key, value]) => {
+            return new OnlineUser({ userId: key, socketId: value });
+        });
 
         return onlineUsers;
     }
@@ -116,5 +149,27 @@ export class MatchService {
         const challenges = await this.redisClient.hgetall('challenges');
 
         return Object.values(challenges).map((challenge) => new Challenge(JSON.parse(challenge)));
+    }
+
+    async respondChallenge(challengeId: string, userId: string, accept: boolean) {
+        const challengeHash = await this.redisClient.hget('challenges', challengeId);
+
+        if (!challengeHash) {
+            throw new Error('Challenge not found');
+        }
+
+        const challengeJson = JSON.parse(challengeHash);
+
+        const challenge = new Challenge(challengeJson);
+
+        challenge.respond(userId, accept);
+
+        if (challenge.accepted) {
+            await this.redisClient.hset('active_matches', challengeId, JSON.stringify(challenge.toJson()));
+        }
+
+        await this.redisClient.hdel('challenges', challengeId);
+
+        return challenge;
     }
 }
