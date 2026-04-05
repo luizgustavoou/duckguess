@@ -19,7 +19,7 @@ import { WsJwtGuard } from './ws-jwt.guard';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '1y' },
     }),
   ],
   providers: [

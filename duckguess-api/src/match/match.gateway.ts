@@ -10,10 +10,13 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
 } from '@nestjs/websockets';
+import Redis from 'ioredis';
 import { Server, Socket } from 'socket.io';
 import { WsJwtGuard } from 'src/auth/ws-jwt.guard';
 import { IPayloadToken } from 'src/types/payload-token';
+import { MatchService } from './match.service';
 
 @UseGuards(WsJwtGuard)
 @WebSocketGateway()
@@ -21,12 +24,12 @@ export class MatchGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(MatchGateway.name);
 
-  constructor(private readonly jwtService: JwtService) { }
-
-  private onlineUsers: Map<string, string> = new Map(); // userId -> socketId
+  constructor(private readonly jwtService: JwtService, private readonly matchService: MatchService) { }
 
   @WebSocketServer()
   server: Server;
+
+  private redis: Redis;
 
   afterInit(server: Server) {
     console.log('[afterInit] WebSocket server initialized');
@@ -63,7 +66,7 @@ export class MatchGateway
     });
   }
 
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     const user = (client as any).user as IPayloadToken;
     console.log(`[handleConnection] user: ${JSON.stringify(user)}`);
     const userId = user?.sub;
@@ -71,31 +74,29 @@ export class MatchGateway
     console.log(`[handleConnection] socket id: ${client.id}`);
     console.log(`[handleConnection] User connected: ${userId}`);
 
-    if (userId) {
-      this.onlineUsers.set(userId, client.id);
-    }
+    if (!userId) return
+
+    await this.matchService.addOnlineUser(userId, client.id);
 
     console.log(
       `[handleConnection] online users: `,
-      this.onlineUsers,
+      await this.matchService.getOnlineUsers(),
     );
   }
 
-  handleDisconnect(client: Socket) {
+  async handleDisconnect(client: Socket) {
     const user = (client as any).user as IPayloadToken;
     const userId = user?.sub;
 
     console.log(`[handleDisconnect] socket id: ${client.id}`);
     console.log(`[handleDisconnect] User disconnected: ${userId}`);
 
-    if (userId) {
-      this.onlineUsers.delete(userId);
-    }
+    if (!userId) return;
 
+    await this.matchService.removeOnlineUser(userId);
     console.log(
-      `[handleDisconnect] online users: ${JSON.stringify([
-        ...this.onlineUsers,
-      ])}`,
+      `[handleDisconnect] online users: `,
+      await this.matchService.getOnlineUsers(),
     );
   }
 
@@ -108,5 +109,39 @@ export class MatchGateway
     );
 
     return 'Hello world!';
+  }
+
+  @SubscribeMessage('send_challenge')
+  async sendChallenge(client: Socket, payload: any) {
+    try {
+      const user = (client as any).user as IPayloadToken;
+      const userId = user?.sub;
+
+      console.log(`[sendChallenge] user: ${userId} payload: ${JSON.stringify(payload)}`);
+
+      const challenge = await this.matchService.sendChallenge(userId, payload.toUserId);
+
+      // notify challenge to the toUserId
+      const toUserId = payload.toUserId;
+      const toUserSocketId = await this.matchService.getOnlineUser(toUserId);
+
+      if (!toUserSocketId) {
+        console.log(`[sendChallenge] User not found: ${toUserId}`);
+        throw new Error('User not found');
+      }
+
+      this.server.to(toUserSocketId).emit('challenge', challenge.toJson());
+
+      console.log(`[sendChallenge] challenge id: ${challenge.getId()}`);
+
+      const challenges = await this.matchService.getAllChallenges();
+
+      console.log(`[sendChallenge] challenges: ${JSON.stringify(challenges)}`);
+
+      return challenge.toJson();
+    } catch (error) {
+      throw new WsException(error.message)
+    }
+
   }
 }
