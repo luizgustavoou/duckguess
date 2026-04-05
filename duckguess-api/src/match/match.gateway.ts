@@ -36,16 +36,7 @@ export class MatchGateway
 
     server.use((socket: Socket, next) => {
       try {
-        const { authorization } = socket.handshake.headers;
-
-        const [, token] = authorization?.split(' ') || [];
-
-        if (!token) {
-          this.logger.warn('[WS AUTH] No token provided');
-          return next(new Error('Unauthorized'));
-        }
-
-        const payload = WsJwtGuard.validateToken(token, this.jwtService);
+        const payload = WsJwtGuard.validateToken(socket, this.jwtService);
 
         if (!payload) {
           this.logger.warn('[WS AUTH] Invalid token');
@@ -123,6 +114,7 @@ export class MatchGateway
 
       // notify challenge to the toUserId
       const toUserId = payload.toUserId;
+
       const toUserSocketId = await this.matchService.getOnlineUser(toUserId);
 
       if (!toUserSocketId) {
