@@ -1,12 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
-// import { IOnlineUsers } from 'src/types/online-users';
-
-
-export interface IChallengeProps {
-    fromUserId: string;
-    toUserId: string;
-}
 
 export class OnlineUser {
     public userId: string;
@@ -16,6 +10,7 @@ export class OnlineUser {
         this.userId = userId;
         this.socketId = socketId;
     }
+
     toJson() {
         return {
             userId: this.userId,
@@ -24,27 +19,41 @@ export class OnlineUser {
     }
 }
 
+export interface IChallengeProps {
+    id: string;
+    fromUserId: string;
+    toUserId: string;
+}
+
 export class Challenge {
+    public id: string;
     public fromUserId: string;
     public toUserId: string;
     public accepted: boolean;
 
-    constructor({ fromUserId, toUserId }: IChallengeProps) {
-        this.validate(fromUserId, toUserId);
+    constructor({ id, fromUserId, toUserId }: IChallengeProps) {
+        this.validate(id, fromUserId, toUserId);
 
+        this.id = id;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
         this.accepted = false;
     }
 
-    private validate(fromUserId: string, toUserId: string) {
-        if (!fromUserId || !toUserId) {
+    private validate(id: string, fromUserId: string, toUserId: string) {
+        if (!id || !fromUserId || !toUserId) {
             throw new Error('Invalid challenge');
         }
 
         if (fromUserId === toUserId) {
             throw new Error('User cannot challenge himself');
         }
+    }
+
+    static create({ fromUserId, toUserId }: { fromUserId: string, toUserId: string }) {
+        const id = uuidv4();
+
+        return new Challenge({ id, fromUserId, toUserId });
     }
 
     respond(userId: string, accept: boolean) {
@@ -55,13 +64,9 @@ export class Challenge {
         this.accepted = accept;
     }
 
-    getId() {
-        return `${this.fromUserId}-${this.toUserId}`;
-    }
-
     toJson() {
         return {
-            id: this.getId(),
+            id: this.id,
             fromUserId: this.fromUserId,
             toUserId: this.toUserId,
             accepted: this.accepted,
@@ -70,6 +75,44 @@ export class Challenge {
 
     toString() {
         return `${this.fromUserId} -> ${this.toUserId}`;
+    }
+}
+
+export class Match {
+    public id: string;
+    public fromUserId: string;
+    public toUserId: string;
+
+    constructor({ id, fromUserId, toUserId }: { id: string, fromUserId: string, toUserId: string }) {
+        this.validate(id, fromUserId, toUserId);
+
+        this.id = id;
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+    }
+
+    static create({ fromUserId, toUserId }: { fromUserId: string, toUserId: string }) {
+        const id = uuidv4();
+
+        return new Match({ id, fromUserId, toUserId });
+    }
+
+    private validate(id: string, fromUserId: string, toUserId: string) {
+        if (!id || !fromUserId || !toUserId) {
+            throw new Error('Invalid match');
+        }
+
+        if (fromUserId === toUserId) {
+            throw new Error('User cannot challenge himself');
+        }
+    }
+
+    toJson() {
+        return {
+            id: this.id,
+            fromUserId: this.fromUserId,
+            toUserId: this.toUserId,
+        }
     }
 }
 
@@ -122,11 +165,9 @@ export class MatchService {
             throw new Error('User not found');
         }
 
-        const challenge = new Challenge({ fromUserId, toUserId });
+        const challenge = Challenge.create({ fromUserId, toUserId });
 
-        const challengeId = `${fromUserId}-${toUserId}`;// uuidv4();
-
-        await this.redisClient.hset('challenges', challengeId, JSON.stringify(challenge.toJson()));
+        await this.redisClient.hset('challenges', challenge.id, JSON.stringify(challenge.toJson()));
 
         return challenge;
     }
@@ -164,11 +205,14 @@ export class MatchService {
 
         challenge.respond(userId, accept);
 
+
         if (challenge.accepted) {
-            await this.redisClient.hset('active_matches', challengeId, JSON.stringify(challenge.toJson()));
+            const match = Match.create({ fromUserId: challenge.fromUserId, toUserId: challenge.toUserId });
+
+            await this.redisClient.hset('active_matches', match.id, JSON.stringify(match.toJson()));
         }
 
-        await this.redisClient.hdel('challenges', challengeId);
+        await this.redisClient.hset('challenges', challenge.id, JSON.stringify(challenge.toJson()));
 
         return challenge;
     }

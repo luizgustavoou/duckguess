@@ -129,12 +129,6 @@ export class MatchGateway
 
       this.notifyUser(onlineUser.socketId, 'challenge', challenge.toJson());
 
-      console.log(`[sendChallenge] challenge id: ${challenge.getId()}`);
-
-      const challenges = await this.matchService.getAllChallenges();
-
-      console.log(`[sendChallenge] challenges: ${JSON.stringify(challenges)}`);
-
       return challenge.toJson();
     } catch (error) {
       throw new WsException(error.message)
