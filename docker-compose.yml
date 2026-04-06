@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  redis:
+    container_name: duckguess-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - duckguess-network
+
   mysql:
     container_name: duckguess-mysql
     image: mysql
@@ -29,11 +37,14 @@ services:
       - DB_PORT=$MYSQL_DOCKER_PORT
       - API_PORT=$API_DOCKER_PORT
       - CLIENT_ORIGIN=$CLIENT_ORIGIN
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
     volumes:
       - ./duckguess-api:/usr/app
       - /usr/app/node_modules
     depends_on:
       - mysql
+      - redis
     networks:
       - duckguess-network
 

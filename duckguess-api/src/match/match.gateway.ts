@@ -143,20 +143,23 @@ export class MatchGateway
 
       console.log(`[respondChallenge] user: ${userId} payload: ${JSON.stringify(payload)}`);
 
-      const challenge = await this.matchService.respondChallenge(payload.challengeId, userId, payload.accepted);
+      const { challenge, match } = await this.matchService.respondChallenge(payload.challengeId, userId, payload.accepted);
 
-      const fromUserId = challenge.fromUserId;
+      const onlineUser = await this.matchService.getOnlineUser(challenge.fromUserId);
 
-      const onlineUser = await this.matchService.getOnlineUser(fromUserId);
-
-      if (!onlineUser.socketId) {
-        console.log(`[respondChallenge] User not found: ${fromUserId}`);
+      if (!onlineUser?.socketId) {
+        console.log(`[MatchGateway.respondChallenge] User not found: ${challenge.fromUserId}`);
         throw new Error('User not found');
       }
 
-      this.notifyUser(onlineUser.socketId, 'challenge_responded', challenge.toJson());
+      const data = {
+        challenge: challenge.toJson(),
+        match: match ? match.toJson() : null,
+      }
 
-      return challenge.toJson();
+      this.notifyUser(onlineUser.socketId, 'challenge_responded', data);
+
+      return payload;
     } catch (error) {
       throw new WsException(error.message)
     }
