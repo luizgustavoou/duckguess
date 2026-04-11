@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { MatchRepository } from './match.repository';
 import { OnlineUser, Challenge, Match } from './models';
+import { ThemeRepository } from 'src/theme/theme.repository';
 
 export { OnlineUser, Challenge, Match } from './models';
 @Injectable()
 export class MatchService {
-    constructor(private readonly matchRepository: MatchRepository) {}
+    constructor(private readonly matchRepository: MatchRepository, private readonly themeRepository: ThemeRepository) { }
 
     // Online Users - Apenas delegam ao repository
     async getOnlineUser(userId: string): Promise<OnlineUser> {
@@ -53,10 +54,10 @@ export class MatchService {
         return this.matchRepository.getAllChallenges();
     }
 
-    async respondChallenge(challengeId: string, userId: string, accept: boolean): Promise<{challenge: Challenge, match: Match}> {
+    async respondChallenge(challengeId: string, userId: string, accept: boolean): Promise<{ challenge: Challenge, match: Match }> {
         const challenge = await this.matchRepository.getChallenge(challengeId);
 
-        if(!challenge) {
+        if (!challenge) {
             console.log(`[respondChallenge] Challenge not found: ${challengeId}`);
             throw new Error('Challenge not found');
         }
@@ -65,19 +66,25 @@ export class MatchService {
 
         await this.matchRepository.saveChallenge(challenge);
 
-        if (challenge.accepted) {
-            const match = Match.create({
-                matchId: challenge.id,
-                fromUserId: challenge.fromUserId,
-                toUserId: challenge.toUserId,
-            });
-
-            await this.matchRepository.saveMatch(match);
-
-            return { challenge, match };
+        if (!challenge.accepted) {
+            return { challenge, match: null };
         }
 
+        const theme = await this.themeRepository.findRandom();
 
-        return { challenge, match: null };
+        if (!theme) {
+            throw new Error('Theme not found');
+        }
+
+        const match = Match.create({
+            matchId: challenge.id,
+            fromUserId: challenge.fromUserId,
+            toUserId: challenge.toUserId,
+            themeId: theme.id,
+        });
+
+        await this.matchRepository.saveMatch(match);
+
+        return { challenge, match };
     }
 }

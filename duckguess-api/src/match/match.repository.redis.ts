@@ -42,7 +42,7 @@ export class MatchRepositoryRedis implements MatchRepository {
         const challengeJson = await this.redisClient.hget('challenges', challengeId);
 
         if (!challengeJson) {
-            throw new Error('Challenge not found');
+            return null;
         }
 
         return new Challenge(JSON.parse(challengeJson));
@@ -68,6 +68,6 @@ export class MatchRepositoryRedis implements MatchRepository {
 
     // Matches - CRUD básico
     async saveMatch(match: Match): Promise<void> {
-        await this.redisClient.hset('active_matches', match.id, JSON.stringify(match.toJson()));
+        await this.redisClient.hset('matches', match.id, JSON.stringify(match.toJson()));
     }
 }

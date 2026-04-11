@@ -4,9 +4,10 @@ import { AuthModule } from "src/auth/auth.module";
 import { MatchService } from './match.service';
 import { MatchRepository } from './match.repository';
 import { MatchRepositoryRedis } from './match.repository.redis';
+import { ThemeModule } from "src/theme/theme.module";
 
 @Module({
-    imports: [AuthModule,],
+    imports: [AuthModule, ThemeModule],
     providers: [
         MatchGateway,
         MatchService,
