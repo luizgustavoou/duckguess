@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Guess } from './entities/guess.entity';
 import { GuessService, GuessServiceImpl } from './guess.service';
 import { ThemeModule } from 'src/theme/theme.module';
+import { GuessRepository } from './guess.repository';
+import { GuessRepositoryTypeORM } from './guess.repository.typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Guess]), ThemeModule],
@@ -13,7 +15,11 @@ import { ThemeModule } from 'src/theme/theme.module';
       provide: GuessService,
       useClass: GuessServiceImpl,
     },
+    {
+      provide: GuessRepository,
+      useClass: GuessRepositoryTypeORM,
+    },
   ],
-  exports: [GuessService],
+  exports: [GuessService, GuessRepository],
 })
 export class GuessModule {}

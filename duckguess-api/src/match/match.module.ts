@@ -5,9 +5,10 @@ import { MatchService } from './match.service';
 import { MatchRepository } from './match.repository';
 import { MatchRepositoryRedis } from './match.repository.redis';
 import { ThemeModule } from "src/theme/theme.module";
+import { GuessModule } from "src/guess/guess.module";
 
 @Module({
-    imports: [AuthModule, ThemeModule],
+    imports: [AuthModule, ThemeModule, GuessModule],
     providers: [
         MatchGateway,
         MatchService,

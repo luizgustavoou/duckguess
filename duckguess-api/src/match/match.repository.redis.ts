@@ -3,6 +3,10 @@ import Redis from 'ioredis';
 import { MatchRepository } from './match.repository';
 import { OnlineUser, Challenge, Match } from './models';
 
+const ONLINE_USERS_KEY = 'online_users';
+const CHALLENGES_KEY = 'challenges';
+const MATCHES_KEY = 'matches';
+
 @Injectable()
 export class MatchRepositoryRedis implements MatchRepository {
     private readonly redisClient = new Redis({
@@ -12,7 +16,7 @@ export class MatchRepositoryRedis implements MatchRepository {
 
     // Online Users - CRUD básico
     async getOnlineUser(userId: string): Promise<OnlineUser> {
-        const socketId = await this.redisClient.hget('online_users', userId);
+        const socketId = await this.redisClient.hget(ONLINE_USERS_KEY, userId);
 
         if (!socketId) {
             throw new Error('User not found');
@@ -22,7 +26,7 @@ export class MatchRepositoryRedis implements MatchRepository {
     }
 
     async getOnlineUsers(): Promise<OnlineUser[]> {
-        const onlineUsersHash = await this.redisClient.hgetall('online_users');
+        const onlineUsersHash = await this.redisClient.hgetall(ONLINE_USERS_KEY);
 
         return Object.entries(onlineUsersHash).map(([key, value]) => {
             return new OnlineUser({ userId: key, socketId: value });
@@ -30,16 +34,16 @@ export class MatchRepositoryRedis implements MatchRepository {
     }
 
     async saveOnlineUser(userId: string, socketId: string): Promise<void> {
-        await this.redisClient.hset('online_users', userId, socketId);
+        await this.redisClient.hset(ONLINE_USERS_KEY, userId, socketId);
     }
 
     async removeOnlineUser(userId: string): Promise<void> {
-        await this.redisClient.hdel('online_users', userId);
+        await this.redisClient.hdel(ONLINE_USERS_KEY, userId);
     }
 
     // Challenges - CRUD básico
     async getChallenge(challengeId: string): Promise<Challenge> {
-        const challengeJson = await this.redisClient.hget('challenges', challengeId);
+        const challengeJson = await this.redisClient.hget(CHALLENGES_KEY, challengeId);
 
         if (!challengeJson) {
             return null;
@@ -49,7 +53,7 @@ export class MatchRepositoryRedis implements MatchRepository {
     }
 
     async getChallengesForUser(userId: string): Promise<Challenge[]> {
-        const challenges = await this.redisClient.hgetall('challenges');
+        const challenges = await this.redisClient.hgetall(CHALLENGES_KEY);
 
         return Object.values(challenges)
             .map((value) => new Challenge(JSON.parse(value)))
@@ -57,17 +61,17 @@ export class MatchRepositoryRedis implements MatchRepository {
     }
 
     async getAllChallenges(): Promise<Challenge[]> {
-        const challenges = await this.redisClient.hgetall('challenges');
+        const challenges = await this.redisClient.hgetall(CHALLENGES_KEY);
 
         return Object.values(challenges).map((value) => new Challenge(JSON.parse(value)));
     }
 
     async saveChallenge(challenge: Challenge): Promise<void> {
-        await this.redisClient.hset('challenges', challenge.id, JSON.stringify(challenge.toJson()));
+        await this.redisClient.hset(CHALLENGES_KEY, challenge.id, JSON.stringify(challenge.toJson()));
     }
 
     // Matches - CRUD básico
     async saveMatch(match: Match): Promise<void> {
-        await this.redisClient.hset('matches', match.id, JSON.stringify(match.toJson()));
+        await this.redisClient.hset(MATCHES_KEY, match.id, JSON.stringify(match.toJson()));
     }
 }

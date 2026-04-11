@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { MatchRepository } from './match.repository';
 import { OnlineUser, Challenge, Match } from './models';
 import { ThemeRepository } from 'src/theme/theme.repository';
+import { GuessRepository } from 'src/guess/guess.repository';
+import { GuessMatch } from 'src/match/models/match.model';
 
 export { OnlineUser, Challenge, Match } from './models';
 @Injectable()
 export class MatchService {
-    constructor(private readonly matchRepository: MatchRepository, private readonly themeRepository: ThemeRepository) { }
+    constructor(private readonly matchRepository: MatchRepository, private readonly themeRepository: ThemeRepository, private readonly guessRepository: GuessRepository) { }
 
     // Online Users - Apenas delegam ao repository
     async getOnlineUser(userId: string): Promise<OnlineUser> {
@@ -55,36 +57,49 @@ export class MatchService {
     }
 
     async respondChallenge(challengeId: string, userId: string, accept: boolean): Promise<{ challenge: Challenge, match: Match }> {
-        const challenge = await this.matchRepository.getChallenge(challengeId);
+        try {
+            const challenge = await this.matchRepository.getChallenge(challengeId);
 
-        if (!challenge) {
-            console.log(`[respondChallenge] Challenge not found: ${challengeId}`);
-            throw new Error('Challenge not found');
+            if (!challenge) {
+                console.log(`[respondChallenge] Challenge not found: ${challengeId}`);
+                throw new Error('Challenge not found');
+            }
+
+            challenge.respond(userId, accept);
+
+            await this.matchRepository.saveChallenge(challenge);
+
+            if (!challenge.accepted) {
+                return { challenge, match: null };
+            }
+
+            const theme = await this.themeRepository.findRandom();
+
+            if (!theme) {
+                throw new Error('Theme not found');
+            }
+
+            const guesses = await this.guessRepository.findByTheme(theme.id);
+
+            const guessMatch = guesses.map(guess => GuessMatch.create({
+                answer: guess.answer,
+                guessId: guess.id,
+            }));
+
+            const match = Match.create({
+                matchId: challenge.id,
+                fromUserId: challenge.fromUserId,
+                toUserId: challenge.toUserId,
+                themeId: theme.id,
+                guessMatches: guessMatch
+            });
+
+            await this.matchRepository.saveMatch(match);
+
+            return { challenge, match };
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
-
-        challenge.respond(userId, accept);
-
-        await this.matchRepository.saveChallenge(challenge);
-
-        if (!challenge.accepted) {
-            return { challenge, match: null };
-        }
-
-        const theme = await this.themeRepository.findRandom();
-
-        if (!theme) {
-            throw new Error('Theme not found');
-        }
-
-        const match = Match.create({
-            matchId: challenge.id,
-            fromUserId: challenge.fromUserId,
-            toUserId: challenge.toUserId,
-            themeId: theme.id,
-        });
-
-        await this.matchRepository.saveMatch(match);
-
-        return { challenge, match };
     }
 }

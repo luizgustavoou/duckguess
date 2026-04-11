@@ -38,30 +38,36 @@ export class Match {
     public fromUserId: string;
     public toUserId: string;
     public themeId: string;
+    public guessMatches: GuessMatch[];
     public status: MatchStatus;
 
-    constructor({ id, matchId, fromUserId, toUserId, themeId, status }: { id: string, matchId: string, fromUserId: string, toUserId: string, themeId: string, status: MatchStatus }) {
-        this.validate(id, matchId, fromUserId, toUserId, themeId, status);
+    constructor({ id, matchId, fromUserId, toUserId, themeId, guessMatches, status }: { id: string, matchId: string, fromUserId: string, toUserId: string, themeId: string, guessMatches: GuessMatch[], status: MatchStatus }) {
+        this.validate(id, matchId, fromUserId, toUserId, themeId, guessMatches, status);
 
         this.id = id;
         this.matchId = matchId;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
         this.themeId = themeId;
+        this.guessMatches = guessMatches;
         this.status = status;
     }
 
-    static create({ matchId, fromUserId, toUserId, themeId }: { matchId: string, fromUserId: string, toUserId: string, themeId: string }) {
+    static create({ matchId, fromUserId, toUserId, themeId, guessMatches }: { matchId: string, fromUserId: string, toUserId: string, themeId: string, guessMatches: GuessMatch[] }) {
         const id = uuidv4();
 
         const status = MatchStatus.WAITING;
 
-        return new Match({ id, matchId, fromUserId, toUserId, themeId, status });
+        return new Match({ id, matchId, fromUserId, toUserId, themeId, guessMatches, status });
     }
 
-    private validate(id: string, matchId: string, fromUserId: string, toUserId: string, themeId: string, status: MatchStatus) {
-        if (!id || !matchId || !fromUserId || !toUserId || !themeId || !status) {
+    private validate(id: string, matchId: string, fromUserId: string, toUserId: string, themeId: string, guessMatches: GuessMatch[], status: MatchStatus) {
+        if (!id || !matchId || !fromUserId || !toUserId || !themeId || !guessMatches || !status) {
             throw new Error('Invalid match');
+        }
+
+        if (!guessMatches.length) {
+            throw new Error('Invalid match: the theme must have at least one guess');
         }
 
         if (fromUserId === toUserId) {
@@ -77,6 +83,7 @@ export class Match {
             toUserId: this.toUserId,
             themeId: this.themeId,
             status: this.status.value,
+            guessMatches: this.guessMatches.map((guessMatch) => guessMatch.toJson()),
         };
     }
 }
@@ -86,10 +93,10 @@ export class GuessMatch {
     guessId: string;
     answer: string;
     correct: boolean;
-    userIdAnswered: string;
+    userIdAnswered: string | null;
 
     constructor({ guessId, answer, correct, userIdAnswered }: { guessId: string, answer: string, correct: boolean, userIdAnswered: string }) {
-        this.validate(guessId, answer, correct, userIdAnswered);
+        this.validate(guessId, answer, correct);
 
         this.guessId = guessId;
         this.answer = answer;
@@ -97,12 +104,12 @@ export class GuessMatch {
         this.userIdAnswered = userIdAnswered;
     }
 
-    static create({ guessId, answer, userIdAnswered }: { guessId: string, answer: string, userIdAnswered: string }) {
-        return new GuessMatch({ guessId, answer, correct: false, userIdAnswered });
+    static create({ guessId, answer }: { guessId: string, answer: string }) {
+        return new GuessMatch({ guessId, answer, correct: false, userIdAnswered: null });
     }
 
-    private validate(guessId: string, answer: string, correct: boolean, userIdAnswered: string) {
-        if (!guessId || !userIdAnswered || !answer || typeof correct !== 'boolean') {
+    private validate(guessId: string, answer: string, correct: boolean) {
+        if (!guessId || !answer || typeof correct !== 'boolean') {
             throw new Error('Invalid guess match');
         }
     }
