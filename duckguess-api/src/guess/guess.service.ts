@@ -22,14 +22,14 @@ export class GuessServiceImpl implements GuessService {
   ) {}
 
   async create(createGuessDto: CreateGuessDto): Promise<Guess> {
-    const { answer, themeId } = createGuessDto;
+    const { answer, themeId, hints } = createGuessDto;
 
     const theme = await this.themeRepository.findOne(themeId);
     if (!theme) {
       throw new NotFoundException('Tema não encontrado.');
     }
 
-    return this.guessRepository.save({ answer, themeId });
+    return this.guessRepository.save({ answer, themeId, hints: hints as any });
   }
 
   async findAll(queryGuessDto: QueryGuessDto): Promise<Guess[]> {
