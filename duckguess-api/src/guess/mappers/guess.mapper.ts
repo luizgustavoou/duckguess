@@ -1,0 +1,26 @@
+import { HintMapper } from 'src/hint/mappers/hint.mapper';
+import { ThemeEntity } from 'src/theme/entities/theme.entity';
+import { Guess } from '../domain/guess';
+import { GuessEntity } from '../entities/guess.entity';
+
+export class GuessMapper {
+  static toDomain(entity: GuessEntity): Guess {
+    const domain = new Guess();
+    domain.id = entity.id;
+    domain.answer = entity.answer;
+    domain.themeId = entity.theme?.id ?? null;
+    domain.createdAt = entity.createdAt;
+    domain.updatedAt = entity.updatedAt;
+    domain.hints = entity.hints ? entity.hints.map(HintMapper.toDomain) : [];
+    return domain;
+  }
+
+  static toEntity(domain: Partial<Guess>): Partial<GuessEntity> {
+    const entity: Partial<GuessEntity> = {};
+    if (domain.id !== undefined) entity.id = domain.id;
+    if (domain.answer !== undefined) entity.answer = domain.answer;
+    if (domain.themeId !== undefined)
+      entity.theme = { id: domain.themeId } as ThemeEntity;
+    return entity;
+  }
+}

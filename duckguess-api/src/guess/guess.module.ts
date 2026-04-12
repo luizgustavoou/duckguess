@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { GuessController } from './guess.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Guess } from './entities/guess.entity';
+import { GuessEntity } from './entities/guess.entity';
 import { GuessService, GuessServiceImpl } from './guess.service';
 import { ThemeModule } from 'src/theme/theme.module';
 import { GuessRepository } from './guess.repository';
 import { GuessRepositoryTypeORM } from './guess.repository.typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Guess]), ThemeModule],
+  imports: [TypeOrmModule.forFeature([GuessEntity]), ThemeModule],
   controllers: [GuessController],
   providers: [
     {

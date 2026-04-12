@@ -1,34 +1,24 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateHintDto } from 'src/hint/dto/create-hint.dto';
-import { Hint } from 'src/hint/entities/hint.entity';
 import { UpdateHintDto } from 'src/hint/dto/update-hint.dto';
 import { GuessService } from 'src/guess/guess.service';
 import { HintRepository } from './hint.repository';
+import { Hint } from './domain/hint';
 
 export abstract class HintService {
   abstract create(createHintDto: CreateHintDto): Promise<Hint>;
-
   abstract findAll(): Promise<Hint[]>;
-
   abstract findOne(id: string): Promise<Hint>;
-
   abstract update(id: string, updateHintDto: UpdateHintDto): Promise<Hint>;
-
   abstract remove(id: string): Promise<void>;
 }
 
 @Injectable()
 export class HintServiceImpl implements HintService {
   constructor(
-    private readonly repository: HintRepository,
+    private readonly hintRepository: HintRepository,
     private readonly guessService: GuessService,
-  ) { }
+  ) {}
 
   async create(createHintDto: CreateHintDto): Promise<Hint> {
     const { text, guessId } = createHintDto;
@@ -43,30 +33,28 @@ export class HintServiceImpl implements HintService {
       throw new ConflictException('Já existem 10 dicas para essa adivinhação.');
     }
 
-    const hint = await this.repository.create({ text, guessId });
-
-    return hint;
+    return this.hintRepository.save({ text, guessId });
   }
 
   async findAll(): Promise<Hint[]> {
-    const hints = await this.repository.findAll();
-
-    return hints;
+    return this.hintRepository.findAll();
   }
 
   async findOne(id: string): Promise<Hint> {
-    const hints = await this.repository.findOne(id);
-
-    return hints;
+    return this.hintRepository.findOne(id);
   }
 
   async update(id: string, updateHintDto: UpdateHintDto): Promise<Hint> {
-    const hintUpdated = await this.repository.update(id, updateHintDto);
+    const existing = await this.hintRepository.findOne(id);
 
-    return hintUpdated;
+    if (!existing) {
+      throw new NotFoundException('Dica não encontrada.');
+    }
+
+    return this.hintRepository.save({ id, text: updateHintDto.text });
   }
 
   async remove(id: string): Promise<void> {
-    await this.repository.remove(id);
+    return this.hintRepository.remove(id);
   }
 }

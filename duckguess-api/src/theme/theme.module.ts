@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ThemeController } from './theme.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Theme } from './entities/theme.entity';
+import { ThemeEntity } from './entities/theme.entity';
 import { ThemeService, ThemeServiceImpl } from './theme.service';
 import { ThemeRepository } from './theme.repository';
 import { ThemeRepositoryTypeORM } from './theme.repository.typeorm';
+import { ThemeQuery } from './theme.query';
+import { ThemeRepositoryTypeORMQuery } from './theme.repository.typeorm.query';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Theme])],
+  imports: [TypeOrmModule.forFeature([ThemeEntity])],
   controllers: [ThemeController],
   providers: [
     {
@@ -18,7 +20,11 @@ import { ThemeRepositoryTypeORM } from './theme.repository.typeorm';
       provide: ThemeRepository,
       useClass: ThemeRepositoryTypeORM,
     },
+    {
+      provide: ThemeQuery,
+      useClass: ThemeRepositoryTypeORMQuery,
+    },
   ],
-  exports: [ThemeService, ThemeRepository],
+  exports: [ThemeService, ThemeRepository, ThemeQuery],
 })
 export class ThemeModule {}

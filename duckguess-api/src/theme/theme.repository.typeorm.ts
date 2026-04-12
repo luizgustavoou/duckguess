@@ -1,32 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Theme } from './entities/theme.entity';
+import { ThemeEntity } from './entities/theme.entity';
 import { ThemeRepository } from './theme.repository';
+import { Theme } from './domain/theme';
+import { ThemeMapper } from './mappers/theme.mapper';
 
 @Injectable()
 export class ThemeRepositoryTypeORM implements ThemeRepository {
   constructor(
-    @InjectRepository(Theme)
-    private readonly typeOrmRepository: Repository<Theme>,
+    @InjectRepository(ThemeEntity)
+    private readonly typeOrmRepository: Repository<ThemeEntity>,
   ) {}
 
-  async create(theme: Partial<Theme>): Promise<Theme> {
-    const newTheme = this.typeOrmRepository.create(theme);
-    return this.typeOrmRepository.save(newTheme);
+  async save(theme: Partial<Theme>): Promise<Theme> {
+    const entity = await this.typeOrmRepository.save(
+      ThemeMapper.toEntity(theme),
+    );
+    return ThemeMapper.toDomain(entity);
   }
 
   async findAll(): Promise<Theme[]> {
-    return this.typeOrmRepository.find();
+    const entities = await this.typeOrmRepository.find();
+    return entities.map(ThemeMapper.toDomain);
   }
 
   async findOne(id: string): Promise<Theme | null> {
-    return this.typeOrmRepository.findOne({ where: { id } });
+    const entity = await this.typeOrmRepository.findOne({ where: { id } });
+    return entity ? ThemeMapper.toDomain(entity) : null;
   }
 
-  async update(id: string, theme: Partial<Theme>): Promise<Theme | null> {
-    await this.typeOrmRepository.update(id, theme);
-    return this.findOne(id);
+  async findByValue(value: string): Promise<Theme | null> {
+    const entity = await this.typeOrmRepository.findOne({ where: { value } });
+    return entity ? ThemeMapper.toDomain(entity) : null;
   }
 
   async remove(id: string): Promise<void> {
@@ -34,9 +40,10 @@ export class ThemeRepositoryTypeORM implements ThemeRepository {
   }
 
   async findRandom(): Promise<Theme | null> {
-    return this.typeOrmRepository
+    const entity = await this.typeOrmRepository
       .createQueryBuilder('theme')
       .orderBy('RAND()')
       .getOne();
+    return entity ? ThemeMapper.toDomain(entity) : null;
   }
 }

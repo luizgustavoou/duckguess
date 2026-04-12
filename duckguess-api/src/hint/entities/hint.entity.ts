@@ -1,4 +1,4 @@
-import { Guess } from 'src/guess/entities/guess.entity';
+import { GuessEntity } from 'src/guess/entities/guess.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Hint {
+export class HintEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,6 +22,6 @@ export class Hint {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Guess, (guess) => guess.hints, { onDelete: 'CASCADE' })
-  guess: Guess;
+  @ManyToOne(() => GuessEntity, (guess) => guess.hints, { onDelete: 'CASCADE' })
+  guess: GuessEntity;
 }

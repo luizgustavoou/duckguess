@@ -14,10 +14,14 @@ import { Public } from 'src/decorators/public.decorator';
 import { UserRole } from 'src/user/enums/user-role';
 import { Roles } from 'src/decorators/roles.decorator';
 import { ThemeService } from './theme.service';
+import { ThemeQuery } from './theme.query';
 
 @Controller('theme')
 export class ThemeController {
-  constructor(private readonly themeService: ThemeService) {}
+  constructor(
+    private readonly themeService: ThemeService,
+    private readonly themeQuery: ThemeQuery,
+  ) {}
 
   @Roles([UserRole.ADMIN])
   @Post()
@@ -28,7 +32,7 @@ export class ThemeController {
   @Public()
   @Get()
   findAll() {
-    return this.themeService.findAll();
+    return this.themeQuery.findAllWithGuesses();
   }
 
   @Public()

@@ -1,62 +1,50 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
-import { Theme } from 'src/theme/entities/theme.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Theme } from 'src/theme/domain/theme';
 import { CreateThemeDto } from 'src/theme/dto/create-theme.dto';
 import { UpdateThemeDto } from 'src/theme/dto/update-theme.dto';
+import { ThemeRepository } from './theme.repository';
 
 export abstract class ThemeService {
   abstract create(createThemeDto: CreateThemeDto): Promise<Theme>;
-
   abstract findAll(): Promise<Theme[]>;
-
   abstract findOne(id: string): Promise<Theme>;
-
   abstract update(id: string, updateThemeDto: UpdateThemeDto): Promise<Theme>;
-
   abstract remove(id: string): Promise<void>;
 }
 
+@Injectable()
 export class ThemeServiceImpl implements ThemeService {
-  constructor(
-    @InjectRepository(Theme) private themeRepository: Repository<Theme>,
-  ) {}
+  constructor(private readonly themeRepository: ThemeRepository) {}
 
   async create(createThemeDto: CreateThemeDto): Promise<Theme> {
-    const { value } = createThemeDto;
-
-    const theme = await this.themeRepository.save({ value });
-
-    return theme;
+    return this.themeRepository.save({ value: createThemeDto.value });
   }
 
   async findAll(): Promise<Theme[]> {
-    const themes = await this.themeRepository.find();
-
-    return themes;
+    return this.themeRepository.findAll();
   }
 
   async findOne(id: string): Promise<Theme> {
-    const themes = await this.themeRepository.findOneBy({ id });
-
-    return themes;
-  }
-
-  async update(id: string, updateThemeDto: UpdateThemeDto): Promise<Theme> {
-    const theme = await this.themeRepository.findOneBy({ id });
+    const theme = await this.themeRepository.findOne(id);
 
     if (!theme) {
       throw new NotFoundException('Tema não encontrado.');
     }
 
-    await this.themeRepository.merge(theme, updateThemeDto);
+    return theme;
+  }
 
-    const themeUpdated = await this.themeRepository.save(theme);
+  async update(id: string, updateThemeDto: UpdateThemeDto): Promise<Theme> {
+    const existing = await this.themeRepository.findOne(id);
 
-    return themeUpdated;
+    if (!existing) {
+      throw new NotFoundException('Tema não encontrado.');
+    }
+
+    return this.themeRepository.save({ id, ...updateThemeDto });
   }
 
   async remove(id: string): Promise<void> {
-    await this.themeRepository.delete({ id });
+    await this.themeRepository.remove(id);
   }
 }

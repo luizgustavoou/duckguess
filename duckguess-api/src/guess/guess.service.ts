@@ -1,108 +1,82 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Guess } from 'src/guess/entities/guess.entity';
-import { Repository } from 'typeorm';
 import { QueryGuessDto } from 'src/guess/dto/query-guess.dto';
-import { ThemeService } from 'src/theme/theme.service';
+import { Guess } from 'src/guess/domain/guess';
+import { GuessRepository } from './guess.repository';
+import { ThemeRepository } from 'src/theme/theme.repository';
 
 export abstract class GuessService {
   abstract create(createGuessDto: CreateGuessDto): Promise<Guess>;
-
   abstract findAll(queryGuessDto: QueryGuessDto): Promise<Guess[]>;
-
   abstract findOne(id: string): Promise<Guess>;
-
   abstract update(id: string, updateGuessDto: UpdateGuessDto): Promise<Guess>;
-
   abstract remove(id: string): Promise<void>;
 }
+
 @Injectable()
 export class GuessServiceImpl implements GuessService {
   constructor(
-    @InjectRepository(Guess) private guessRepository: Repository<Guess>,
-    private themeService: ThemeService,
+    private readonly guessRepository: GuessRepository,
+    private readonly themeRepository: ThemeRepository,
   ) {}
 
   async create(createGuessDto: CreateGuessDto): Promise<Guess> {
-    const { answer, themeId, hints } = createGuessDto;
+    const { answer, themeId } = createGuessDto;
 
-    const theme = await this.themeService.findOne(themeId);
-
+    const theme = await this.themeRepository.findOne(themeId);
     if (!theme) {
       throw new NotFoundException('Tema não encontrado.');
     }
 
-    const guess = await this.guessRepository.save({
-      answer,
-      theme,
-      hints: hints || [],
-    });
-
-    return guess;
+    return this.guessRepository.save({ answer, themeId });
   }
 
   async findAll(queryGuessDto: QueryGuessDto): Promise<Guess[]> {
-    const { skip, take, themeId } = queryGuessDto;
-
-    const where: any = {};
+    const { themeId } = queryGuessDto;
 
     if (themeId) {
-      where.theme = { id: themeId };
+      return this.guessRepository.findByTheme(themeId);
     }
 
-    const [guesses, count] = await this.guessRepository.findAndCount({
-      where,
-      skip,
-      take,
-      relations: {
-        hints: true,
-        theme: true,
-      },
-    });
-
-    return guesses;
+    return this.guessRepository.findAll();
   }
-
 
   async findOne(id: string): Promise<Guess> {
-    const guesses = await this.guessRepository.findOne({
-      where: { id },
-      relations: { 
-        hints: true, 
-        theme: true 
-      },
-    });
-
-    return guesses;
-  }
-
-  async update(id: string, updateGuessDto: UpdateGuessDto): Promise<Guess> {
-    const guess = await this.guessRepository.findOneBy({ id });
+    const guess = await this.guessRepository.findOne(id);
 
     if (!guess) {
       throw new NotFoundException('Adivinhação não encontrada.');
     }
 
-    const { themeId, ...updateData } = updateGuessDto;
+    return guess;
+  }
 
-    if (themeId) {
-      const theme = await this.themeService.findOne(themeId);
+  async update(id: string, updateGuessDto: UpdateGuessDto): Promise<Guess> {
+    const existing = await this.guessRepository.findOne(id);
+
+    if (!existing) {
+      throw new NotFoundException('Adivinhação não encontrada.');
+    }
+
+    const updates: Partial<Guess> = { id };
+
+    if (updateGuessDto.answer !== undefined) {
+      updates.answer = updateGuessDto.answer;
+    }
+
+    if (updateGuessDto.themeId) {
+      const theme = await this.themeRepository.findOne(updateGuessDto.themeId);
       if (!theme) {
         throw new NotFoundException('Tema não encontrado.');
       }
-      guess.theme = theme;
+      updates.themeId = updateGuessDto.themeId;
     }
 
-    await this.guessRepository.merge(guess, updateData);
-
-    const guessUpdated = await this.guessRepository.save(guess);
-
-    return guessUpdated;
+    return this.guessRepository.save(updates);
   }
 
   async remove(id: string): Promise<void> {
-    await this.guessRepository.delete({ id });
+    await this.guessRepository.remove(id);
   }
 }

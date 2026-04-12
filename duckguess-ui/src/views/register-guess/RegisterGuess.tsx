@@ -2,11 +2,11 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import FormRegisterGuess from "../form-register-guess/FormRegisterGuess";
 import FormRegisterTheme from "../form-register-theme/FormRegisterTheme";
-import { 
-  HiPlus, HiSearch, HiOutlineTrash, HiOutlinePencil, HiOutlineCheck, 
+import {
+  HiPlus, HiSearch, HiOutlineTrash, HiOutlinePencil, HiOutlineCheck,
   HiOutlineX, HiOutlinePlus, HiChevronLeft, HiLibrary,
   HiGlobeAlt, HiBeaker, HiChip, HiLightBulb
-} from "react-icons/hi"; 
+} from "react-icons/hi";
 import { guessService, hintService, themeService } from "../../services";
 import { IGuess } from "../../entities/IGuess";
 import { ITheme } from "../../entities/ITheme";
@@ -30,7 +30,7 @@ export default function RegisterGuess() {
   const [isCreatingTheme, setIsCreatingTheme] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGuessId, setSelectedGuessId] = useState<string | null>(null);
-  
+
   // Navigation states
   const [activeView, setActiveView] = useState<'categories' | 'guesses'>('categories');
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
@@ -44,11 +44,14 @@ export default function RegisterGuess() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const [guessesData, themesData] = await Promise.all([
-        guessService.getAll(),
-        themeService.getAllThemes()
-      ]);
-      setGuesses(guessesData);
+      const themesData = await themeService.getAllThemes();
+
+      const allGuesses: IGuess[] = themesData.flatMap(t => {
+        if (!t.guesses) return [];
+        return t.guesses.map(g => ({ ...g, theme: t }));
+      });
+
+      setGuesses(allGuesses);
       setThemes(themesData);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
@@ -177,12 +180,12 @@ export default function RegisterGuess() {
   return (
     <div className="min-h-screen bg-game-gradient px-6 md:px-12 lg:px-16 py-10">
       <div className="flex flex-col items-start gap-8 w-full max-w-[1400px] mx-auto">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between w-full pb-6 border-b border-white/5">
           <div className="flex items-center gap-4">
             {activeView === 'guesses' && (
-              <button 
+              <button
                 onClick={handleGoBack}
                 className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all border border-white/5 hover:border-white/10"
               >
@@ -194,14 +197,14 @@ export default function RegisterGuess() {
                 {activeView === 'categories' ? 'Adivinhações' : selectedTheme?.value}
               </h1>
               <p className="text-white/40 text-sm mt-1">
-                {activeView === 'categories' 
-                  ? 'Escolha um tema para gerenciar os itens' 
+                {activeView === 'categories'
+                  ? 'Escolha um tema para gerenciar os itens'
                   : `Gerencie as adivinhações do tema ${selectedTheme?.value}`
                 }
               </p>
             </div>
           </div>
-          
+
           <button
             onClick={activeView === 'categories' ? handleCreateTheme : handleAddNew}
             className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500
@@ -228,7 +231,7 @@ export default function RegisterGuess() {
                 onClick={() => handleSelectTheme(theme.id)}
               />
             ))}
-            
+
             {/* Create Theme "Card" */}
             <button
               onClick={handleCreateTheme}
@@ -257,7 +260,7 @@ export default function RegisterGuess() {
                   />
                 </div>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto custom-scrollbar p-4 flex flex-col gap-2">
                 {filteredGuesses.length > 0 ? (
                   filteredGuesses.map((guess) => (
@@ -322,100 +325,100 @@ export default function RegisterGuess() {
 
                   <div className="flex-1 overflow-y-auto custom-scrollbar p-8 flex flex-col gap-4">
                     <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-xs font-black text-white/20 uppercase tracking-[0.2em]">Pistas Sequenciais</h3>
-                        {!isAddingHint && selectedGuess.hints.length < 10 && (
+                      <h3 className="text-xs font-black text-white/20 uppercase tracking-[0.2em]">Pistas Sequenciais</h3>
+                      {!isAddingHint && selectedGuess.hints.length < 10 && (
                         <button
-                            onClick={() => setIsAddingHint(true)}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500 hover:text-white font-bold text-xs transition-all border border-indigo-500/20"
+                          onClick={() => setIsAddingHint(true)}
+                          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500 hover:text-white font-bold text-xs transition-all border border-indigo-500/20"
                         >
-                            <HiOutlinePlus size={16} /> ADICIONAR NOVA DICA
+                          <HiOutlinePlus size={16} /> ADICIONAR NOVA DICA
                         </button>
-                        )}
+                      )}
                     </div>
 
                     {isAddingHint && (
-                        <div className="flex gap-3 p-5 bg-indigo-500/5 rounded-2xl border border-indigo-500/20 mb-2 animate-in fade-in slide-in-from-top-4 duration-300">
+                      <div className="flex gap-3 p-5 bg-indigo-500/5 rounded-2xl border border-indigo-500/20 mb-2 animate-in fade-in slide-in-from-top-4 duration-300">
                         <input
-                            autoFocus
-                            value={newHintText}
-                            onChange={(e) => setNewHintText(e.target.value)}
-                            placeholder="Escreva uma dica matadora..."
-                            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500/50"
-                            onKeyDown={(e) => e.key === 'Enter' && handleAddHint()}
+                          autoFocus
+                          value={newHintText}
+                          onChange={(e) => setNewHintText(e.target.value)}
+                          placeholder="Escreva uma dica matadora..."
+                          className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500/50"
+                          onKeyDown={(e) => e.key === 'Enter' && handleAddHint()}
                         />
                         <div className="flex gap-2">
-                            <button
+                          <button
                             onClick={handleAddHint}
                             className="px-4 bg-indigo-500 text-white rounded-xl hover:bg-indigo-400 transition-colors shadow-lg font-bold text-sm"
-                            >
+                          >
                             SALVAR
-                            </button>
-                            <button
+                          </button>
+                          <button
                             onClick={() => { setIsAddingHint(false); setNewHintText(""); }}
                             className="p-3 bg-white/5 text-white/40 rounded-xl hover:bg-white/10 transition-colors"
-                            >
+                          >
                             <HiOutlineX size={20} />
-                            </button>
+                          </button>
                         </div>
-                        </div>
+                      </div>
                     )}
 
                     {selectedGuess.hints.map((hint, i) => (
-                        <div
+                      <div
                         key={hint.id}
                         className="group flex items-start bg-white/2 rounded-2xl p-5 text-sm 
                                     border border-white/5 hover:bg-white/5 hover:border-white/10 transition-all duration-300"
-                        >
+                      >
                         <span className="flex items-center justify-center min-w-[32px] h-[32px] bg-indigo-500/20 rounded-xl text-indigo-400 font-black text-xs mr-5 mt-0.5 border border-indigo-500/10 group-hover:scale-110 transition-transform">
-                            {i + 1}
+                          {i + 1}
                         </span>
 
                         {editingHintId === hint.id ? (
-                            <div className="flex-1 flex gap-3">
+                          <div className="flex-1 flex gap-3">
                             <input
-                                autoFocus
-                                value={editingHintText}
-                                onChange={(e) => setEditingHintText(e.target.value)}
-                                className="flex-1 bg-black/40 border border-indigo-500/30 rounded-xl px-4 py-2 text-sm text-white focus:outline-none"
-                                onKeyDown={(e) => e.key === 'Enter' && handleSaveHintEdit(hint.id)}
+                              autoFocus
+                              value={editingHintText}
+                              onChange={(e) => setEditingHintText(e.target.value)}
+                              className="flex-1 bg-black/40 border border-indigo-500/30 rounded-xl px-4 py-2 text-sm text-white focus:outline-none"
+                              onKeyDown={(e) => e.key === 'Enter' && handleSaveHintEdit(hint.id)}
                             />
                             <div className="flex gap-1">
-                                <button
-                                    onClick={() => handleSaveHintEdit(hint.id)}
-                                    className="p-2 text-green-400 hover:bg-green-400/20 rounded-lg transition-all"
-                                >
-                                    <HiOutlineCheck size={20} />
-                                </button>
-                                <button
-                                    onClick={() => setEditingHintId(null)}
-                                    className="p-2 text-red-400 hover:bg-red-400/20 rounded-lg transition-all"
-                                >
-                                    <HiOutlineX size={20} />
-                                </button>
+                              <button
+                                onClick={() => handleSaveHintEdit(hint.id)}
+                                className="p-2 text-green-400 hover:bg-green-400/20 rounded-lg transition-all"
+                              >
+                                <HiOutlineCheck size={20} />
+                              </button>
+                              <button
+                                onClick={() => setEditingHintId(null)}
+                                className="p-2 text-red-400 hover:bg-red-400/20 rounded-lg transition-all"
+                              >
+                                <HiOutlineX size={20} />
+                              </button>
                             </div>
-                            </div>
+                          </div>
                         ) : (
-                            <>
+                          <>
                             <span className="flex-1 leading-relaxed text-lg font-medium text-white/80 pt-0.5">{hint.text}</span>
                             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity ml-4">
-                                <button
+                              <button
                                 onClick={() => handleStartEditHint(hint.id, hint.text)}
                                 className="p-2.5 text-white/20 hover:text-white hover:bg-white/10 rounded-xl transition-all"
                                 title="Editar dica"
-                                >
+                              >
                                 <HiOutlinePencil size={18} />
-                                </button>
-                                <button
+                              </button>
+                              <button
                                 onClick={() => handleDeleteHint(hint.id)}
                                 className="p-2.5 text-red-500/20 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
                                 title="Remover dica"
-                                >
+                              >
                                 <HiOutlineTrash size={18} />
-                                </button>
+                              </button>
                             </div>
-                            </>
+                          </>
                         )}
-                        </div>
+                      </div>
                     ))}
                   </div>
                 </>

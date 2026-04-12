@@ -1,5 +1,5 @@
-import { Hint } from 'src/hint/entities/hint.entity';
-import { Theme } from 'src/theme/entities/theme.entity';
+import { HintEntity } from 'src/hint/entities/hint.entity';
+import { ThemeEntity } from 'src/theme/entities/theme.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Guess {
+export class GuessEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,9 +24,9 @@ export class Guess {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Hint, (hint) => hint.guess, { cascade: true })
-  hints: Hint[];
+  @OneToMany(() => HintEntity, (hint) => hint.guess, { cascade: true })
+  hints: HintEntity[];
 
-  @ManyToOne(() => Theme, { nullable: false,  })
-  theme: Theme;
+  @ManyToOne(() => ThemeEntity, { nullable: false })
+  theme: ThemeEntity;
 }
