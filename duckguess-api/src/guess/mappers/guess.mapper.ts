@@ -5,13 +5,13 @@ import { GuessEntity } from '../entities/guess.entity';
 
 export class GuessMapper {
   static toDomain(entity: GuessEntity): Guess {
-    const domain = new Guess();
-    domain.id = entity.id;
-    domain.answer = entity.answer;
-    domain.themeId = entity.theme?.id ?? null;
-    domain.createdAt = entity.createdAt;
-    domain.updatedAt = entity.updatedAt;
-    domain.hints = entity.hints ? entity.hints.map(HintMapper.toDomain) : [];
+    const domain = Guess.create({
+      answer: entity.answer,
+      themeId: entity.theme?.id ?? null,
+      hints: entity.hints ? entity.hints.map(HintMapper.toDomain) : [],
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+    });
     return domain;
   }
 

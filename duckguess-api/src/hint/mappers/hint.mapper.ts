@@ -4,10 +4,9 @@ import { GuessEntity } from 'src/guess/entities/guess.entity';
 
 export class HintMapper {
   static toDomain(entity: HintEntity): Hint {
-    const domain = new Hint();
+    const domain = Hint.create({ text: entity.text, guessId: entity.guess?.id ?? null });
+
     domain.id = entity.id;
-    domain.text = entity.text;
-    domain.guessId = entity.guess?.id ?? null;
     domain.createdAt = entity.createdAt;
     domain.updatedAt = entity.updatedAt;
     return domain;

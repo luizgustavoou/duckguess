@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
 import { QueryGuessDto } from 'src/guess/dto/query-guess.dto';
-import { Guess } from 'src/guess/domain/guess';
+import { Guess, Hint } from 'src/guess/domain/guess';
 import { GuessRepository } from './guess.repository';
 import { ThemeRepository } from 'src/theme/theme.repository';
 
@@ -19,17 +19,20 @@ export class GuessServiceImpl implements GuessService {
   constructor(
     private readonly guessRepository: GuessRepository,
     private readonly themeRepository: ThemeRepository,
-  ) {}
+  ) { }
 
   async create(createGuessDto: CreateGuessDto): Promise<Guess> {
     const { answer, themeId, hints } = createGuessDto;
 
     const theme = await this.themeRepository.findOne(themeId);
+
     if (!theme) {
       throw new NotFoundException('Tema não encontrado.');
     }
 
-    return this.guessRepository.save({ answer, themeId, hints: hints as any });
+    const guess = Guess.create({ answer, themeId, hints: hints.map(hint => Hint.create({ text: hint.text })) });
+
+    return this.guessRepository.save(guess);
   }
 
   async findAll(queryGuessDto: QueryGuessDto): Promise<Guess[]> {
