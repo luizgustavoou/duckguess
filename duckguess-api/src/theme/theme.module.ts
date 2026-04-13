@@ -5,7 +5,7 @@ import { ThemeEntity } from './entities/theme.entity';
 import { ThemeService, ThemeServiceImpl } from './theme.service';
 import { ThemeRepository } from './theme.repository';
 import { ThemeRepositoryTypeORM } from './theme.repository.typeorm';
-import { ThemeQuery } from './theme.query';
+import { ThemeQueryRepository } from './theme-query.repository';
 import { ThemeRepositoryTypeORMQuery } from './theme.repository.typeorm.query';
 
 @Module({
@@ -21,10 +21,10 @@ import { ThemeRepositoryTypeORMQuery } from './theme.repository.typeorm.query';
       useClass: ThemeRepositoryTypeORM,
     },
     {
-      provide: ThemeQuery,
+      provide: ThemeQueryRepository,
       useClass: ThemeRepositoryTypeORMQuery,
     },
   ],
-  exports: [ThemeService, ThemeRepository, ThemeQuery],
+  exports: [ThemeService, ThemeRepository, ThemeQueryRepository],
 })
-export class ThemeModule {}
+export class ThemeModule { }
