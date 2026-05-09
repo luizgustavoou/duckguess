@@ -8,7 +8,7 @@ export class Hint {
   public createdAt?: Date;
   public updatedAt?: Date;
 
-  private constructor({ id, text, guessId, createdAt, updatedAt }: { id: string, text: string, guessId?: string, createdAt?: Date, updatedAt?: Date }) {
+  constructor({ id, text, guessId, createdAt, updatedAt }: { id: string, text: string, guessId?: string, createdAt?: Date, updatedAt?: Date }) {
     this.id = id;
     this.text = text;
     this.guessId = guessId;
@@ -20,5 +20,15 @@ export class Hint {
     const id = uuidv4();
 
     return new Hint({ id, text, guessId });
+  }
+
+  toJson() {
+    return {
+      id: this.id,
+      text: this.text,
+      guessId: this.guessId,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
 }

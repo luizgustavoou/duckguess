@@ -4,7 +4,6 @@ import { UserModule } from 'src/user/user.module';
 import { LocalStrategy } from './local-strategy/local-strategy';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
-import { UserController } from 'src/user/user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt-strategy/jwt-strategy';
@@ -27,7 +26,6 @@ import { WsJwtGuard } from './ws-jwt.guard';
       provide: AuthService,
       useClass: AuthServiceImpl,
     },
-    UserController,
     LocalStrategy,
     JwtStrategy,
     WsJwtGuard,

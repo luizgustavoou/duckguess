@@ -3,7 +3,7 @@ import { MatchRepository } from './match.repository';
 import { OnlineUser, Challenge, Match } from './models';
 import { ThemeRepository } from 'src/theme/theme.repository';
 import { GuessRepository } from 'src/guess/guess.repository';
-import { GuessMatch } from 'src/match/models/match.model';
+import { GuessMatch, Player } from 'src/match/models/match.model';
 
 export { OnlineUser, Challenge, Match } from './models';
 @Injectable()
@@ -56,6 +56,16 @@ export class MatchService {
         return this.matchRepository.getAllChallenges();
     }
 
+    async getMatchesForUser(userId: string) {
+        const matches = await this.matchRepository.getMatchesForUser(userId);
+
+        return matches.map(match => match.toJson())
+    }
+
+    async getAllMatches() {
+        return this.matchRepository.getAllMatches();
+    }
+
     async respondChallenge(challengeId: string, userId: string, accept: boolean): Promise<{ challenge: Challenge, match: Match }> {
         try {
             const challenge = await this.matchRepository.getChallenge(challengeId);
@@ -84,6 +94,7 @@ export class MatchService {
             const guessMatch = guesses.map(guess => GuessMatch.create({
                 answer: guess.answer,
                 guessId: guess.id,
+                hints: guess.hints,
             }));
 
             const match = Match.create({

@@ -1,8 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Hint } from 'src/hint/domain/hint';
 
-export { Hint };
-
 export class Guess {
   public id: string;
   public answer: string;

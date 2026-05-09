@@ -1,3 +1,4 @@
+import { Hint } from 'src/hint/domain/hint';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -83,49 +84,126 @@ export class Match {
             toUserId: this.toUserId,
             themeId: this.themeId,
             status: this.status.value,
-            guessMatches: this.guessMatches.map((guessMatch) => guessMatch.toJson()),
+            guessMatches: (this.guessMatches ?? []).map((guessMatch) => {
+                return guessMatch.toJson()
+            }),
         };
     }
 }
 
 
+
+
+
+
+export class GuessMatchStatus {
+    static WAITING_RESPONSE = new MatchStatus('waiting_response');
+    static TIED = new MatchStatus('tied');
+    static WINNER = new MatchStatus('winner');
+
+    constructor(public readonly value: string) { }
+
+    static fromString(value: string) {
+        switch (value) {
+            case 'waiting_response':
+                return this.WAITING_RESPONSE;
+            case 'tied':
+                return this.TIED;
+            case 'winner':
+                return this.WINNER;
+            default:
+                throw new Error('Invalid match status');
+        }
+    }
+
+    equals(other: MatchStatus) {
+        if (other == null || other == undefined) return false;
+
+        if (!(other instanceof MatchStatus)) return false;
+
+        return this.value === other.value;
+    }
+
+
+}
+
+
+export enum Player {
+    PLAYER_ONE = 'playerOne',
+    PLAYER_TWO = 'playerTwo',
+}
+
 export class GuessMatch {
     guessId: string;
     answer: string;
-    correct: boolean;
     userIdAnswered: string | null;
+    hints: Hint[]
+    currentPlayer: Player
+    stageHint: number
+    status: GuessMatchStatus
 
-    constructor({ guessId, answer, correct, userIdAnswered }: { guessId: string, answer: string, correct: boolean, userIdAnswered: string }) {
-        this.validate(guessId, answer, correct);
+
+    constructor({ guessId, answer, userIdAnswered, hints, currentPlayer, stageHint, status }: { guessId: string, answer: string, userIdAnswered: string, hints: Hint[], currentPlayer: Player, stageHint: number, status: GuessMatchStatus }) {
+        this.validate(guessId, answer, hints, currentPlayer);
 
         this.guessId = guessId;
         this.answer = answer;
-        this.correct = correct;
         this.userIdAnswered = userIdAnswered;
+        this.hints = hints
+        this.currentPlayer = currentPlayer
+        this.stageHint = stageHint
+        this.status = status
     }
 
-    static create({ guessId, answer }: { guessId: string, answer: string }) {
-        return new GuessMatch({ guessId, answer, correct: false, userIdAnswered: null });
+    static create({ guessId, answer, hints }: { guessId: string, answer: string, hints: Hint[] }) {
+        return new GuessMatch({ guessId, answer, userIdAnswered: null, hints, currentPlayer: Player.PLAYER_ONE, stageHint: 0, status: GuessMatchStatus.WAITING_RESPONSE });
     }
 
-    private validate(guessId: string, answer: string, correct: boolean) {
-        if (!guessId || !answer || typeof correct !== 'boolean') {
+    private validate(guessId: string, answer: string, hints: Hint[], currentPlayer: Player) {
+        if (!guessId || !answer || !currentPlayer) {
             throw new Error('Invalid guess match');
+        }
+
+        if (!hints || hints.length < 3) {
+            throw new Error('Number of hints must be greather or equal than 3')
         }
     }
 
     respond(answer: string, userIdAnswered: string) {
-        this.answer = answer;
-        this.userIdAnswered = userIdAnswered;
-        this.correct = answer === this.answer;
+        if (!this.status.equals(GuessMatchStatus.WAITING_RESPONSE)) {
+            throw new Error('The guess match is not waiting for a response');
+        }
+
+
+        if (userIdAnswered !== this.currentPlayer) {
+            throw new Error('It is not the user turn to answer');
+        }
+
+        if (this.answer == answer) {
+            this.userIdAnswered = userIdAnswered;
+            this.status = GuessMatchStatus.WINNER;
+            return;
+
+        }
+
+        if (this.stageHint >= this.hints.length) {
+            this.status = GuessMatchStatus.TIED
+            return
+        }
+
+        this.currentPlayer = this.currentPlayer === Player.PLAYER_ONE ? Player.PLAYER_TWO : Player.PLAYER_ONE
+
     }
 
     toJson() {
         return {
             guessId: this.guessId,
             answer: this.answer,
-            correct: this.correct,
             userIdAnswered: this.userIdAnswered,
+            hints: this.hints.map((hint) => hint.toJson()),
+            currentPlayer: this.currentPlayer,
+            stageHint: this.stageHint,
+            status: this.status.value,
         };
     }
 }

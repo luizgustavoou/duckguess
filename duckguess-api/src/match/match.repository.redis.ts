@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
 import { MatchRepository } from './match.repository';
 import { OnlineUser, Challenge, Match } from './models';
+import { GuessMatchStatus } from './models/match.model';
+import { GuessMatch } from 'src/match/models/match.model';
+import { Hint } from 'src/hint/domain/hint';
+import { MatchStatus } from 'src/match/models/match.model';
 
 const ONLINE_USERS_KEY = 'online_users';
 const CHALLENGES_KEY = 'challenges';
@@ -73,5 +77,85 @@ export class MatchRepositoryRedis implements MatchRepository {
     // Matches - CRUD básico
     async saveMatch(match: Match): Promise<void> {
         await this.redisClient.hset(MATCHES_KEY, match.id, JSON.stringify(match.toJson()));
+    }
+
+    async getMatchesForUser(userId: string): Promise<Match[]> {
+        const matches = await this.redisClient.hgetall(MATCHES_KEY);
+
+
+
+        const matchesJson = Object.values(matches)
+            .map((value) => JSON.parse(value))
+            .filter((match) => match.fromUserId === userId || match.toUserId === userId);
+
+        return matchesJson.map(match => {
+            const guessMatches = (match.guessMatches ?? []).map(guessMatch => {
+                const guessMatchInstance = new GuessMatch({
+                    guessId: guessMatch.guessId,
+                    answer: guessMatch.answer,
+                    userIdAnswered: guessMatch.userIdAnswered,
+                    currentPlayer: guessMatch.currentPlayer,
+                    stageHint: guessMatch.stageHint,
+                    status: guessMatch.status ? GuessMatchStatus.fromString(guessMatch.status) : null,
+                    hints: (guessMatch.hints ?? []).map(hint => new Hint({
+                        id: hint.id,
+                        text: hint.text,
+                        guessId: hint.guessId,
+                        createdAt: new Date(hint.createdAt),
+                        updatedAt: new Date(hint.updatedAt),
+                    }))
+                });
+
+                return guessMatchInstance;
+            })
+
+            return new Match({
+                id: match.id,
+                matchId: match.matchId,
+                fromUserId: match.fromUserId,
+                toUserId: match.toUserId,
+                themeId: match.themeId,
+                status: match.status ? MatchStatus.fromString(match.status) : null,
+                guessMatches: guessMatches,
+            })
+        })
+    }
+
+    async getAllMatches(): Promise<any[]> {
+        const matches = await this.redisClient.hgetall(MATCHES_KEY);
+
+        const matchesJson = Object.values(matches).map((value) => JSON.parse(value));
+
+        return matchesJson.map(match => {
+            const guessMatches = (match.guessMatches ?? []).map(guessMatch => {
+                const guessMatchInstance = new GuessMatch({
+                    guessId: guessMatch.guessId,
+                    answer: guessMatch.answer,
+                    userIdAnswered: guessMatch.userIdAnswered,
+                    currentPlayer: guessMatch.currentPlayer,
+                    stageHint: guessMatch.stageHint,
+                    status: guessMatch.status ? GuessMatchStatus.fromString(guessMatch.status) : null,
+                    hints: (guessMatch.hints ?? []).map(hint => new Hint({
+                        id: hint.id,
+                        text: hint.text,
+                        guessId: hint.guessId,
+                        createdAt: new Date(hint.createdAt),
+                        updatedAt: new Date(hint.updatedAt),
+                    }))
+                });
+
+                return guessMatchInstance;
+            })
+
+            return new Match({
+                id: match.id,
+                matchId: match.matchId,
+                fromUserId: match.fromUserId,
+                toUserId: match.toUserId,
+                themeId: match.themeId,
+                status: match.status ? MatchStatus.fromString(match.status) : null,
+                guessMatches: guessMatches,
+            })
+        })
     }
 }

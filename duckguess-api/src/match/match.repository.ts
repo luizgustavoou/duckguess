@@ -12,4 +12,6 @@ export abstract class MatchRepository {
     abstract saveChallenge(challenge: Challenge): Promise<void>;
 
     abstract saveMatch(match: Match): Promise<void>;
+    abstract getMatchesForUser(userId: string): Promise<Match[]>;
+    abstract getAllMatches(): Promise<Match[]>;
 }

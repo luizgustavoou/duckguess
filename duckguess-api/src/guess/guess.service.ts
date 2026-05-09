@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGuessDto } from './dto/create-guess.dto';
 import { UpdateGuessDto } from './dto/update-guess.dto';
 import { QueryGuessDto } from 'src/guess/dto/query-guess.dto';
-import { Guess, Hint } from 'src/guess/domain/guess';
+import { Guess } from 'src/guess/domain/guess';
 import { GuessRepository } from './guess.repository';
 import { ThemeRepository } from 'src/theme/theme.repository';
+import { Hint } from 'src/hint/domain/hint';
 
 export abstract class GuessService {
   abstract create(createGuessDto: CreateGuessDto): Promise<Guess>;
